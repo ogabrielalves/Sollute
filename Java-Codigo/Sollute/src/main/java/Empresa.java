@@ -6,24 +6,25 @@ public class Empresa {
     private String nomeFantasia;
     private String cnpj;
     private String inscricaoEstadual;
-    private Empresa ceo;
+    private Empreendedor ceo;
     private List<Produto> produtos;
 
     //Construtor
-    public Empresa(String nomeFantasia, String cnpj, String inscricaoEstadual) {
+    public Empresa(String nomeFantasia,
+                   String cnpj,
+                   String inscricaoEstadual,
+                   Empreendedor ceo) {
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
         this.inscricaoEstadual = inscricaoEstadual;
+        this.ceo = ceo;
         produtos = new ArrayList<>();
-    }
-
-    public Empresa(String microsoft, String cnpj, String inscricaoEstadual, String bill_gates) {
     }
 
     //Metodos
     public void adicionaProduto(Produto p) {
         produtos.add(p);
-        System.out.printf("\nProduto %s adicionado com sucesso!", p);
+        System.out.printf("\nProduto %s adicionado com sucesso!", p.getNome());
     }
 
     public void mostraProduto() {
@@ -37,6 +38,7 @@ public class Empresa {
         return String.format("\nEMPRESA: \n" +
                 "Nome Fantasia: %s\n" +
                 "CNPJ: %s\n" +
-                "Inscrição Estadual: %s\n", nomeFantasia, cnpj, inscricaoEstadual);
+                "CEO: %s\n" +
+                "Inscrição Estadual: %s\n", nomeFantasia, cnpj, ceo.getNome(),inscricaoEstadual);
     }
 }

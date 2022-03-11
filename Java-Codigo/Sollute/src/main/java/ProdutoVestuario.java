@@ -5,9 +5,13 @@ public class ProdutoVestuario extends Produto {
     private String tamanho;
 
     //Construtores
-    public ProdutoVestuario(String nome, double preco, String tipoVestuario, String marca, String tamanho) {
-        super(nome, preco);
-
+    public ProdutoVestuario(String nome,
+                            double preco,
+                            Integer qtdEstoque,
+                            String tipoVestuario,
+                            String marca,
+                            String tamanho) {
+        super(nome, preco, qtdEstoque);
         this.tipoVestuario = tipoVestuario;
         this.marca = marca;
         this.tamanho = tamanho;
@@ -21,12 +25,14 @@ public class ProdutoVestuario extends Produto {
 
     @Override
     public String toString() {
-        return String.format("\nPRODUTOS_VESTUARIO: \n" +
+        return String.format("\n" +
+                "PRODUTOS_VESTUARIO: \n" +
                 "Nome do Produto: %s\n" +
                 "Preço: %.2f\n" +
+                "Quantidade em Estoque: %d\n" +
                 "Tipo de Vestuario: %s\n" +
                 "Marca: %s\n" +
-                "Tamanho: %s\n",super.getNome(),super.getPreco(),tipoVestuario,marca,tamanho);
+                "Tamanho: %s", super.getNome(), super.getPreco(), super.getQtdEstoque(), tipoVestuario, marca, tamanho);
     }
 
 }

@@ -9,7 +9,6 @@ public class Empreendedor {
         this.cpf = cpf;
     }
 
-
     //Metodos
     @Override
     public String toString() {
