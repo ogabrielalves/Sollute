@@ -1,4 +1,5 @@
 public class ProdutoOrdemDeServico extends Produto {
+
     //Atributos
     private String tipoServico;
     private String dataAgendamento;
@@ -18,8 +19,16 @@ public class ProdutoOrdemDeServico extends Produto {
 
     //Metodos
     @Override
-    public double vender() {
-        return super.vender();
+    public double vender(int i) {
+        if ((getQtdEstoque() - i) < 0) {
+            System.out.println("Estoque insuficiente");
+            return 0.0;
+        } else {
+            setQtdEstoque(getQtdEstoque() - i);
+            super.setQtdVendidos(getQtdVendidos() + i);
+            super.setValorVendidos(super.getPreco() * i);
+            return super.getPreco() * i;
+        }
     }
 
     @Override
@@ -30,7 +39,11 @@ public class ProdutoOrdemDeServico extends Produto {
                         "Preço: %.2f\n" +
                         "Tipo de Ordem de Serviço: %s\n" +
                         "Data de Agendamento: %s\n" +
-                        "Hora do Agendamento: %s"
-                , super.getNome(), super.getPreco(), tipoServico, dataAgendamento, horaAgendamento);
+                        "Hora do Agendamento: %s",
+                super.getNome(),
+                super.getPreco(),
+                tipoServico,
+                dataAgendamento,
+                horaAgendamento);
     }
 }

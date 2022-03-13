@@ -1,10 +1,11 @@
-public class Produto {
+public abstract class Produto {
 
     //Atributos
     private String nome;
     private double preco;
     private Integer qtdEstoque;
-
+    private Integer qtdVendidos;
+    private Double valorVendidos;
 
     //Construtor
     public Produto(String nome,
@@ -13,17 +14,20 @@ public class Produto {
         this.nome = nome;
         this.preco = preco;
         this.qtdEstoque = qtdEstoque;
+        qtdVendidos = 0;
+        valorVendidos = 0.0;
     }
 
-    public Produto(String nome, double preco) {
+    public Produto(String nome,
+                   double preco) {
         this.nome = nome;
         this.preco = preco;
+        qtdVendidos = 0;
+        valorVendidos = 0.0;
     }
 
     //Metodos
-    public double vender() {
-        return 0;
-    }
+    public abstract double vender(int i);
 
     @Override
     public String toString() {
@@ -31,8 +35,14 @@ public class Produto {
                         "PRODUTOS: \n" +
                         "Nome do Produto: %s\n" +
                         "Preço: R$%.2f\n" +
-                        "Quantidade em Estoque: %d"
-                , nome, preco, qtdEstoque);
+                        "Quantidade em Estoque: %d\n" +
+                        "Quantidade vendidas: %d\n" +
+                        "Valor total das vendas: R$%.2f",
+                nome,
+                preco,
+                qtdEstoque,
+                qtdVendidos,
+                valorVendidos);
     }
 
     //Getters and Setters
@@ -58,5 +68,21 @@ public class Produto {
 
     public void setQtdEstoque(Integer qtdEstoque) {
         this.qtdEstoque = qtdEstoque;
+    }
+
+    public Integer getQtdVendidos() {
+        return qtdVendidos;
+    }
+
+    public void setQtdVendidos(Integer qtdVendidos) {
+        this.qtdVendidos = qtdVendidos;
+    }
+
+    public Double getValorVendidos() {
+        return valorVendidos;
+    }
+
+    public void setValorVendidos(Double valorVendidos) {
+        this.valorVendidos = valorVendidos;
     }
 }

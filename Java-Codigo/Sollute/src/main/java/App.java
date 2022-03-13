@@ -24,7 +24,7 @@ public class App {
                 "20/04/2023");
 
         // Instanciando um serviço
-        ProdutoOrdemDeServico produtoOrdemDeSerivco = new ProdutoOrdemDeServico(
+        ProdutoOrdemDeServico produtoOrdemDeServico = new ProdutoOrdemDeServico(
                 "Manicure",
                 10.0,
                 "Estetica",
@@ -41,12 +41,17 @@ public class App {
                 "GG");
 
         empresa.adicionaProduto(produtoAlimento);
-
-        empresa.adicionaProduto(produtoOrdemDeSerivco);
-
+        empresa.adicionaProduto(produtoOrdemDeServico);
         empresa.adicionaProduto(produtoVestuario);
 
-        System.out.println();
+        empresa.mostraProduto();
+
+        produtoAlimento.vender(45);
+        produtoAlimento.vender(5);
+        produtoVestuario.vender(2);
+
+        empresa.calculaTotalProdutosVendidos();
+        empresa.calculaValorProdutosVendidos();
 
         empresa.mostraProduto();
 

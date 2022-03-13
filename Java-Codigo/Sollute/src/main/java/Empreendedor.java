@@ -1,4 +1,5 @@
 public class Empreendedor {
+
     //Atributos
     private String nome;
     private String cpf;
@@ -12,9 +13,12 @@ public class Empreendedor {
     //Metodos
     @Override
     public String toString() {
-        return String.format("\nEMPREENDEDOR: \n" +
-                "Nome: %s\n" +
-                "CPF: %s\n",nome,cpf);
+        return String.format("\n" +
+                        "EMPREENDEDOR: \n" +
+                        "Nome: %s\n" +
+                        "CPF: %s\n",
+                nome,
+                cpf);
     }
 
     //Getters and Setters
