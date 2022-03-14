@@ -8,13 +8,8 @@ public class ProdutoAlimento extends Produto {
     private String dataValidade;
 
     //Construtores
-    public ProdutoAlimento(String nome,
-                           double preco,
-                           Integer qtdEstoque,
-                           String tipoAlimento,
-                           String dataFabricacao,
-                           String dataValidade) {
-        super(nome, preco, qtdEstoque);
+    public ProdutoAlimento(String nome, double preco, String tipoAlimento, String dataFabricacao, String dataValidade) {
+        super(nome, preco);
         this.tipoAlimento = tipoAlimento;
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
@@ -50,5 +45,30 @@ public class ProdutoAlimento extends Produto {
                 tipoAlimento,
                 dataFabricacao,
                 dataValidade);
+    }
+
+    // Getters e Setters
+    public String getTipoAlimento() {
+        return tipoAlimento;
+    }
+
+    public void setTipoAlimento(String tipoAlimento) {
+        this.tipoAlimento = tipoAlimento;
+    }
+
+    public String getDataFabricacao() {
+        return dataFabricacao;
+    }
+
+    public void setDataFabricacao(String dataFabricacao) {
+        this.dataFabricacao = dataFabricacao;
+    }
+
+    public String getDataValidade() {
+        return dataValidade;
+    }
+
+    public void setDataValidade(String dataValidade) {
+        this.dataValidade = dataValidade;
     }
 }
