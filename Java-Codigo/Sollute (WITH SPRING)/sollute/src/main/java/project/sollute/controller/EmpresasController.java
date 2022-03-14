@@ -18,7 +18,7 @@ public class EmpresasController {
     private List<Empresa> listaEmpresa = new ArrayList<>();
     EmpreendedorController eC = new EmpreendedorController();
 
-    @PostMapping
+    @PostMapping("/criarEmpresa")
     public ResponseEntity criaEmpresa(@RequestBody Empresa emp) {
         if (emp == null) {
             return ResponseEntity.status(400).body("Objeto inválido.");
@@ -35,7 +35,7 @@ public class EmpresasController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/criarProduto")
     public ResponseEntity adicionaProduto(@PathVariable String cnpj, @RequestBody Produto prod) {
         if (prod == null) {
             return ResponseEntity.status(400).body("Objeto inválido.");
