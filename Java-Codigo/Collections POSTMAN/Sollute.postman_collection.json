@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nome\" : \"Gui\",\r\n    \"cpf\" : \"1\"\r\n}",
+					"raw": "{\r\n    \"nome\" : \"Gui\",\r\n    \"cpf\" : \"11122233300\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -34,13 +34,32 @@
 			"response": []
 		},
 		{
+			"name": "Listar Empreendedores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empreendedores/listarEmpreendedores",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empreendedores",
+						"listarEmpreendedores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Criar Empresa",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nomeFantasia\" : \"Rayssa e José Restaurante Ltda\",\r\n    \"cnpj\" : \"71.915.084/0001-31\",\r\n    \"inscricaoEstadual\" : \"360.453.820.310\",\r\n    \"ceo\" : {\r\n        \"nome\" : \"Julia Budavicius\",\r\n        \"cpf\" : \"12525685474\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"nomeFantasia\" : \"Rayssa e José Restaurante Ltda\",\r\n    \"cnpj\" : \"16181266000118\",\r\n    \"inscricaoEstadual\" : \"360.453.820.310\",\r\n    \"ceo\" : {\r\n        \"nome\" : \"Gui\",\r\n        \"cpf\" : \"11122233300\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,14 +67,34 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/empresas/criarEmpresa",
+					"raw": "localhost:8080/empresas/criarEmpresa/1",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"empresas",
-						"criarEmpresa"
+						"criarEmpresa",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Empresas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/listarEmpresas",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"listarEmpresas"
 					]
 				}
 			},
@@ -68,7 +107,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nome\" : \"Arroz\",\r\n    \"preco\" : \"10,0\",\r\n    \"qtdEstoque\" : \"10\",\r\n    \"tipoAlimento\" : \"Alimento\",\r\n    \"dataFabricacao\" : \"14/03/2021\",\r\n    \"dataValidade\" : \"24/05/2022\"\r\n}",
+					"raw": "{\r\n    \"nome\" : \"Arroz\",\r\n    \"preco\" : \"15.0\",\r\n    \"qtdEstoque\" : \"10\",\r\n    \"tipoAlimento\" : \"Alimento\",\r\n    \"dataFabricacao\" : \"14/03/2021\",\r\n    \"dataValidade\" : \"24/05/2022\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -76,14 +115,15 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/empresas/criarProduto",
+					"raw": "localhost:8080/empresas/criarProdutoAlimento/16181266000118",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"empresas",
-						"criarProduto"
+						"criarProdutoAlimento",
+						"16181266000118"
 					]
 				}
 			},
@@ -96,7 +136,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nome\" : \"Arroz\",\r\n    \"preco\" : \"10,0\",\r\n    \"tipoServico\" : \"Manicure\",\r\n    \"dataAgendamento\" : \"20/03/2021\",\r\n    \"horaAgendamento\" : \"12:30\"\r\n}",
+					"raw": "{\r\n    \"nome\" : \"Manicure\",\r\n    \"preco\" : \"25.0\",\r\n    \"tipoServico\" : \"Estético\",\r\n    \"dataAgendamento\" : \"20/03/2021\",\r\n    \"horaAgendamento\" : \"12:30\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -104,7 +144,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/empresas/criarProdutoServico/7",
+					"raw": "localhost:8080/empresas/criarProdutoServico/16181266000118",
 					"host": [
 						"localhost"
 					],
@@ -112,7 +152,36 @@
 					"path": [
 						"empresas",
 						"criarProdutoServico",
-						"7"
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar ProdutoVestuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Calça Legging\",\r\n    \"preco\" : \"99.0\",\r\n    \"qtdEstoque\" : \"15\",\r\n    \"tipoVestuario\" : \"Calça\",\r\n    \"marca\" : \"Adidas\",\r\n    \"tamanho\" : \"G\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarProdutoVestuario/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarProdutoVestuario",
+						"16181266000118"
 					]
 				}
 			},
@@ -120,11 +189,23 @@
 		},
 		{
 			"name": "Listar Produtos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "localhost:8080/empresas/listarProdutos/{71.915.084/0001-31}",
+					"raw": "localhost:8080/empresas/listarProdutos/16181266000118",
 					"host": [
 						"localhost"
 					],
@@ -132,8 +213,29 @@
 					"path": [
 						"empresas",
 						"listarProdutos",
-						"{71.915.084",
-						"0001-31}"
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vender Produtos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/venderProdutos/16181266000118/Arroz/500",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"venderProdutos",
+						"16181266000118",
+						"Arroz",
+						"500"
 					]
 				}
 			},
@@ -145,7 +247,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/empresas/calcularProdutosVendidos/{71.915.084/0001-31}",
+					"raw": "localhost:8080/empresas/calcularProdutosVendidos/16181266000118",
 					"host": [
 						"localhost"
 					],
@@ -153,8 +255,7 @@
 					"path": [
 						"empresas",
 						"calcularProdutosVendidos",
-						"{71.915.084",
-						"0001-31}"
+						"16181266000118"
 					]
 				}
 			},
@@ -166,7 +267,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/empresas/calcularValorVendidos/{71.915.084/0001-31}",
+					"raw": "localhost:8080/empresas/calcularValorVendidos/16181266000118",
 					"host": [
 						"localhost"
 					],
@@ -174,8 +275,7 @@
 					"path": [
 						"empresas",
 						"calcularValorVendidos",
-						"{71.915.084",
-						"0001-31}"
+						"16181266000118"
 					]
 				}
 			},

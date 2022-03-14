@@ -35,13 +35,17 @@ public class EmpreendedorController {
         }
     }
 
+    public Boolean getEmpreendedor(String cpf) {
+        for (Empreendedor e : listaEmpreendedor) {
+            if (e.getCpf().equals(cpf)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Getter
     public List<Empreendedor> getListaEmpreendedor() {
         return listaEmpreendedor;
     }
-
-    // public int getTamanhoLista() {
-    //     return tamanhoLista;
-    // }
-
 }

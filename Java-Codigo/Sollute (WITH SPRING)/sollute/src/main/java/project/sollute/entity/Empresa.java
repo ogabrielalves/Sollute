@@ -1,5 +1,7 @@
 package project.sollute.entity;
 
+import project.sollute.controller.EmpresasController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +13,8 @@ public class Empresa {
     private String cnpj;
     private String inscricaoEstadual;
     private Empreendedor ceo;
-    private Integer qtdProdutosVendidos;
-    private Double totalProdutosVendidos;
+    private int qtdProdutosVendidos;
+    private double totalProdutosVendidos;
 
     //Construtor
     public Empresa(
@@ -25,15 +27,18 @@ public class Empresa {
         this.cnpj = cnpj;
         this.inscricaoEstadual = inscricaoEstadual;
         this.ceo = ceo;
-        qtdProdutosVendidos = 0;
-        totalProdutosVendidos = 0.0;
     }
 
-
+    public Empresa() {
+    }
 
     //Metodos
     public void adicionaProduto(Produto p) {
-        produtos.add(p);
+        if (p == null) {
+            System.out.println("ERRO");
+        } else {
+            produtos.add(p);
+        }
         // System.out.printf("\nProduto %s adicionado com sucesso!", p.getNome());
     }
 
@@ -47,14 +52,14 @@ public class Empresa {
 
     public int calculaTotalProdutosVendidos() {
         for (Produto p : produtos) {
-            qtdProdutosVendidos += p.getQtdVendidos();
+            qtdProdutosVendidos += p.getValorVendidos();
         }
         return qtdProdutosVendidos;
     }
 
     public double calculaValorProdutosVendidos() {
         for (Produto p : produtos) {
-            totalProdutosVendidos += p.getValorVendidos();
+            totalProdutosVendidos += (p.getQtdVendidos() * p.getPreco());
         }
         return totalProdutosVendidos;
     }
@@ -78,36 +83,8 @@ public class Empresa {
                 totalProdutosVendidos);
     }
 
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
-
     public String getCnpj() {
         return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getInscricaoEstadual() {
-        return inscricaoEstadual;
-    }
-
-    public void setInscricaoEstadual(String inscricaoEstadual) {
-        this.inscricaoEstadual = inscricaoEstadual;
-    }
-
-    public Empreendedor getCeo() {
-        return ceo;
-    }
-
-    public void setCeo(Empreendedor ceo) {
-        this.ceo = ceo;
     }
 
     public Integer getQtdProdutosVendidos() {
@@ -116,10 +93,6 @@ public class Empresa {
 
     public void setQtdProdutosVendidos(Integer qtdProdutosVendidos) {
         this.qtdProdutosVendidos = qtdProdutosVendidos;
-    }
-
-    public Double getTotalProdutosVendidos() {
-        return totalProdutosVendidos;
     }
 
     public void setTotalProdutosVendidos(Double totalProdutosVendidos) {
