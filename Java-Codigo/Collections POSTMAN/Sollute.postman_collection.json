@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "5c0b7f56-70ac-4dd8-93ca-e49d92859aa2",
+		"name": "Sollute",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar Empreendedor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Gui\",\r\n    \"cpf\" : \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empreendedores/criarEmpreendedor",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empreendedores",
+						"criarEmpreendedor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Empresa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nomeFantasia\" : \"Rayssa e José Restaurante Ltda\",\r\n    \"cnpj\" : \"71.915.084/0001-31\",\r\n    \"inscricaoEstadual\" : \"360.453.820.310\",\r\n    \"ceo\" : {\r\n        \"nome\" : \"Julia Budavicius\",\r\n        \"cpf\" : \"12525685474\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarEmpresa",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarEmpresa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar ProdutoAlimento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Arroz\",\r\n    \"preco\" : \"10,0\",\r\n    \"qtdEstoque\" : \"10\",\r\n    \"tipoAlimento\" : \"Alimento\",\r\n    \"dataFabricacao\" : \"14/03/2021\",\r\n    \"dataValidade\" : \"24/05/2022\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarProduto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarProduto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar ProdutoServico",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Arroz\",\r\n    \"preco\" : \"10,0\",\r\n    \"tipoServico\" : \"Manicure\",\r\n    \"dataAgendamento\" : \"20/03/2021\",\r\n    \"horaAgendamento\" : \"12:30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarProdutoServico/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarProdutoServico",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Produtos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/listarProdutos/{71.915.084/0001-31}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"listarProdutos",
+						"{71.915.084",
+						"0001-31}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calcular Produtos Vendidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/calcularProdutosVendidos/{71.915.084/0001-31}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"calcularProdutosVendidos",
+						"{71.915.084",
+						"0001-31}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calcular Valor dos Produtos Vendidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/calcularValorVendidos/{71.915.084/0001-31}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"calcularValorVendidos",
+						"{71.915.084",
+						"0001-31}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

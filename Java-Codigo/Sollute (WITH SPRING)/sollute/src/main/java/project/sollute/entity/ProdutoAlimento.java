@@ -8,12 +8,7 @@ public class ProdutoAlimento extends Produto {
     private String dataValidade;
 
     //Construtores
-    public ProdutoAlimento(String nome,
-                           double preco,
-                           Integer qtdEstoque,
-                           String tipoAlimento,
-                           String dataFabricacao,
-                           String dataValidade) {
+    public ProdutoAlimento(String nome, double preco, Integer qtdEstoque) {
         super(nome, preco, qtdEstoque);
         this.tipoAlimento = tipoAlimento;
         this.dataFabricacao = dataFabricacao;

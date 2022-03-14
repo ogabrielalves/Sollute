@@ -3,21 +3,19 @@ package project.sollute.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.sollute.entity.Empreendedor;
-import project.sollute.entity.Empresa;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 @RestController
-@RequestMapping("/empreendedor")
+@RequestMapping("/empreendedores")
 public class EmpreendedorController {
 
     // Atributos
-    private List<Empreendedor> listaEmpreendedor = new ArrayList<>();
+    public List<Empreendedor> listaEmpreendedor = new ArrayList<>();
 
     // Aqui é criado somente o empreendedor, item essencial para a criação de uma empresa
-    @PostMapping
+    @PostMapping("/criarEmpreendedor")
     public ResponseEntity criaEmpreendedor(@RequestBody Empreendedor empreendedor) {
         if (empreendedor == null) {
             return ResponseEntity.status(400).body("Objeto inválido.");
@@ -41,4 +39,9 @@ public class EmpreendedorController {
     public List<Empreendedor> getListaEmpreendedor() {
         return listaEmpreendedor;
     }
+
+    // public int getTamanhoLista() {
+    //     return tamanhoLista;
+    // }
+
 }
