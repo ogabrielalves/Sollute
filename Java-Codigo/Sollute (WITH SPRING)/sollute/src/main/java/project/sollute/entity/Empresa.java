@@ -12,7 +12,7 @@ public class Empresa {
     private String nomeFantasia;
     private String cnpj;
     private String inscricaoEstadual;
-    private Empreendedor ceo;
+    private Empreendedor empresario;
     private int qtdProdutosVendidos;
     private double totalProdutosVendidos;
 
@@ -21,12 +21,12 @@ public class Empresa {
             String nomeFantasia,
             String cnpj,
             String inscricaoEstadual,
-            Empreendedor ceo) {
+            Empreendedor empresario) {
         produtos = new ArrayList<>();
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
         this.inscricaoEstadual = inscricaoEstadual;
-        this.ceo = ceo;
+        this.empresario = empresario;
     }
 
     public Empresa() {
@@ -71,13 +71,13 @@ public class Empresa {
                         "EMPRESA: \n" +
                         "Nome Fantasia: %s\n" +
                         "CNPJ: %s\n" +
-                        "CEO: %s\n" +
+                        "Empresario: %s\n" +
                         "Inscrição Estadual: %s\n" +
                         "Quantidade de Produtos Vendidos: %d\n" +
                         "Valor Total Dos Produtos Vendidos: R$%.2f",
                 nomeFantasia,
                 cnpj,
-                ceo.getNome(), // Pegando somente o nome, não é necessário pegar o CPF do ceo.
+                empresario.getNome(), // Pegando somente o nome, não é necessário pegar o CPF do empresario.
                 inscricaoEstadual,
                 qtdProdutosVendidos,
                 totalProdutosVendidos);
