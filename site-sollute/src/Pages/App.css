@@ -1,0 +1,36 @@
+.container{        
+    /* background-color: aqua;        
+    width: 100vw; */
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: row;
+}
+
+.containerText{
+    /* background-color: red; */
+    position: absolute;
+    padding-left: 60px;
+    top: 40%;
+    width: 50vw;    
+}
+
+.containerText h1 {    
+    color: #3A3A52;
+    font-size: 4rem;
+    width: 10%;    
+}
+
+.containerText p {
+    width: 60%;
+}
+
+.containerImage {
+    /* background-color: blue; */
+    position: absolute;
+    right: 0;
+    bottom: 2%;
+}
+
+.containerImage img {
+    width: 85%;
+}
