@@ -34,3 +34,10 @@
 .containerImage img {
     width: 85%;
 }
+
+@media (max-width:1025px) {   
+  .containerImage img {
+      width: 10%;
+      background-color: red;
+    }
+   }

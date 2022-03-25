@@ -58,7 +58,7 @@ a {
   color: black;
 }
 
-@media (min-width:1025px) { 
+@media (max-width:1025px) { 
   .divMenu li:not(:last-of-type) {
     margin-right: 4rem;  
   }
@@ -80,5 +80,6 @@ a {
 
   .containerImage img {
     width: 10%;
+    background-color: red;
   }
  }

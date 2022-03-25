@@ -17,7 +17,7 @@ class App extends Component {
             <Button style={{marginTop: 15, fontSize: '1.2rem'}} variant="contained">Cadastre-se</Button>
           </div>
           <div className="containerImage">
-            <img src={ImagemCentral} alt="" />
+            <img className='' src={ImagemCentral} alt="" />
           </div>
         </div>
       </div>
