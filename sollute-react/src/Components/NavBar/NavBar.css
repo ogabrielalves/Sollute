@@ -58,9 +58,9 @@ a {
   color: black;
 }
 
-@media (max-width:1025px) { 
+@media (max-width:1325px) { 
   .divMenu li:not(:last-of-type) {
-    margin-right: 4rem;  
+    margin-right: 4rem;
   }
 
   .divMenu {
@@ -69,17 +69,12 @@ a {
 
   }
 
-  .divBotoes {  
-    /* background-color: red;  */
+  .divBotoes {
+   /* background-color: red; */
     width: 30%;
   }
 
   .divLogo {
     width: 25%;
   }
-
-  .containerImage img {
-    width: 10%;
-    background-color: red;
-  }
- }
+}

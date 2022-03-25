@@ -35,9 +35,21 @@
     width: 85%;
 }
 
-@media (max-width:1025px) {   
-  .containerImage img {
-      width: 10%;
-      background-color: red;
-    }
-   }
+@media (max-width:1325px) {
+    .containerImage img {
+        width: 90%;
+        /* background-color: red; */  
+      }
+  .containerImage{
+      bottom: 10%;
+      /* background-color: blueviolet; */
+      display: flex;
+      justify-content: center;
+      width: 40vw;
+  }
+  
+  .containerText{
+      top: 30%;
+      width: 60vw;
+     }
+  }
