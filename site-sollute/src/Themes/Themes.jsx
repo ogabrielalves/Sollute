@@ -20,6 +20,7 @@ const theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 contained: {
+                    borderRadius: 1,
                     backgroundColor: '#3E00FF',
                     border: '2px solid #3E00FF',
                     transition: '0.4s',
@@ -37,6 +38,7 @@ const theme = createTheme({
                     cursor: 'pointer'
                 },
                 outlined: {
+                    borderRadius: 1,
                     border: '2px solid #3E00FF',
                     transition: '0.4s',
                     cursor: 'pointer',

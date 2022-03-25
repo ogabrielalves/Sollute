@@ -7,8 +7,7 @@ import React, { Component } from 'react';
 class NavBar extends Component {
   state = {}
   render() {
-    const buttonStyle = {
-      borderRadius: 3,
+    const buttonStyle = {      
       marginLeft: '40px'
     }
     return (

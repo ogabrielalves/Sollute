@@ -38,7 +38,7 @@ header {
 }
 
 .divMenu li:not(:last-of-type) {
-  margin-right: 10rem;  
+  margin-right: 5rem;  
 }
 
 .divBotoes {  
@@ -57,3 +57,28 @@ a {
   text-decoration: none;
   color: black;
 }
+
+@media (min-width:1025px) { 
+  .divMenu li:not(:last-of-type) {
+    margin-right: 4rem;  
+  }
+
+  .divMenu {
+    /* background-color: pink; */
+    width: 45%;
+
+  }
+
+  .divBotoes {  
+    /* background-color: red;  */
+    width: 30%;
+  }
+
+  .divLogo {
+    width: 25%;
+  }
+
+  .containerImage img {
+    width: 10%;
+  }
+ }
