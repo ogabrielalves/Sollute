@@ -1,0 +1,285 @@
+{
+	"info": {
+		"_postman_id": "5c0b7f56-70ac-4dd8-93ca-e49d92859aa2",
+		"name": "Sollute",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar Empreendedor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Gui\",\r\n    \"cpf\" : \"11122233300\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empreendedores/criarEmpreendedor",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empreendedores",
+						"criarEmpreendedor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Empreendedores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empreendedores/listarEmpreendedores",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empreendedores",
+						"listarEmpreendedores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Empresa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nomeFantasia\" : \"Rayssa e José Restaurante Ltda\",\r\n    \"cnpj\" : \"16181266000118\",\r\n    \"inscricaoEstadual\" : \"360.453.820.310\",\r\n    \"ceo\" : {\r\n        \"nome\" : \"Gui\",\r\n        \"cpf\" : \"11122233300\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarEmpresa/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarEmpresa",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Empresas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/listarEmpresas",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"listarEmpresas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar ProdutoAlimento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Arroz\",\r\n    \"preco\" : \"15.0\",\r\n    \"qtdEstoque\" : \"10\",\r\n    \"tipoAlimento\" : \"Alimento\",\r\n    \"dataFabricacao\" : \"14/03/2021\",\r\n    \"dataValidade\" : \"24/05/2022\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarProdutoAlimento/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarProdutoAlimento",
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar ProdutoServico",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Manicure\",\r\n    \"preco\" : \"25.0\",\r\n    \"tipoServico\" : \"Estético\",\r\n    \"dataAgendamento\" : \"20/03/2021\",\r\n    \"horaAgendamento\" : \"12:30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarProdutoServico/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarProdutoServico",
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar ProdutoVestuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"Calça Legging\",\r\n    \"preco\" : \"99.0\",\r\n    \"qtdEstoque\" : \"15\",\r\n    \"tipoVestuario\" : \"Calça\",\r\n    \"marca\" : \"Adidas\",\r\n    \"tamanho\" : \"G\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/criarProdutoVestuario/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"criarProdutoVestuario",
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Produtos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/empresas/listarProdutos/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"listarProdutos",
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vender Produtos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/venderProdutos/16181266000118/Arroz/500",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"venderProdutos",
+						"16181266000118",
+						"Arroz",
+						"500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calcular Produtos Vendidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/calcularProdutosVendidos/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"calcularProdutosVendidos",
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calcular Valor dos Produtos Vendidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/empresas/calcularValorVendidos/16181266000118",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empresas",
+						"calcularValorVendidos",
+						"16181266000118"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

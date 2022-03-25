@@ -2,74 +2,170 @@ package project.sollute.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.sollute.entity.Empreendedor;
-import project.sollute.entity.Empresa;
-import project.sollute.entity.Produto;
+import project.sollute.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
 @RestController
-@RequestMapping("/empresa")
+@RequestMapping("/empresas")
 public class EmpresasController {
 
-    // Empreendedor empreendedor = new Empreendedor("Leonardo Vicchietti", "548.965.852-02");
     private List<Empresa> listaEmpresa = new ArrayList<>();
-    EmpreendedorController eC = new EmpreendedorController();
+    private List<Produto> listaProdutos = new ArrayList<>();
 
-    @PostMapping
-    public ResponseEntity criaEmpresa(@RequestBody Empresa emp) {
-        if (emp == null) {
-            return ResponseEntity.status(400).body("Objeto inválido.");
-        } else if (eC.getListaEmpreendedor().contains(emp.getCeo())) {
-            Empresa empresa = new Empresa(
-                    emp.getNomeFantasia(),
-                    emp.getCnpj(),
-                    emp.getInscricaoEstadual(),
-                    emp.getCeo());
-            listaEmpresa.add(empresa);
+    @PostMapping("/criarEmpresa/{cpf}")
+    public ResponseEntity criaEmpresa(@RequestBody Empresa novaEmpresa,
+                                      @PathVariable String cpf) {
+        if (novaEmpresa == null) {
+            return ResponseEntity.status(400).build(); // Objeto inválido
+        } else if (novaEmpresa != null) {
+            listaEmpresa.add(novaEmpresa);
             return ResponseEntity.status(201).body("Empresa criada com sucesso");
-        } else {
-            return ResponseEntity.status(400).body("CEO não encontrado.");
         }
+        return ResponseEntity.status(404).build(); // CEO não encontrado
     }
 
-    @PostMapping
-    public ResponseEntity adicionaProduto(@PathVariable String cnpj, @RequestBody Produto prod) {
+    @PostMapping("/criarProdutoAlimento/{cnpj}")
+    public ResponseEntity adicionaProdutoAlimento(@RequestBody ProdutoAlimento prod,
+                                                  @PathVariable String cnpj) {
         if (prod == null) {
-            return ResponseEntity.status(400).body("Objeto inválido.");
+            return ResponseEntity.status(400).build(); // Objeto inválido
         } else {
-            // listaP.add(prod);
             for (Empresa e : listaEmpresa) {
                 if (e.getCnpj().equals(cnpj)) {
-                    e.adicionaProduto(prod);
+                    listaProdutos.add(prod);
                     return ResponseEntity.status(201).body("Produto adicionado com sucesso");
                 }
             }
-            return ResponseEntity.status(404).body("Empresa não encontrada.");
+            return ResponseEntity.status(404).build(); // Empresa não encontrada
         }
     }
 
-    @GetMapping("/listarProdutos")
-    public ResponseEntity listarProdutosPorCnpj(@PathVariable String cnpj) {
-        if (cnpj.length() != 18) {
-            return ResponseEntity.status(400).body("CNPJ inválido.");
+    @PostMapping("/criarProdutoServico/{cnpj}")
+    public ResponseEntity adicionaProdutoServico(@RequestBody ProdutoOrdemDeServico prod,
+                                                 @PathVariable String cnpj) {
+        if (prod == null) {
+            return ResponseEntity.status(400).build(); // Objeto inválido
         } else {
             for (Empresa e : listaEmpresa) {
                 if (e.getCnpj().equals(cnpj)) {
-                    return ResponseEntity.status(200).body(e.mostraProduto());
+                    listaProdutos.add(prod);
+                    return ResponseEntity.status(201).body("Produto adicionado com sucesso");
                 }
             }
-            return ResponseEntity.status(404).body("Empresa não encontrada.");
+            return ResponseEntity.status(404).build(); // Empresa não encontrada
         }
     }
 
-    @GetMapping("/calcularProdutosVendidos")
-    public ResponseEntity calcularProdutosVendidos(@PathVariable String cnpj) {
-        if (cnpj.length() != 18) {
-            return ResponseEntity.status(400).body("CNPJ inválido.");
+    @PostMapping("/criarProdutoVestuario/{cnpj}")
+    public ResponseEntity adicionaProdutoVestuario(@RequestBody ProdutoVestuario prod,
+                                                   @PathVariable String cnpj) {
+        if (prod == null) {
+            return ResponseEntity.status(400).build(); // Objeto inválido
         } else {
+            for (Empresa e : listaEmpresa) {
+                if (e.getCnpj().equals(cnpj)) {
+                    listaProdutos.add(prod);
+                    return ResponseEntity.status(201).body("Produto adicionado com sucesso");
+                }
+            }
+            return ResponseEntity.status(404).build(); // Empresa não encontrada
+        }
+    }
+
+    @GetMapping("/listarEmpresas")
+    public ResponseEntity listarEmpresas() {
+        if (listaEmpresa.isEmpty()) {
+            return ResponseEntity.status(204).build(); // Lista Vazia
+        } else {
+            return ResponseEntity.status(200).body(listaEmpresa);
+        }
+    }
+
+    @PostMapping("/venderProdutos/{cnpj}/{nome}/{qtd}")
+    public ResponseEntity venderProdutosPorCnpj(@PathVariable String cnpj,
+                                                @PathVariable String nome,
+                                                @PathVariable int qtd) {
+        if (listaEmpresa.isEmpty()) {
+            return ResponseEntity.status(204).build(); // Não há empresas.
+        } else {
+            for (Empresa e : listaEmpresa) {
+                if (e.getCnpj().equals(cnpj)) {
+                    for (Produto p : listaProdutos) {
+                        if (p.getNome().equals(nome)) {
+                            if (p instanceof ProdutoAlimento) {
+                                if (p.getQtdEstoque() - qtd >= 0) {
+                                    p.vender(qtd);
+                                    e.setQtdProdutosVendidos(qtd);
+                                    e.setTotalProdutosVendidos(p.getValorVendidos());
+                                    return ResponseEntity.status(200).build();
+                                }
+                                return ResponseEntity.status(400).build(); // Estoque insuficiente
+                            }
+                            if (p instanceof ProdutoOrdemDeServico) {
+                                if (p.getQtdEstoque() - qtd >= 0) {
+                                    p.vender(qtd);
+                                    e.setQtdProdutosVendidos(qtd);
+                                    e.setTotalProdutosVendidos(p.getValorVendidos());
+                                    return ResponseEntity.status(200).build();
+                                }
+                                return ResponseEntity.status(400).build(); // Estoque insuficiente
+                            }
+                            if (p instanceof ProdutoVestuario) {
+                                if (p.getQtdEstoque() - qtd >= 0) {
+                                    p.vender(qtd);
+                                    e.setQtdProdutosVendidos(qtd);
+                                    e.setTotalProdutosVendidos(p.getValorVendidos());
+                                    return ResponseEntity.status(200).build();
+                                }
+                                return ResponseEntity.status(400).build(); // Estoque insuficiente
+                            }
+                        }
+                    }
+                }
+            }
+            return ResponseEntity.status(404).build(); // Empresa não encontrada.
+        }
+    }
+
+    @GetMapping("/listarProdutos/{cnpj}")
+    public ResponseEntity listarProdutosPorCnpj(@PathVariable String cnpj) {
+        if (cnpj.length() != 14) {
+            return ResponseEntity.status(400).build(); // CNPJ inválido.
+        } else {
+            for (int i = 0; i < listaEmpresa.size(); i++) {
+                if (listaEmpresa.get(i).getCnpj().equals(cnpj)) {
+                    return ResponseEntity.status(200).body(listaProdutos);
+                }
+            }
+            return ResponseEntity.status(404).build(); // Empresa não encontrada.
+        }
+    }
+
+    @GetMapping("/calcularProdutosVendidos/{cnpj}")
+    public ResponseEntity calcularProdutosVendidos(@PathVariable String cnpj) {
+        if (cnpj.length() != 14) {
+            return ResponseEntity.status(400).build(); // CNPJ inválido.
+        } else {
+            for (int i = 0; i < listaEmpresa.size(); i++) {
+                if (listaEmpresa.get(i).getCnpj().equals(cnpj)) {
+                    if (listaEmpresa.get(i).getQtdProdutosVendidos() <= 0) {
+                        return ResponseEntity.status(204).body("Nenhum produto foi vendido.");
+                    } else {
+                        int aux = 0;
+                        for (int j = 0; j < listaProdutos.size(); j++) {
+                            aux += listaProdutos.get(i).getQtdVendidos();
+                        }
+                        return ResponseEntity.status(204).body("Total de produtos Vendidos: " + aux);
+                    }
+                }
+            }
+        }
+        return ResponseEntity.status(404).build(); // Empresa não encontrada.
+            /*
+            return ResponseEntity.status(404).body("Empresa não encontrada.");
             for (Empresa e : listaEmpresa) {
                 if (e.getCnpj().equals(cnpj)) {
                     if (e.calculaTotalProdutosVendidos() > 0) {
@@ -81,23 +177,28 @@ public class EmpresasController {
             }
             return ResponseEntity.status(404).body("Empresa não encontrada.");
         }
+        */
     }
 
-    @GetMapping("/calcularValorVendidos")
+    @GetMapping("/calcularValorVendidos/{cnpj}")
     public ResponseEntity calcularValorVendidos(@PathVariable String cnpj) {
-        if (cnpj.length() != 18) {
-            return ResponseEntity.status(400).body("CNPJ inválido.");
+        if (cnpj.length() != 14) {
+            return ResponseEntity.status(400).build(); // CNPJ inválido.
         } else {
-            for (Empresa e : listaEmpresa) {
-                if (e.getCnpj().equals(cnpj)) {
-                    if (e.calculaTotalProdutosVendidos() > 0) {
-                        return ResponseEntity.status(204).body(e.calculaValorProdutosVendidos());
+            for (int i = 0; i < listaEmpresa.size(); i++) {
+                if (listaEmpresa.get(i).getCnpj().equals(cnpj)) {
+                    if (listaEmpresa.get(i).getQtdProdutosVendidos() <= 0) {
+                        return ResponseEntity.status(204).body("Nenhum produto foi vendido.");
                     } else {
-                        return ResponseEntity.status(201).body(e.calculaValorProdutosVendidos());
+                        int aux = 0;
+                        for (int j = 0; j < listaProdutos.size(); j++) {
+                            aux += listaProdutos.get(i).getValorVendidos();
+                        }
+                        return ResponseEntity.status(204).body("Varlo total de produtos Vendidos: R$" + aux);
                     }
                 }
             }
-            return ResponseEntity.status(404).body("Empresa não encontrada.");
         }
+        return ResponseEntity.status(404).build(); // Empresa não encontrada.
     }
 }
