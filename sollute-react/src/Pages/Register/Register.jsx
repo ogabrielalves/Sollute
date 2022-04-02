@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import RegisterPage from '../../Components/RegisterPage/RegisterPage';
+import CheckIcon from '@mui/icons-material/Check';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import CheckIcon from '@mui/icons-material/Check';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import PopOver from '../../Components/PopOver/PopOver';
 
 function Register() {
 
@@ -54,20 +56,32 @@ function Register() {
                             <h1>Insira as informações da sua empresa</h1>
                             <p style={{ color: '#8E8E8E', width: '39%' }}>Coloque mais informações sobre sua empresa, para saber de como devemos chama-la.</p>
                         </Grid>
-                        <Grid item xs={12} md={8} mb={2} >
+                        <Grid item xs={12} md={8} mb={2} style={{ display: 'flex', alignItems: 'center' }}>
                             <TextField fullWidth id="outlined-basic" label="Nome Fantasia" variant="outlined" />
+                            <PopOver>O nome fantasia é o nome da sua marca.</PopOver>
                         </Grid>
-                        <Grid item xs={12} md={8} mb={2}>
+                        <Grid item xs={12} md={8} mb={2} style={{ display: 'flex', alignItems: 'center' }}>
                             <TextField fullWidth id="outlined-basic" label="Razão Social" variant="outlined" />
+                            <PopOver>A razão social é o nome completo da Pessoa Física seguido do CPF do titular do MEI.</PopOver>
                         </Grid>
-                        <Grid item xs={12} md={8}>
+                        <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center' }}>
                             <TextField fullWidth id="outlined-basic" label="CNPJ" variant="outlined" />
+                            <PopOver>O número estará no seu CCMEI, o Certificado da Condição do Microempreendedor Individual.</PopOver>
                         </Grid>
                         <Grid item md={4}></Grid>
-                        <Grid item md={4}></Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={12} style={{ display: 'flex' }}>
                             <Button
-                                fullWidth
+                                style={{ width: '30%', marginRight: '25px' }}
+                                variant="outlined"
+                                startIcon={<ArrowBackIosIcon />}
+                                onClick={() => {
+                                    setOne(true)
+                                    setTwo(false)
+                                }}>
+                                Voltar
+                            </Button>
+                            <Button
+                                style={{ width: '30%' }}
                                 variant="contained"
                                 endIcon={<ArrowForwardIosIcon />}
                                 onClick={() => {
@@ -107,8 +121,27 @@ function Register() {
                         </Grid>
                         <Grid item md={4}></Grid>
                         <Grid item md={4}></Grid>
-                        <Grid item xs={12} md={4}>
-                            <Button fullWidth variant="contained" endIcon={<CheckIcon />}>Finalizar</Button>
+                        <Grid item xs={12} md={12} style={{ display: 'flex' }}>
+                            <Button
+                                style={{ width: '30%', marginRight: '18px' }}
+                                variant="outlined"
+                                startIcon={<ArrowBackIosIcon />}
+                                onClick={() => {
+                                    setTwo(true)
+                                    setThree(false)
+                                }}>
+                                Voltar
+                            </Button>
+                            <Button
+                                style={{ width: '35%' }}
+                                variant="contained"
+                                endIcon={<CheckIcon />}
+                                onClick={() => {
+                                    setTwo(false)
+                                    setThree(true)
+                                }}>
+                                Finalizar
+                            </Button>
                         </Grid>
                     </Grid>
                 </RegisterPage>
