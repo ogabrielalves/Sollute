@@ -21,7 +21,7 @@ class NavBar extends Component {
               <li><selected><a href='#'>Home</a></selected></li>
               <li><a href='#'>Sobre</a></li>
               <li><a href='#'>Preços</a></li>
-              <li><a href='#'>Contato</a></li>
+              <li><a href='/contact'>Contato</a></li>
             </ul>
           </div>
           <div className='divBotoes'>

@@ -13,7 +13,7 @@ const styleChecks = {
     pl: 3
 }
 
-const rightBar = {
+const leftBar = {
     backgroundColor: 'white',
     height: '100vh',
     color: '#939393'
@@ -47,7 +47,7 @@ function RegisterPage(props) {
 
     return (
         <Grid container>
-            <Grid item xs={3} sx={rightBar}>
+            <Grid item xs={3} sx={leftBar}>
                 <Grid style={{ margin: '10px 0' }}>
                     <img src={LogoSollute} alt="" width={150} style={{ marginLeft: 10 }} />
                 </Grid>
@@ -66,7 +66,7 @@ function RegisterPage(props) {
             </Grid>
             <Grid item xs={9} style={{ backgroundColor: '#FAFAFA', height: '100vh' }}>
                 <Grid position={'absolute'} right={50} top={50}>
-                    <p>Está  com problemas? <b style={{ color: '#3E00FF' }}>Fale Conosco</b></p>
+                    <p>Está  com problemas? <b><a style={{ color: '#3E00FF' }} href='/contact'>Fale Conosco</a></b></p>
                 </Grid>
                 <Grid style={screenFit()}>
                     <Grid style={{ display: 'flex', alignItems: 'center', marginLeft: '20vw', justifyContent: 'center' }}>
