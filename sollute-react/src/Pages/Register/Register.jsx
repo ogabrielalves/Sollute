@@ -62,9 +62,9 @@ function Register() {
             {one &&
                 <RegisterPage>
                     <Grid container spacing={1} >
-                        <Grid item xs={12} mb={8}>
+                        <Grid item xs={12} mb={5}>
                             <h1>Insira seus dados</h1>
-                            <p style={{ color: '#8E8E8E', width: '39%' }}>Coloque seu e-mail e senha, suas informações estarão seguras conosco.</p>
+                            <p style={{ color: '#8E8E8E', width: '60%' }}>Coloque seu e-mail e senha, suas informações estarão seguras conosco.</p>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} >
                             <TextField fullWidth id="outlined-basic" label="E-mail" variant="outlined" type={'email'} />
@@ -94,9 +94,9 @@ function Register() {
             {two &&
                 <RegisterPage colorOne={'#26E07F'}>
                     <Grid container spacing={1} >
-                        <Grid item xs={12} mb={8}>
+                        <Grid item xs={12} mb={5}>
                             <h1>Insira as informações da sua empresa</h1>
-                            <p style={{ color: '#8E8E8E', width: '39%' }}>Coloque mais informações sobre sua empresa, para saber de como devemos chama-la.</p>
+                            <p style={{ color: '#8E8E8E', width: '60%' }}>Coloque mais informações sobre sua empresa, para saber de como devemos chama-la.</p>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} style={{ display: 'flex', alignItems: 'center' }}>
                             <TextField fullWidth id="outlined-basic" label="Nome Fantasia" variant="outlined" />
@@ -141,9 +141,9 @@ function Register() {
             {three &&
                 <RegisterPage colorOne={'#26E07F'} colorTwo={'#26E07F'}>
                     <Grid container spacing={1} >
-                        <Grid item xs={12} mb={8}>
+                        <Grid item xs={12} mb={5}>
                             <h1>Insira suas informações de endereço</h1>
-                            <p style={{ color: '#8E8E8E', width: '39%' }}>Digite seu endereço para sabermos onde fica localizado sua empresa, apenas para fins comerciais.</p>
+                            <p style={{ color: '#8E8E8E', width: '60%' }}>Digite seu endereço para sabermos onde fica localizado sua empresa, apenas para fins comerciais.</p>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} >
                             <TextField fullWidth id="outlined-basic" label="CEP" variant="outlined" />

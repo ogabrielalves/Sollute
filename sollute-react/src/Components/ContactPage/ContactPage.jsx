@@ -39,7 +39,7 @@ function ContactPage(props) {
         var styleAlign = null;
         if (matches) {
             styleAlign = {
-                margin: '40px 0 0 40px'
+                margin: '15px 0 0 40px'
             }
         }
         else {
