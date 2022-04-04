@@ -1,5 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LogoSollute from '../../Assets/Image/Logo2-modelo.svg';
 
@@ -18,6 +20,31 @@ const rightBar = {
 }
 
 function RegisterPage(props) {
+    const matches = useMediaQuery('(max-width:1325px)');
+
+    function screenFit() {
+        var styleScreen = 0;
+
+        if (matches) {
+            styleScreen = {
+                height: '90vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }
+        }
+        else {
+            styleScreen = {
+                height: '80vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }
+        }
+        return styleScreen;
+    }
+
+
     return (
         <Grid container>
             <Grid item xs={3} sx={rightBar}>
@@ -41,7 +68,7 @@ function RegisterPage(props) {
                 <Grid position={'absolute'} right={50} top={50}>
                     <p>Está  com problemas? <b style={{ color: '#3E00FF' }}>Fale Conosco</b></p>
                 </Grid>
-                <Grid style={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Grid style={screenFit()}>
                     <Grid style={{ display: 'flex', alignItems: 'center', marginLeft: '20vw', justifyContent: 'center' }}>
                         {props.children}
                     </Grid>
