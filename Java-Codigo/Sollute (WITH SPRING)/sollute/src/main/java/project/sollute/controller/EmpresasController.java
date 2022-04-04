@@ -7,7 +7,6 @@ import project.sollute.entity.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/empresas")
 public class EmpresasController {
