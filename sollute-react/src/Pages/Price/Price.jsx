@@ -75,7 +75,7 @@ function Preco() {
             </Grid>
 
                 <Grid ml={72}>
-                    <Button style={botao} variant="contained">
+                    <Button style={botao} variant="contained" onClick={() => window.location.href = "/"}>
                         VOLTAR AO INICIO →
                     </Button>
                 </Grid>

@@ -20,7 +20,7 @@ class NavBar extends Component {
             <ul>
               <li><selected><a href='#'>Home</a></selected></li>
               <li><a href='#'>Sobre</a></li>
-              <li><a href='#'>Preços</a></li>
+              <li><a href='/Price'>Preços</a></li>
               <li><a href='/contact'>Contato</a></li>
             </ul>
           </div>
