@@ -26,7 +26,7 @@ class NavBar extends Component {
           </div>
           <div className='divBotoes'>
             <Button sx={buttonStyle} variant="contained" onClick={() => window.location.href = "/register"}>Cadastre-se</Button>
-            <Button sx={buttonStyle} variant="outlined">Login</Button>
+            <Button sx={buttonStyle} variant="outlined" onClick={() => window.location.href = "/login"}>Login</Button>
           </div>
         </header>
       </div>
