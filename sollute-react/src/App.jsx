@@ -5,6 +5,7 @@ import Home from './Pages/Home/Home';
 import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
 import Contact from './Pages/Contact/Contact';
+import Price from './Pages/Price/Price'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route exact path="/register" element={<Register/>} />
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/contact" element={<Contact/>} />
+        <Route exact path="/price" element={<Price/>} />
       </Routes>
     </Router>
   );
