@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -39,7 +39,7 @@ function ContactPage(props) {
         var styleAlign = null;
         if (matches) {
             styleAlign = {
-                margin: '40px 0 0 40px'
+                margin: '15px 0 0 40px'
             }
         }
         else {

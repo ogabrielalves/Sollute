@@ -27,7 +27,7 @@ function RegisterPage(props) {
 
         if (matches) {
             styleScreen = {
-                height: '90vh',
+                height: '100vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -49,7 +49,7 @@ function RegisterPage(props) {
         <Grid container>
             <Grid item xs={3} sx={leftBar}>
                 <Grid style={{ margin: '10px 0' }}>
-                    <img src={LogoSollute} alt="" width={150} style={{ marginLeft: 10 }} />
+                    <a href='/'><img src={LogoSollute} alt="" width={150} style={{ marginLeft: 10 }} /></a>
                 </Grid>
                 <Grid sx={styleChecks}>
                     <CheckCircleIcon sx={{ color: props.colorOne, marginRight: 1, fontSize: '1.5em' }} />
