@@ -21,7 +21,16 @@ export default function CardPrice(props) {
 
   return (
     <Card sx={styleCard}>
+
       <CardActionArea>
+
+        <Typography gutterBottom variant="h5" component="div" style={{fontWeight: 'bold'}} mt={2}>
+          {props.titlePrice}
+        </Typography>
+
+        <Typography gutterBottom variant="h5" component="div" style={{fontWeight: 'bold'}} mb={-2}>
+          {props.valor}
+        </Typography>
 
         <CardMedia
           component="img"
@@ -30,7 +39,7 @@ export default function CardPrice(props) {
           alt="Img Card Price 1"
         />
 
-        <CardContent style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+        <CardContent style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
 
           <Typography gutterBottom variant="h5" component="div">
             {props.title}

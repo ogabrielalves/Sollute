@@ -24,8 +24,8 @@ const cards = {
 }
 
 const botao = {
-    display: 'flex', 
-    alignItems: 'center', 
+    display: 'flex',
+    alignItems: 'center',
     justifyContent: 'center'
 }
 
@@ -47,8 +47,9 @@ function Preco() {
             <Grid container style={cards}>
 
                 <Grid>
-
                     <CardPrice
+                        titlePrice="MENSAL"
+                        valor="R$ 24,90"
                         image={ImgCard1}
                         title="Pao de batata"
                         color="#511AFF"
@@ -58,6 +59,8 @@ function Preco() {
 
                 <Grid>
                     <CardPrice
+                        titlePrice="SEMESTRAL"
+                        valor="R$ 119,90"
                         image={ImgCard2}
                         title="Pao de batata"
                         color="#784DFF"
@@ -67,6 +70,9 @@ function Preco() {
 
                 <Grid>
                     <CardPrice
+                        titlePrice="ANUAL"
+                        valor="R$ 169,90"
+                        price="valor price 3"
                         image={ImgCard3}
                         title="Pao de batata"
                         color="#9F80FF"
@@ -74,11 +80,11 @@ function Preco() {
                 </Grid>
             </Grid>
 
-                <Grid ml={72}>
-                    <Button style={botao} variant="contained" onClick={() => window.location.href = "/"}>
-                        VOLTAR AO INICIO →
-                    </Button>
-                </Grid>
+            <Grid ml={72}>
+                <Button style={botao} variant="contained" onClick={() => window.location.href = "/"}>
+                    VOLTAR AO INICIO →
+                </Button>
+            </Grid>
 
         </Grid >
 
