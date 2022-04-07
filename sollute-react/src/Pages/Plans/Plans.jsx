@@ -29,16 +29,24 @@ const botao = {
     justifyContent: 'center'
 }
 
+const titulo = {
+    width: '72vw', 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    padding: '0 160px'
+}
+
 
 function Preco() {
     return (
 
         <Grid container style={fundo} >
-            <Grid>
-                <img src={LogoSollute} />
+            <Grid mt={2}>
+                <img src={LogoSollute} onClick={() => window.location.href = "/"}  style={{marginLeft: '30px', cursor: 'pointer', height: '40px'}} />
             </Grid>
 
-            <Grid style={{ width: '72vw', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid ml={4} style={titulo}>
 
                 <h1>ESCOLHA SEU PLANO</h1>
 
@@ -51,7 +59,6 @@ function Preco() {
                         titlePrice="MENSAL"
                         valor="R$ 24,90"
                         image={ImgCard1}
-                        title="Pao de batata"
                         color="#511AFF"
 
                         variant='outlined' />
@@ -62,7 +69,6 @@ function Preco() {
                         titlePrice="SEMESTRAL"
                         valor="R$ 119,90"
                         image={ImgCard2}
-                        title="Pao de batata"
                         color="#784DFF"
 
                         variant='contained' />
@@ -72,10 +78,9 @@ function Preco() {
                     <CardPrice
                         titlePrice="ANUAL"
                         valor="R$ 169,90"
-                        price="valor price 3"
                         image={ImgCard3}
-                        title="Pao de batata"
                         color="#9F80FF"
+
                         variant='outlined' />
                 </Grid>
             </Grid>
