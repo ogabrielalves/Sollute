@@ -1,52 +1,48 @@
 package sollute.estoquecerto.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.Empreendedor;
 import sollute.estoquecerto.entity.ListaObj;
+import sollute.estoquecerto.repository.EmpreendedorRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/empreendedores")
 public class EmpreendedorController {
 
-    // Atributos
+    @Autowired
+    private EmpreendedorRepository repositoryEmpreendedor;
+
     ListaObj<Empreendedor> listaEmpreendedor = new ListaObj(10);
 
     // Aqui é criado somente o empreendedor, item essencial para a criação de uma empresa
     @PostMapping("/criarEmpreendedor")
-    public ResponseEntity criaEmpreendedor(@RequestBody Empreendedor empreendedor) {
-        if (empreendedor == null) {
-            return ResponseEntity.status(400).body("Objeto inválido.");
-        } else {
-            Empreendedor emp = new Empreendedor(empreendedor.getNome(), empreendedor.getCpf());
-            listaEmpreendedor.add(emp);
-            return ResponseEntity.status(201).body("Empreendedor criado com sucesso");
-        }
+    public ResponseEntity criaEmpreendedor(@RequestBody @Valid Empreendedor empreendedor) {
+        listaEmpreendedor.adiciona(empreendedor);   // Salva localmente na ListaObj
+        repositoryEmpreendedor.save(empreendedor);  // Salva no Banco de Dados
+        return ResponseEntity.status(201).build();
     }
 
     @GetMapping("/listarEmpreendedores")
-    public ResponseEntity listarEmpreendedores() {
-        if (listaEmpreendedor.isEmpty()) {
-            return ResponseEntity.status(204).body("Não há empreendedores.");
+    public ResponseEntity<ListaObj<Empreendedor>> listarEmpreendedores() {
+        if (listaEmpreendedor.getTamanho() == 0) {
+            return ResponseEntity.status(204).build();
         } else {
             return ResponseEntity.status(200).body(listaEmpreendedor);
         }
     }
 
-    public Boolean getEmpreendedor(String cpf) {
-        for (Empreendedor e : listaEmpreendedor) {
-            if (e.getCpf().equals(cpf)) {
-                return true;
-            }
-        }
-        return false;
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Empreendedor> getEmpreendedor(@PathVariable long codigo) {
+        return ResponseEntity.of(repositoryEmpreendedor.findById(codigo));
     }
 
-    // Getter
-    public List<Empreendedor> getListaEmpreendedor() {
-        return listaEmpreendedor;
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity deleteEmpreendedor(@PathVariable long codigo) {
+        repositoryEmpreendedor.deleteById(codigo);
+        return ResponseEntity.status(200).build();
     }
 }

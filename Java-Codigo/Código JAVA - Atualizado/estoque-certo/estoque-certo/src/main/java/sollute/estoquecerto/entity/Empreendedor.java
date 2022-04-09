@@ -1,14 +1,32 @@
 package sollute.estoquecerto.entity;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Entity
 public class Empreendedor {
 
     //Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmpreendedor;
+    @NotBlank
+    @Length(min = 3, max = 45)
     private String nome;
+    @CPF
     private String cpf;
+    @PastOrPresent
+    @NotNull
     private LocalDate nascimento;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String dataNascimentoFormatada = nascimento.format(formatter);
@@ -18,6 +36,10 @@ public class Empreendedor {
         this.nome = nome;
         this.cpf = cpf;
         this.nascimento = nascimento;
+    }
+
+    public Empreendedor() {
+
     }
 
     //Metodos

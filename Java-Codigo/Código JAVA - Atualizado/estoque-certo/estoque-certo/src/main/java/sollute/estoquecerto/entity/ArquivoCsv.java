@@ -19,8 +19,7 @@ public class ArquivoCsv {
         try {
             arq = new FileWriter(nomeArq);
             saida = new Formatter(arq);
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             System.out.println("Erro ao abrir o arquivo");
             System.exit(1);
         }
@@ -34,17 +33,14 @@ public class ArquivoCsv {
                         aluno.getNome(),
                         aluno.getNota());
             }
-        }
-        catch (FormatterClosedException erro) {
+        } catch (FormatterClosedException erro) {
             System.out.println("Erro ao gravar o arquivo");
             deuRuim = true;
-        }
-        finally {
+        } finally {
             saida.close();
             try {
                 arq.close();
-            }
-            catch (IOException erro) {
+            } catch (IOException erro) {
                 System.out.println("Erro ao fechar o arquivo");
                 deuRuim = true;
             }
@@ -64,15 +60,13 @@ public class ArquivoCsv {
         try {
             arq = new FileReader(nomeArq);
             entrada= new Scanner(arq).useDelimiter(";|\\n");
-        }
-        catch (FileNotFoundException erro) {
+        } catch (FileNotFoundException erro) {
             System.out.println("Arquivo não encontrado!");
             System.exit(1);
         }
 
         // Bloco try catch para ler o arquivo
         try {
-            // Exibe uma linha com os títulos das colunas
             System.out.printf("%4s %-15s %4s\n","RA","NOME","NOTA");
             while (entrada.hasNext()) {
                 Integer id = entrada.nextInt();
@@ -80,21 +74,17 @@ public class ArquivoCsv {
                 Double nota = entrada.nextDouble();
                 System.out.printf("%4d %-15s %4.2f\n",id,nome,nota);
             }
-        }
-        catch (NoSuchElementException erro) {
+        } catch (NoSuchElementException erro) {
             System.out.println("Arquivo com problemas");
             deuRuim = true;
-        }
-        catch (IllegalStateException erro) {
+        } catch (IllegalStateException erro) {
             System.out.println("Erro na leitura do arquivo");
             deuRuim = true;
-        }
-        finally {
+        } finally {
             entrada.close();
             try {
                 arq.close();
-            }
-            catch (IOException erro) {
+            } catch (IOException erro) {
                 System.out.println("Erro ao fechar o arquivo");
                 deuRuim = true;
             }

@@ -25,15 +25,16 @@ public class ProdutoVestuario extends Produto {
 
     //Metodos
     @Override
-    public double vender(int i) {
+    public Boolean vender(int i) {
         if ((getQtdEstoque() - i) < 0) {
             System.out.println("Estoque insuficiente");
-            return 0.0;
+            return false;
         } else {
             setQtdEstoque(getQtdEstoque() - i);
             super.setQtdVendidos(getQtdVendidos() + i);
             super.setValorVendidos(super.getPreco() * i);
-            return super.getPreco() * i;
+            super.setPreco(super.getPreco()*1);
+            return true;
         }
     }
 

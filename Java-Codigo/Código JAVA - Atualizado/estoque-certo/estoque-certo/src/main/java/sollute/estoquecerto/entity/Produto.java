@@ -53,7 +53,7 @@ public abstract class Produto {
     }
 
     //Metodos
-    public abstract double vender(int i);
+    public abstract Boolean vender(int i);
 
     @Override
     public String toString() {
