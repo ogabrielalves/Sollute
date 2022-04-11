@@ -10,6 +10,7 @@ import sollute.estoquecerto.repository.ProdutoServicoRepository;
 import sollute.estoquecerto.repository.ProdutoVestuarioRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/empresas")
@@ -38,10 +39,10 @@ public class EmpresaController {
     @PostMapping("/criarProdutoAlimento/{cnpj}")
     public ResponseEntity adicionaProdutoAlimento(@RequestBody @Valid ProdutoAlimento novoProdutoAlimento,
                                                   @PathVariable String cnpj) {
-        for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
-            if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) { // Verificando se o CNPJ existe
+        for (int i = 0; i <= listaEmpresa.getTamanho(); i++) {
+            if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) { // Verificando se a empresa existe
                 listaProduto.adiciona(novoProdutoAlimento);             // Adicionando na ListaObj
-                repositoryProdutoAlimento.save(novoProdutoAlimento);    // Adicionado no Banco de Dados
+                repositoryProdutoAlimento.save(novoProdutoAlimento);      // Adicionado no Banco de Dados
                 return ResponseEntity.status(201).build();
             }
         }
@@ -51,7 +52,7 @@ public class EmpresaController {
     @PostMapping("/criarProdutoServico/{cnpj}")
     public ResponseEntity adicionaProdutoServico(@RequestBody @Valid ProdutoServico novoProdutoServico,
                                                  @PathVariable String cnpj) {
-        for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
+        for (int i = 0; i < repositoryEmpresa.count(); i++) {
             if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) { // Verificando se o CNPJ existe
                 listaProduto.adiciona(novoProdutoServico);             // Adicionando na ListaObj
                 repositoryProdutoServico.save(novoProdutoServico);    // Adicionado no Banco de Dados
@@ -75,12 +76,12 @@ public class EmpresaController {
     }
 
     @GetMapping("/listarEmpresas")
-    public ResponseEntity listarEmpresas() {
+    public ResponseEntity<List<Empresa>> listarEmpresas() {
         if (listaEmpresa.getTamanho() == 0) {
             return ResponseEntity.status(204).build(); // Lista Vazia
         } else {
             // Retorno da ListaObj
-            return ResponseEntity.status(200).body(listaEmpresa);
+            return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
             // Retorno do Banco de Dados
             //return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
         }
@@ -151,18 +152,14 @@ public class EmpresaController {
         }
     }
 
-    @GetMapping("/listarProdutos/{cnpj}")
-    public ResponseEntity listarProdutosPorCnpj(@PathVariable String cnpj) {
-        if (cnpj.length() != 14) {
-            return ResponseEntity.status(400).build(); // CNPJ inválido.
-        } else {
-            for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
-                if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) {
-                    return ResponseEntity.status(200).body(listaProduto);
-                }
+    @GetMapping("/listarProdutos/{idEmpresa}")
+    public ResponseEntity listarProdutosPorCnpj(@PathVariable Long idEmpresa) {
+        for (long i = 0; i < repositoryEmpresa.count(); i++) {
+            if (repositoryEmpresa.findByIdEmpresa(i).getIdEmpresa() == idEmpresa) {
+                return ResponseEntity.status(200).body(listaProduto);
             }
-            return ResponseEntity.status(404).build(); // Empresa não encontrada.
         }
+        return ResponseEntity.status(404).build(); // Empresa não encontrada.
     }
 
     @GetMapping("/calcularProdutosVendidos/{cnpj}")

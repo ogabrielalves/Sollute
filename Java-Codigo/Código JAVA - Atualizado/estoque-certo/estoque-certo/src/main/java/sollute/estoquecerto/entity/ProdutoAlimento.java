@@ -29,7 +29,7 @@ public class ProdutoAlimento extends Produto {
                            Double valorVendidos,
                            String marca,
                            Double peso,
-                           Character categoria,
+                           String categoria,
                            String tipoAlimento,
                            LocalDate dataFabricacao,
                            LocalDate dataValidade) {
@@ -86,7 +86,7 @@ public class ProdutoAlimento extends Produto {
                 super.getValorVendidos(),
                 super.getMarca(),
                 super.getPreco(),
-                super.pegaCategoria(),
+                super.getCategoria(),
                 tipoAlimento,
                 dataFabricacao,
                 dataValidade);

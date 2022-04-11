@@ -10,6 +10,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public abstract class Produto {
+
     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public abstract class Produto {
     @Positive
     private Double peso;
     @NotBlank
-    private Character categoria;
+    private String categoria;
 
     //Construtor
     public Produto(Long codProduto,
@@ -40,7 +41,7 @@ public abstract class Produto {
                    Double valorVendidos,
                    String marca,
                    Double peso,
-                   Character categoria) {
+                   String categoria) {
         this.codProduto = codProduto;
         this.nome = nome;
         this.preco = preco;
@@ -59,7 +60,7 @@ public abstract class Produto {
                    Double valorVendidos,
                    String marca,
                    Double peso,
-                   Character categoria) {
+                   String categoria) {
         this.codProduto = codProduto;
         this.nome = nome;
         this.preco = preco;
@@ -101,18 +102,18 @@ public abstract class Produto {
                 valorVendidos,  // %4.2f
                 marca,          // %10s
                 peso,           // %4.1f
-                pegaCategoria());     // %10s
+                categoria);     // %10s
     }
 
-    public String pegaCategoria() {
-        if (categoria.equals("v")) {
-            return "Vestuário";
-        } else if (categoria.equals("a")) {
-            return "Alimento";
-        } else {
-            return "Serviço";
-        }
-    }
+//    public String pegaCategoria() {
+//        if (categoria.equals("v")) {
+//            return "Vestuário";
+//        } else if (categoria.equals("a")) {
+//            return "Alimento";
+//        } else {
+//            return "Serviço";
+//        }
+//    }
 
     //Getters and Setters
     public Long getCodProduto() {
@@ -179,11 +180,11 @@ public abstract class Produto {
         this.peso = peso;
     }
 
-    public Character getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Character categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 }

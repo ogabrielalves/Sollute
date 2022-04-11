@@ -18,7 +18,7 @@ public class ProdutoVestuario extends Produto {
                             Double valorVendidos,
                             String marca,
                             Double peso,
-                            Character categoria,
+                            String categoria,
                             String tipoVestuario,
                             String tamanho) {
         super(codProduto, nome, preco, qtdEstoque, qtdVendidos, valorVendidos, marca, peso, categoria);
@@ -71,7 +71,7 @@ public class ProdutoVestuario extends Produto {
                 super.getValorVendidos(),
                 super.getMarca(),
                 super.getPreco(),
-                super.pegaCategoria(),
+                super.getCategoria(),
                 tipoVestuario,
                 tamanho);
     }

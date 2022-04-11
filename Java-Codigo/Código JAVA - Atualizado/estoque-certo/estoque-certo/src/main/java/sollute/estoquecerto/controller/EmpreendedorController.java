@@ -8,6 +8,7 @@ import sollute.estoquecerto.entity.ListaObj;
 import sollute.estoquecerto.repository.EmpreendedorRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/empreendedores")
@@ -19,7 +20,7 @@ public class EmpreendedorController {
     ListaObj<Empreendedor> listaEmpreendedor = new ListaObj(10);
 
     // Aqui é criado somente o empreendedor, item essencial para a criação de uma empresa
-    @PostMapping("/criarEmpreendedor")
+    @PostMapping
     public ResponseEntity criaEmpreendedor(@RequestBody @Valid Empreendedor empreendedor) {
         listaEmpreendedor.adiciona(empreendedor);   // Salva localmente na ListaObj
         repository.save(empreendedor);  // Salva no Banco de Dados
@@ -27,11 +28,11 @@ public class EmpreendedorController {
     }
 
     @GetMapping("/listarEmpreendedores")
-    public ResponseEntity<ListaObj<Empreendedor>> listarEmpreendedores() {
+    public ResponseEntity<List<Empreendedor>> listarEmpreendedores() {
         if (listaEmpreendedor.getTamanho() == 0) {
             return ResponseEntity.status(204).build();
         } else {
-            return ResponseEntity.status(200).body(listaEmpreendedor);
+            return ResponseEntity.status(200).body(repository.findAll());
         }
     }
 

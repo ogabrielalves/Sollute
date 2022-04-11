@@ -2,6 +2,7 @@ package sollute.estoquecerto.entity;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,27 +27,25 @@ public class Empresa {
     @CNPJ
     private String cnpj;
     private String inscricaoEstadual;
-    @NotBlank
-    private Empreendedor empresario;
+    @CPF
+    private String cpfEmpresario;
     @Min(0)
     @Max(0)
     private int qtdProdutosVendidos;
     @Min(0)
     @Max(0)
     private double totalProdutosVendidos;
-    // private List<Produto> produtos; -> Isso não é necessário
 
     //Construtor
     public Empresa(
             String nomeFantasia,
             String cnpj,
             String inscricaoEstadual,
-            Empreendedor empresario) {
-        // ListaObj produtos = new ListaObj<Produto>(20);
+            String cpfEmpresario) {
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
         this.inscricaoEstadual = inscricaoEstadual;
-        this.empresario = empresario;
+        this.cpfEmpresario = cpfEmpresario;
         qtdProdutosVendidos = 0;
         totalProdutosVendidos = 0.0;
     }
@@ -55,7 +54,10 @@ public class Empresa {
 
     }
 
-    //Metodos
+    public Empresa(Empresa byIdEmpresa) {
+    }
+
+    // Metodos
     public void venderProduto(ListaObj<Empreendedor> listaE,
                               String cnpj,
                               ListaObj<Produto> lista,
@@ -141,7 +143,7 @@ public class Empresa {
                 idEmpresa,
                 nomeFantasia,
                 cnpj,
-                empresario.getNome(),
+                // empresario.getNome(),
                 inscricaoEstadual,
                 qtdProdutosVendidos,
                 totalProdutosVendidos);
@@ -179,14 +181,6 @@ public class Empresa {
         this.inscricaoEstadual = inscricaoEstadual;
     }
 
-    public Empreendedor getEmpresario() {
-        return empresario;
-    }
-
-    public void setEmpresario(Empreendedor empresario) {
-        this.empresario = empresario;
-    }
-
     public int getQtdProdutosVendidos() {
         return qtdProdutosVendidos;
     }
@@ -201,5 +195,13 @@ public class Empresa {
 
     public void setTotalProdutosVendidos(double totalProdutosVendidos) {
         this.totalProdutosVendidos = totalProdutosVendidos;
+    }
+
+    public String getCpfEmpresario() {
+        return cpfEmpresario;
+    }
+
+    public void setCpfEmpresario(String cpfEmpresario) {
+        this.cpfEmpresario = cpfEmpresario;
     }
 }
