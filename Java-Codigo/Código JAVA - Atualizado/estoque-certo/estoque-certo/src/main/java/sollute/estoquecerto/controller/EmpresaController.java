@@ -18,10 +18,13 @@ public class EmpresaController {
 
     @Autowired
     private EmpresaRepository repositoryEmpresa;
+
     @Autowired
     private ProdutoAlimentoRepository repositoryProdutoAlimento;
+
     @Autowired
     private ProdutoServicoRepository repositoryProdutoServico;
+
     @Autowired
     private ProdutoVestuarioRepository repositoryProdutoVestuario;
 
@@ -136,14 +139,19 @@ public class EmpresaController {
         }
     }
 
-    @GetMapping("/listar-produtos/{idEmpresa}")
-    public ResponseEntity listarProdutosPorCnpj(@PathVariable Long idEmpresa) {
-        for (long i = 0; i < repositoryEmpresa.count(); i++) {
-            if (repositoryEmpresa.findByIdEmpresa(i).getIdEmpresa() == idEmpresa) {
-                return ResponseEntity.status(200).body(listaProduto);
-            }
-        }
-        return ResponseEntity.status(404).build(); // Empresa não encontrada.
+    @GetMapping("/listar-produtos-vestuario/{cnpj}")
+    public ResponseEntity<List<ProdutoVestuario>> listarProdutosVestuarioPorCnpj(@PathVariable @Valid String cnpj) {
+      return ResponseEntity.status(200).body(repositoryProdutoVestuario.findByCnpj(cnpj));
+    }
+
+    @GetMapping("/listar-produtos-servico/{cnpj}")
+    public ResponseEntity<List<ProdutoServico>> listarProdutosServicoPorCnpj(@PathVariable @Valid String cnpj) {
+        return ResponseEntity.status(200).body(repositoryProdutoServico.findByCnpj(cnpj));
+    }
+
+    @GetMapping("/listar-produtos-alimento/{cnpj}")
+    public ResponseEntity<List<ProdutoAlimento>> listarProdutosAlimentoPorCnpj(@PathVariable @Valid String cnpj) {
+        return ResponseEntity.status(200).body(repositoryProdutoAlimento.findByCnpj(cnpj));
     }
 
     @GetMapping("/calcularProdutosVendidos/{cnpj}")

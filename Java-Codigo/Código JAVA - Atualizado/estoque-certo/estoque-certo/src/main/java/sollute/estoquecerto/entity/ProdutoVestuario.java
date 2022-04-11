@@ -13,26 +13,6 @@ public class ProdutoVestuario extends Produto {
     @NotBlank
     private String tamanho;
 
-    //Construtor
-    public ProdutoVestuario(Long codProduto,
-                            String nome,
-                            Double preco,
-                            Integer qtdEstoque,
-                            Integer qtdVendidos,
-                            Double valorVendidos,
-                            String marca,
-                            Double peso,
-                            String categoria,
-                            String tipoVestuario,
-                            String tamanho) {
-        super(codProduto, nome, preco, qtdEstoque, qtdVendidos, valorVendidos, marca, peso, categoria);
-        this.tipoVestuario = tipoVestuario;
-        this.tamanho = tamanho;
-    }
-
-    public ProdutoVestuario() {
-
-    }
 
     //Metodos
     @Override

@@ -4,6 +4,7 @@ package sollute.estoquecerto.entity;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,33 +19,10 @@ public class ProdutoServico extends Produto {
     @NotBlank
     private String tipoServico;
     @NotBlank
-    private LocalDateTime dataAgendamento;
+    private LocalDate dataAgendamento;
 //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //    String dataAgendamentoFormatada = dataAgendamento.format(formatter);
 
-    //Construtor
-    public ProdutoServico(Long codProduto,
-                          String nome,
-                          Double preco,
-                          Integer qtdVendidos,
-                          Double valorVendidos,
-                          String marca,
-                          Double peso,
-                          String categoria,
-                          String nomeCliente,
-                          String whatsappCliente,
-                          String tipoServico,
-                          LocalDateTime dataAgendamento) {
-        super(codProduto, nome, preco, qtdVendidos, valorVendidos, marca, peso, categoria);
-        this.nomeCliente = nomeCliente;
-        this.whatsappCliente = whatsappCliente;
-        this.tipoServico = tipoServico;
-        this.dataAgendamento = dataAgendamento;
-    }
-
-    public ProdutoServico() {
-
-    }
 
     //Metodos
     @Override
@@ -121,11 +99,11 @@ public class ProdutoServico extends Produto {
         this.tipoServico = tipoServico;
     }
 
-    public LocalDateTime getDataAgendamento() {
+    public LocalDate getDataAgendamento() {
         return dataAgendamento;
     }
 
-    public void setDataAgendamento(LocalDateTime dataAgendamento) {
+    public void setDataAgendamento(LocalDate dataAgendamento) {
         this.dataAgendamento = dataAgendamento;
     }
 }

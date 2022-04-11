@@ -20,28 +20,6 @@ public class ProdutoAlimento extends Produto {
 //    String dataFabricacaoFormatada = dataFabricacao.format(formatter);
 //    String dataValidadeFormatada = dataValidade.format(formatter);
 
-    //Construtores
-    public ProdutoAlimento(Long codProduto,
-                           String nome,
-                           double preco,
-                           Integer qtdEstoque,
-                           Integer qtdVendidos,
-                           Double valorVendidos,
-                           String marca,
-                           Double peso,
-                           String categoria,
-                           String tipoAlimento,
-                           LocalDate dataFabricacao,
-                           LocalDate dataValidade) {
-        super(codProduto, nome, preco, qtdEstoque, qtdVendidos, valorVendidos, marca, peso, categoria);
-        this.tipoAlimento = tipoAlimento;
-        this.dataFabricacao = dataFabricacao;
-        this.dataValidade = dataValidade;
-    }
-
-    public ProdutoAlimento() {
-
-    }
 
     //Metodos
     @Override

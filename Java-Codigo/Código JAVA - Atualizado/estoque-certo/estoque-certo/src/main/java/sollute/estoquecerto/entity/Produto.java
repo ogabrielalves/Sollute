@@ -17,6 +17,9 @@ public abstract class Produto {
     private Long codProduto;
 
     @NotBlank
+    private String cnpj;
+
+    @NotBlank
     private String nome;
 
     @PositiveOrZero
@@ -40,48 +43,6 @@ public abstract class Produto {
     @NotBlank
     private String categoria;
 
-    //Construtor
-    public Produto(Long codProduto,
-                   String nome,
-                   double preco,
-                   Integer qtdEstoque,
-                   Integer qtdVendidos,
-                   Double valorVendidos,
-                   String marca,
-                   Double peso,
-                   String categoria) {
-        this.codProduto = codProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.qtdEstoque = qtdEstoque;
-        this.qtdVendidos = qtdVendidos;
-        this.valorVendidos = valorVendidos;
-        this.marca = marca;
-        this.peso = peso;
-        this.categoria = categoria;
-    }
-
-    public Produto(Long codProduto,
-                   String nome,
-                   double preco,
-                   Integer qtdVendidos,
-                   Double valorVendidos,
-                   String marca,
-                   Double peso,
-                   String categoria) {
-        this.codProduto = codProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.qtdVendidos = qtdVendidos;
-        this.valorVendidos = valorVendidos;
-        this.marca = marca;
-        this.peso = peso;
-        this.categoria = categoria;
-    }
-
-    public Produto() {
-
-    }
 
     //Metodos
     public abstract Boolean vender(int i);
@@ -124,6 +85,18 @@ public abstract class Produto {
 //    }
 
     //Getters and Setters
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
     public Long getCodProduto() {
         return codProduto;
     }
