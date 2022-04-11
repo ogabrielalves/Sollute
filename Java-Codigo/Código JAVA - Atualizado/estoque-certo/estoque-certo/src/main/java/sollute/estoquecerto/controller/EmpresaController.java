@@ -36,43 +36,33 @@ public class EmpresaController {
         return ResponseEntity.status(201).build();
     }
 
-    @PostMapping("/criarProdutoAlimento/{cnpj}")
+    @PostMapping("/criar-produto-alimento/{cnpj}")
     public ResponseEntity adicionaProdutoAlimento(@RequestBody @Valid ProdutoAlimento novoProdutoAlimento,
                                                   @PathVariable String cnpj) {
-        for (int i = 0; i <= listaEmpresa.getTamanho(); i++) {
-            if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) { // Verificando se a empresa existe
-                listaProduto.adiciona(novoProdutoAlimento);             // Adicionando na ListaObj
-                repositoryProdutoAlimento.save(novoProdutoAlimento);      // Adicionado no Banco de Dados
-                return ResponseEntity.status(201).build();
-            }
+        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
+            repositoryProdutoAlimento.save(novoProdutoAlimento);    // Adicionado no Banco de Dados
+            return ResponseEntity.status(201).build();
         }
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
-    @PostMapping("/criarProdutoServico/{cnpj}")
+    @PostMapping("/criar-produto-servico/{cnpj}")
     public ResponseEntity adicionaProdutoServico(@RequestBody @Valid ProdutoServico novoProdutoServico,
                                                  @PathVariable String cnpj) {
-        for (int i = 0; i < repositoryEmpresa.count(); i++) {
-            if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) { // Verificando se o CNPJ existe
-                listaProduto.adiciona(novoProdutoServico);             // Adicionando na ListaObj
-                repositoryProdutoServico.save(novoProdutoServico);    // Adicionado no Banco de Dados
-                return ResponseEntity.status(201).build();
-            }
+        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
+            repositoryProdutoServico.save(novoProdutoServico);    // Adicionado no Banco de Dados
+            return ResponseEntity.status(201).build();
         }
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
     @PostMapping("/criar-produto-vestuario/{cnpj}")
-    public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario,
-                                                   @PathVariable String cnpj) {
-        for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
-            if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) { // Verificando se o CNPJ existe
-                listaProduto.adiciona(novoProdutoVestuario);             // Adicionando na ListaObj
-                repositoryProdutoVestuario.save(novoProdutoVestuario);    // Adicionado no Banco de Dados
-                return ResponseEntity.status(201).build();
-            }
+    public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario, @PathVariable String cnpj) {
+        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
+            repositoryProdutoVestuario.save(novoProdutoVestuario);    // Adicionado no Banco de Dados
+            return ResponseEntity.status(201).build();
         }
-        return null;
+        return ResponseEntity.status(404).build();
     }
 
     @GetMapping
