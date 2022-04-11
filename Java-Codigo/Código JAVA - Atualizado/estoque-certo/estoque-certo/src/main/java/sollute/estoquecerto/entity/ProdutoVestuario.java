@@ -1,5 +1,8 @@
 package sollute.estoquecerto.entity;
 
+import javax.persistence.Entity;
+
+@Entity
 public class ProdutoVestuario extends Produto {
 
     //Atributos
@@ -21,6 +24,10 @@ public class ProdutoVestuario extends Produto {
         super(codProduto, nome, preco, qtdEstoque, qtdVendidos, valorVendidos, marca, peso, categoria);
         this.tipoVestuario = tipoVestuario;
         this.tamanho = tamanho;
+    }
+
+    public ProdutoVestuario() {
+
     }
 
     //Metodos

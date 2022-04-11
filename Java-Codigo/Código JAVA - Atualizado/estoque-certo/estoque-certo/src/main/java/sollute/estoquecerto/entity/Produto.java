@@ -1,16 +1,34 @@
 package sollute.estoquecerto.entity;
 
-public abstract class Produto {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
+@Entity
+public abstract class Produto {
     //Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codProduto;
+    @NotBlank
     private String nome;
+    @PositiveOrZero
     private Double preco;
+    @PositiveOrZero
     private Integer qtdEstoque;
+    @PositiveOrZero
     private Integer qtdVendidos;
+    @PositiveOrZero
     private Double valorVendidos;
+    @NotBlank
     private String marca;
+    @Positive
     private Double peso;
+    @NotBlank
     private Character categoria;
 
     //Construtor
@@ -50,6 +68,10 @@ public abstract class Produto {
         this.marca = marca;
         this.peso = peso;
         this.categoria = categoria;
+    }
+
+    public Produto() {
+
     }
 
     //Metodos

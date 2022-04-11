@@ -1,18 +1,26 @@
 package sollute.estoquecerto.entity;
 
 
+import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Entity
 public class ProdutoServico extends Produto {
 
     //Atributos
+    @NotBlank
     private String nomeCliente;
+    @NotBlank
     private String whatsappCliente;
+    @NotBlank
     private String tipoServico;
+    @NotBlank
     private LocalDateTime dataAgendamento;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    String dataAgendamentoFormatada = dataAgendamento.format(formatter);
+//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//    String dataAgendamentoFormatada = dataAgendamento.format(formatter);
 
     //Construtor
     public ProdutoServico(Long codProduto,
@@ -32,6 +40,10 @@ public class ProdutoServico extends Produto {
         this.whatsappCliente = whatsappCliente;
         this.tipoServico = tipoServico;
         this.dataAgendamento = dataAgendamento;
+    }
+
+    public ProdutoServico() {
+
     }
 
     //Metodos
@@ -79,7 +91,7 @@ public class ProdutoServico extends Produto {
                 super.getPreco(),
                 super.pegaCategoria(),
                 tipoServico,
-                dataAgendamentoFormatada,
+                dataAgendamento,
                 nomeCliente,
                 whatsappCliente);
     }

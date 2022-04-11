@@ -3,6 +3,7 @@ package sollute.estoquecerto.entity;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Entity
 public class Empresa {
 
     //Atributos
@@ -47,6 +49,10 @@ public class Empresa {
         this.empresario = empresario;
         qtdProdutosVendidos = 0;
         totalProdutosVendidos = 0.0;
+    }
+
+    public Empresa() {
+
     }
 
     //Metodos

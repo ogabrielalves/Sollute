@@ -14,7 +14,7 @@ import javax.validation.Valid;
 public class EmpreendedorController {
 
     @Autowired
-    private EmpreendedorRepository repositoryEmpreendedor;
+    private EmpreendedorRepository repository;
 
     ListaObj<Empreendedor> listaEmpreendedor = new ListaObj(10);
 
@@ -22,7 +22,7 @@ public class EmpreendedorController {
     @PostMapping("/criarEmpreendedor")
     public ResponseEntity criaEmpreendedor(@RequestBody @Valid Empreendedor empreendedor) {
         listaEmpreendedor.adiciona(empreendedor);   // Salva localmente na ListaObj
-        repositoryEmpreendedor.save(empreendedor);  // Salva no Banco de Dados
+        repository.save(empreendedor);  // Salva no Banco de Dados
         return ResponseEntity.status(201).build();
     }
 
@@ -37,12 +37,12 @@ public class EmpreendedorController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Empreendedor> getEmpreendedor(@PathVariable long codigo) {
-        return ResponseEntity.of(repositoryEmpreendedor.findById(codigo));
+        return ResponseEntity.of(repository.findById(codigo));
     }
 
     @DeleteMapping("/{codigo}")
     public ResponseEntity deleteEmpreendedor(@PathVariable long codigo) {
-        repositoryEmpreendedor.deleteById(codigo);
+        repository.deleteById(codigo);
         return ResponseEntity.status(200).build();
     }
 }

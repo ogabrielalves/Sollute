@@ -1,17 +1,24 @@
 package sollute.estoquecerto.entity;
 
+import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Entity
 public class ProdutoAlimento extends Produto {
 
     //Atributos
+    @NotBlank
     private String tipoAlimento;
+    @NotNull
     private LocalDate dataFabricacao;
+    @NotNull
     private LocalDate dataValidade;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    String dataFabricacaoFormatada = dataFabricacao.format(formatter);
-    String dataValidadeFormatada = dataValidade.format(formatter);
+//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//    String dataFabricacaoFormatada = dataFabricacao.format(formatter);
+//    String dataValidadeFormatada = dataValidade.format(formatter);
 
     //Construtores
     public ProdutoAlimento(Long codProduto,
@@ -30,6 +37,10 @@ public class ProdutoAlimento extends Produto {
         this.tipoAlimento = tipoAlimento;
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
+    }
+
+    public ProdutoAlimento() {
+
     }
 
     //Metodos
@@ -77,8 +88,8 @@ public class ProdutoAlimento extends Produto {
                 super.getPreco(),
                 super.pegaCategoria(),
                 tipoAlimento,
-                dataFabricacaoFormatada,
-                dataValidadeFormatada);
+                dataFabricacao,
+                dataValidade);
     }
 
 
@@ -107,19 +118,4 @@ public class ProdutoAlimento extends Produto {
         this.dataValidade = dataValidade;
     }
 
-    public String getDataFabricacaoFormatada() {
-        return dataFabricacaoFormatada;
-    }
-
-    public void setDataFabricacaoFormatada(String dataFabricacaoFormatada) {
-        this.dataFabricacaoFormatada = dataFabricacaoFormatada;
-    }
-
-    public String getDataValidadeFormatada() {
-        return dataValidadeFormatada;
-    }
-
-    public void setDataValidadeFormatada(String dataValidadeFormatada) {
-        this.dataValidadeFormatada = dataValidadeFormatada;
-    }
 }
