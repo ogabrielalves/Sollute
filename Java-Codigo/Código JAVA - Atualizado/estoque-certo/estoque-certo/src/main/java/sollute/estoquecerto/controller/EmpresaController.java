@@ -57,7 +57,8 @@ public class EmpresaController {
     }
 
     @PostMapping("/criar-produto-vestuario/{cnpj}")
-    public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario, @PathVariable String cnpj) {
+    public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario,
+                                                   @PathVariable String cnpj) {
         if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
             repositoryProdutoVestuario.save(novoProdutoVestuario);    // Adicionado no Banco de Dados
             return ResponseEntity.status(201).build();
