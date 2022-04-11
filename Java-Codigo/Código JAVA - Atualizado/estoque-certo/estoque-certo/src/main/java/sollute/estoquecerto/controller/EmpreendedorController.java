@@ -27,13 +27,9 @@ public class EmpreendedorController {
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/listarEmpreendedores")
+    @GetMapping
     public ResponseEntity<List<Empreendedor>> listarEmpreendedores() {
-        if (listaEmpreendedor.getTamanho() == 0) {
-            return ResponseEntity.status(204).build();
-        } else {
-            return ResponseEntity.status(200).body(repository.findAll());
-        }
+        return ResponseEntity.status(200).body(repository.findAll());
     }
 
     @GetMapping("/{codigo}")

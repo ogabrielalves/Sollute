@@ -1,12 +1,16 @@
 package sollute.estoquecerto.entity;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class ProdutoVestuario extends Produto {
 
     //Atributos
+    @NotBlank
     private String tipoVestuario;
+
+    @NotBlank
     private String tamanho;
 
     //Construtor

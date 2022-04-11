@@ -21,17 +21,21 @@ public class Empresa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmpresa;
+
     @NotBlank
     @Length(min = 3, max = 45)
     private String nomeFantasia;
-    @CNPJ
+
     private String cnpj;
+
     private String inscricaoEstadual;
     @CPF
     private String cpfEmpresario;
+
     @Min(0)
     @Max(0)
     private int qtdProdutosVendidos;
+
     @Min(0)
     @Max(0)
     private double totalProdutosVendidos;

@@ -28,7 +28,7 @@ public class EmpresaController {
     ListaObj<Empresa> listaEmpresa = new ListaObj(10);
     ListaObj<Produto> listaProduto = new ListaObj(10);
 
-    @PostMapping("/criarEmpresa/{cpf}")
+    @PostMapping
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa,
                                       @PathVariable String cpf) {
         listaEmpresa.adiciona(novaEmpresa);
@@ -62,7 +62,7 @@ public class EmpresaController {
         return null;
     }
 
-    @PostMapping("/criarProdutoVestuario/{cnpj}")
+    @PostMapping("/criar-produto-vestuario/{cnpj}")
     public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario,
                                                    @PathVariable String cnpj) {
         for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
@@ -75,16 +75,9 @@ public class EmpresaController {
         return null;
     }
 
-    @GetMapping("/listarEmpresas")
+    @GetMapping
     public ResponseEntity<List<Empresa>> listarEmpresas() {
-        if (listaEmpresa.getTamanho() == 0) {
-            return ResponseEntity.status(204).build(); // Lista Vazia
-        } else {
-            // Retorno da ListaObj
-            return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
-            // Retorno do Banco de Dados
-            //return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
-        }
+        return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
     }
 
     @PostMapping("/venderProdutos/{cnpj}/{nome}/{qtd}")
@@ -152,7 +145,7 @@ public class EmpresaController {
         }
     }
 
-    @GetMapping("/listarProdutos/{idEmpresa}")
+    @GetMapping("/listar-produtos/{idEmpresa}")
     public ResponseEntity listarProdutosPorCnpj(@PathVariable Long idEmpresa) {
         for (long i = 0; i < repositoryEmpresa.count(); i++) {
             if (repositoryEmpresa.findByIdEmpresa(i).getIdEmpresa() == idEmpresa) {

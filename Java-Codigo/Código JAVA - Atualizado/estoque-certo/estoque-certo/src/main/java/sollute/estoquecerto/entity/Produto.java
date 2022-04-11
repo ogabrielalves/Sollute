@@ -15,20 +15,28 @@ public abstract class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codProduto;
+
     @NotBlank
     private String nome;
+
     @PositiveOrZero
     private Double preco;
+
     @PositiveOrZero
     private Integer qtdEstoque;
+
     @PositiveOrZero
     private Integer qtdVendidos;
+
     @PositiveOrZero
     private Double valorVendidos;
+
     @NotBlank
     private String marca;
+
     @Positive
     private Double peso;
+
     @NotBlank
     private String categoria;
 
