@@ -1,43 +1,43 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import ProductService from '../../../Services/Product/ProductService';
 const service = new ProductService()
 
-function ProductList(){
+function ProductList(props) {
 
     const [pageSize, setPageSize] = useState(10)
     const [page, setPage] = useState(0)
 
     const [items, setItems] = useState([])
-    const [rowCount, setRowCount] = useState(0)
 
-    useEffect(()=>{
+    useEffect(() => {
         getData()
-        async function getData(){
+        async function getData() {
 
-            const apiResponse = await service.getProdutos()          
+            const apiResponse = await service.getProdutos()
+            console.log(apiResponse)
+
+            setItems(apiResponse)
         }
     }, [])
 
-    return(
+    return (
         <DataGrid
-                sortable={true}
-                filter={true}
-                density="compact"
-                autoWidth={true}
-                rowHeight={70}
-                columns={columns}
+            sortable={true}
+            filter={true}
+            density="compact"
+            autoWidth={true}
+            rowHeight={70}
+            columns={columns}
+            getRowId={(row) => row.codProduto}
+            rows={items}           
+            page={page}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            onPageChange={(newPage) => setPage(newPage)}
 
-                rows={items}
-                paginationMode="server"
-                page={page}
-                pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                onPageChange={(newPage)=>setPage(newPage)}
-    	        rowCount={rowCount}
-
-                rowsPerPageOptions={[10, 20, 30]}
-                autoHeight={true} >
+            rowsPerPageOptions={[10, 20, 30]}
+            autoHeight={true} >
         </DataGrid>
     )
 }
@@ -68,7 +68,7 @@ const columns = [
         field: "peso",
         headerName: "Peso",
         width: 120
-    },   
+    },
     {
         field: "categoria",
         headerName: "Categoria",
@@ -77,9 +77,9 @@ const columns = [
     {
         field: "tipoVestuario",
         headerName: "Tipo de vestuario",
-        width:220
+        width: 220
     }
-    
+
 ];
 
 export default ProductList;

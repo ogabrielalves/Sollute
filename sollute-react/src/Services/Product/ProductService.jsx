@@ -12,7 +12,7 @@ class ProductService {
   }
 
   async getProdutos() {
-    return await axios.get(`${urlBase}/listar-produtos/55756157000133`, {
+    return await axios.get(`http://localhost:8080/empresas/listar-produtos-vestuario/55756157000133`, {
       headers: headers
     })
       .then(res => res.data)
