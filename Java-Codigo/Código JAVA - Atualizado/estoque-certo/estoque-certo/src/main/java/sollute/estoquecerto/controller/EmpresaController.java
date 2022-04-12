@@ -31,6 +31,12 @@ public class EmpresaController {
     ListaObj<Empresa> listaEmpresa = new ListaObj(10);
     ListaObj<Produto> listaProduto = new ListaObj(10);
 
+    @PostMapping("/login/{email}/{senha}")
+    public ResponseEntity logarEmpresa(@PathVariable String email,
+                                       @PathVariable String senha) {
+        return null;
+    }
+
     @PostMapping
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa,
                                       @PathVariable String cpf) {
