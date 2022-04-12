@@ -12,9 +12,19 @@ class ProductService {
   }
 
   async getProdutos() {
-    return await axios.get(`http://localhost:8080/empresas/listar-produtos-vestuario/55756157000133`, {
+    return await axios.get(`${urlBase}/listar-produtos-vestuario/55756157000133`, {
       headers: headers
     })
+      .then(res => res.data)
+      .catch((err) => {
+        console.error(`request failed ${err}`);
+      });
+  }
+
+  async postProdutos(obj) {
+    return await axios.post(`${urlBase}/criar-produto-vestuario/55756157000133`, 
+      obj
+    )
       .then(res => res.data)
       .catch((err) => {
         console.error(`request failed ${err}`);

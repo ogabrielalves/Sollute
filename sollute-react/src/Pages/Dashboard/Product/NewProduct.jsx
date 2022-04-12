@@ -1,6 +1,7 @@
-import React from 'react';
+import { React, useState } from 'react';
 import Dashboard from '../../../Components/Dashboard/Dashboard';
 import { TextField, Grid, Button } from '@mui/material';
+import ProductService from '../../../Services/Product/ProductService'
 
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -16,6 +17,31 @@ const styleGridButton = {
 
 
 function NewProduct() {
+    const [nome, setNome] = useState('');
+    const [marca, setMarca] = useState('');
+    const [categoria, setCategoria] = useState('');
+    const [peso, setPeso] = useState('');
+    const [estoque, setEstoque] = useState('');
+    const [preco, setPreco] = useState('');
+
+    async function postProduto() {
+        const service = new ProductService()
+        await service.postProdutos({
+            "cnpj": "55756157000133",
+            "nome": nome,
+            "preco": preco,
+            "qtdEstoque": estoque,
+            "qtdVendidos": 0,
+            "valorVendidos": 0,
+            "marca": marca,
+            "peso": peso,
+            "categoria": categoria,
+            "tipoVestuario": "Camisa",
+            "tamanho": "M"
+        })
+    }
+
+
     return (
         <Dashboard>
             <Grid container spacing={3}>
@@ -27,19 +53,19 @@ function NewProduct() {
                     <h2>Dados Gerais</h2>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Nome do produto" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Nome do produto" variant="outlined" onChange={(evt) => setNome(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField fullWidth id="outlined-basic" label="Código do produto" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Marca do produto" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Marca do produto" variant="outlined" onChange={(evt) => setMarca(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Categoria" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Categoria" variant="outlined" onChange={(evt) => setCategoria(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Peso" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Peso" variant="outlined" onChange={(evt) => setPeso(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField fullWidth id="outlined-basic" label="Validade" variant="outlined" />
@@ -49,7 +75,7 @@ function NewProduct() {
                     <h2>Estoque</h2>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Estoque Inicial" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Estoque Inicial" variant="outlined" onChange={(evt) => setEstoque(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField fullWidth id="outlined-basic" label="Estoque Mínimo" variant="outlined" />
@@ -65,7 +91,7 @@ function NewProduct() {
                     <TextField fullWidth id="outlined-basic" label="Preço de compra" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Preço de venda" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Preço de venda" variant="outlined" onChange={(evt) => setPreco(evt.target.value)} />
                 </Grid>
 
 
@@ -75,6 +101,7 @@ function NewProduct() {
                             fullWidth
                             variant="contained"
                             startIcon={<CheckCircleIcon />}
+                            onClick={() => postProduto()}
                         >
                             Finalizar
                         </Button>
