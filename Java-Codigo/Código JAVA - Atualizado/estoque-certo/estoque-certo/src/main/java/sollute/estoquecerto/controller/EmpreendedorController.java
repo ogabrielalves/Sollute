@@ -8,41 +8,38 @@ import sollute.estoquecerto.entity.ListaObj;
 import sollute.estoquecerto.repository.EmpreendedorRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/empreendedores")
 public class EmpreendedorController {
 
     @Autowired
-    private EmpreendedorRepository repositoryEmpreendedor;
+    private EmpreendedorRepository repository;
 
     ListaObj<Empreendedor> listaEmpreendedor = new ListaObj(10);
 
     // Aqui é criado somente o empreendedor, item essencial para a criação de uma empresa
-    @PostMapping("/criarEmpreendedor")
+    @PostMapping
     public ResponseEntity criaEmpreendedor(@RequestBody @Valid Empreendedor empreendedor) {
         listaEmpreendedor.adiciona(empreendedor);   // Salva localmente na ListaObj
-        repositoryEmpreendedor.save(empreendedor);  // Salva no Banco de Dados
+        repository.save(empreendedor);  // Salva no Banco de Dados
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/listarEmpreendedores")
-    public ResponseEntity<ListaObj<Empreendedor>> listarEmpreendedores() {
-        if (listaEmpreendedor.getTamanho() == 0) {
-            return ResponseEntity.status(204).build();
-        } else {
-            return ResponseEntity.status(200).body(listaEmpreendedor);
-        }
+    @GetMapping
+    public ResponseEntity<List<Empreendedor>> listarEmpreendedores() {
+        return ResponseEntity.status(200).body(repository.findAll());
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Empreendedor> getEmpreendedor(@PathVariable long codigo) {
-        return ResponseEntity.of(repositoryEmpreendedor.findById(codigo));
+        return ResponseEntity.of(repository.findById(codigo));
     }
 
     @DeleteMapping("/{codigo}")
     public ResponseEntity deleteEmpreendedor(@PathVariable long codigo) {
-        repositoryEmpreendedor.deleteById(codigo);
+        repository.deleteById(codigo);
         return ResponseEntity.status(200).build();
     }
 }

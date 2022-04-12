@@ -1,56 +1,48 @@
 package sollute.estoquecerto.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
+@Entity
 public abstract class Produto {
 
     //Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codProduto;
+
+    @NotBlank
+    private String cnpj;
+
+    @NotBlank
     private String nome;
+
+    @PositiveOrZero
     private Double preco;
+
+    @PositiveOrZero
     private Integer qtdEstoque;
+
+    @PositiveOrZero
     private Integer qtdVendidos;
+
+    @PositiveOrZero
     private Double valorVendidos;
+
+    @NotBlank
     private String marca;
+
+    @Positive
     private Double peso;
-    private Character categoria;
 
-    //Construtor
-    public Produto(Long codProduto,
-                   String nome,
-                   double preco,
-                   Integer qtdEstoque,
-                   Integer qtdVendidos,
-                   Double valorVendidos,
-                   String marca,
-                   Double peso,
-                   Character categoria) {
-        this.codProduto = codProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.qtdEstoque = qtdEstoque;
-        this.qtdVendidos = qtdVendidos;
-        this.valorVendidos = valorVendidos;
-        this.marca = marca;
-        this.peso = peso;
-        this.categoria = categoria;
-    }
+    @NotBlank
+    private String categoria;
 
-    public Produto(Long codProduto,
-                   String nome,
-                   double preco,
-                   Integer qtdVendidos,
-                   Double valorVendidos,
-                   String marca,
-                   Double peso,
-                   Character categoria) {
-        this.codProduto = codProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.qtdVendidos = qtdVendidos;
-        this.valorVendidos = valorVendidos;
-        this.marca = marca;
-        this.peso = peso;
-        this.categoria = categoria;
-    }
 
     //Metodos
     public abstract Boolean vender(int i);
@@ -79,20 +71,32 @@ public abstract class Produto {
                 valorVendidos,  // %4.2f
                 marca,          // %10s
                 peso,           // %4.1f
-                pegaCategoria());     // %10s
+                categoria);     // %10s
     }
 
-    public String pegaCategoria() {
-        if (categoria.equals("v")) {
-            return "Vestuário";
-        } else if (categoria.equals("a")) {
-            return "Alimento";
-        } else {
-            return "Serviço";
-        }
-    }
+//    public String pegaCategoria() {
+//        if (categoria.equals("v")) {
+//            return "Vestuário";
+//        } else if (categoria.equals("a")) {
+//            return "Alimento";
+//        } else {
+//            return "Serviço";
+//        }
+//    }
 
     //Getters and Setters
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
     public Long getCodProduto() {
         return codProduto;
     }
@@ -157,11 +161,11 @@ public abstract class Produto {
         this.peso = peso;
     }
 
-    public Character getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Character categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 }

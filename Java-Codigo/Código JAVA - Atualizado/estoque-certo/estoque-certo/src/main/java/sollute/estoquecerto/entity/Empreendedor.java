@@ -28,8 +28,8 @@ public class Empreendedor {
     @PastOrPresent
     @NotNull
     private LocalDate nascimento;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    String dataNascimentoFormatada = nascimento.format(formatter);
+//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//    String dataNascimentoFormatada = nascimento.format(formatter);
 
     //Construtor
     public Empreendedor(String nome, String cpf, LocalDate nascimento) {
@@ -57,7 +57,7 @@ public class Empreendedor {
                 idEmpreendedor,
                 nome,
                 cpf,
-                dataNascimentoFormatada);
+                nascimento);
     }
 
     //Getters and Setters

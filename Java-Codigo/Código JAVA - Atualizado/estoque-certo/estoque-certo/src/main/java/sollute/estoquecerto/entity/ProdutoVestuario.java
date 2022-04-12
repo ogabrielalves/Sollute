@@ -1,27 +1,18 @@
 package sollute.estoquecerto.entity;
 
+import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
+
+@Entity
 public class ProdutoVestuario extends Produto {
 
     //Atributos
+    @NotBlank
     private String tipoVestuario;
+
+    @NotBlank
     private String tamanho;
 
-    //Construtor
-    public ProdutoVestuario(Long codProduto,
-                            String nome,
-                            Double preco,
-                            Integer qtdEstoque,
-                            Integer qtdVendidos,
-                            Double valorVendidos,
-                            String marca,
-                            Double peso,
-                            Character categoria,
-                            String tipoVestuario,
-                            String tamanho) {
-        super(codProduto, nome, preco, qtdEstoque, qtdVendidos, valorVendidos, marca, peso, categoria);
-        this.tipoVestuario = tipoVestuario;
-        this.tamanho = tamanho;
-    }
 
     //Metodos
     @Override
@@ -64,7 +55,7 @@ public class ProdutoVestuario extends Produto {
                 super.getValorVendidos(),
                 super.getMarca(),
                 super.getPreco(),
-                super.pegaCategoria(),
+                super.getCategoria(),
                 tipoVestuario,
                 tamanho);
     }
