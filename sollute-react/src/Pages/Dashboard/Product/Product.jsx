@@ -70,7 +70,7 @@ function Product() {
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
-                    <ProductList></ProductList>
+                    <ProductList/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Button

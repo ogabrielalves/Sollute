@@ -4,7 +4,6 @@ package sollute.estoquecerto.entity;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,7 +18,7 @@ public class ProdutoServico extends Produto {
     @NotBlank
     private String tipoServico;
     @NotBlank
-    private LocalDate dataAgendamento;
+    private LocalDateTime dataAgendamento;
 //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //    String dataAgendamentoFormatada = dataAgendamento.format(formatter);
 
@@ -99,11 +98,11 @@ public class ProdutoServico extends Produto {
         this.tipoServico = tipoServico;
     }
 
-    public LocalDate getDataAgendamento() {
+    public LocalDateTime getDataAgendamento() {
         return dataAgendamento;
     }
 
-    public void setDataAgendamento(LocalDate dataAgendamento) {
+    public void setDataAgendamento(LocalDateTime dataAgendamento) {
         this.dataAgendamento = dataAgendamento;
     }
 }

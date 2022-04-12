@@ -31,12 +31,6 @@ public class EmpresaController {
     ListaObj<Empresa> listaEmpresa = new ListaObj(10);
     ListaObj<Produto> listaProduto = new ListaObj(10);
 
-    @PostMapping("/login/{email}/{senha}")
-    public ResponseEntity logarEmpresa(@PathVariable String email,
-                                       @PathVariable String senha) {
-        return null;
-    }
-
     @PostMapping
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa,
                                       @PathVariable String cpf) {
@@ -147,7 +141,7 @@ public class EmpresaController {
 
     @GetMapping("/listar-produtos-vestuario/{cnpj}")
     public ResponseEntity<List<ProdutoVestuario>> listarProdutosVestuarioPorCnpj(@PathVariable @Valid String cnpj) {
-      return ResponseEntity.status(200).body(repositoryProdutoVestuario.findByCnpj(cnpj));
+        return ResponseEntity.status(200).body(repositoryProdutoVestuario.findByCnpj(cnpj));
     }
 
     @GetMapping("/listar-produtos-servico/{cnpj}")

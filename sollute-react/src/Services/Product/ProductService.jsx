@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const urlBase = process.env.REACT_APP_PAYGO_API_INTEGRATION;
+const urlBase = 'http://localhost:8080/empresas';
 const headers = {
   'Content-Type': 'application/json'
 };
@@ -11,8 +11,8 @@ class ProductService {
     };
   }
 
-  async getPOSPagination(page, pageSize, filters = '') {
-    return await axios.get(`${urlBase}/api/accreditation/point-of-sales?page=${page}&limit=${pageSize}${filters}`, {
+  async getProdutos() {
+    return await axios.get(`${urlBase}/listar-produtos/55756157000133`, {
       headers: headers
     })
       .then(res => res.data)

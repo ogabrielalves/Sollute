@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProdutoVestuarioRepository extends JpaRepository<ProdutoVestuario, Long> {
 
     List<ProdutoVestuario> findByCnpj(String cnpj);
+
 }
