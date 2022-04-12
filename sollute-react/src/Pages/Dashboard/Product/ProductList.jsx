@@ -47,7 +47,7 @@ const columns = [
     {
         field: "nome",
         headerName: "Nome",
-        width: 120
+        width: 290
     },
     {
         field: "preco",
@@ -67,12 +67,12 @@ const columns = [
     {
         field: "peso",
         headerName: "Peso",
-        width: 280
+        width: 120
     },   
     {
         field: "categoria",
         headerName: "Categoria",
-        width: 120
+        width: 150
     },
     {
         field: "tipoVestuario",

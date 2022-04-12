@@ -7,8 +7,10 @@ import Login from './Pages/Login/Login';
 import Contact from './Pages/Contact/Contact';
 import Plans from './Pages/Plans/Plans';
 
-import Product from './Pages/Dashboard/Product/Product'
-import HomeDashboard from './Pages/Dashboard/Home/Home'
+import Product from './Pages/Dashboard/Product/Product';
+import NewProduct from './Pages/Dashboard/Product/NewProduct';
+import EditProduct from './Pages/Dashboard/Product/EditProduct';
+import HomeDashboard from './Pages/Dashboard/Home/Home';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route exact path="/plans" element={<Plans/>} />
 
         <Route exact path="/dashboard/product" element={<Product/>} />
+        <Route exact path="/dashboard/new-product" element={<NewProduct/>} />
+        <Route exact path="/dashboard/edit-product" element={<EditProduct/>} />
         <Route exact path="/dashboard" element={<HomeDashboard/>} />
       </Routes>
     </Router>
