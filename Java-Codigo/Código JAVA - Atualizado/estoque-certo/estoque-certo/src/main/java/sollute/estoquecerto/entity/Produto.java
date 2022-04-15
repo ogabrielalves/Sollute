@@ -22,11 +22,33 @@ public abstract class Produto {
     @NotBlank
     private String nome;
 
-    @PositiveOrZero
-    private Double preco;
+    private String codigo;
+
+    @NotBlank
+    private String marca;
+
+    @NotBlank
+    private String categoria;
+
+    @Positive
+    private Double peso;
+
 
     @PositiveOrZero
-    private Integer qtdEstoque;
+    private Double precoCompra;
+
+    @PositiveOrZero
+    private Double precoVenda;
+
+
+    @PositiveOrZero
+    private Integer estoqueInicial;
+
+    @PositiveOrZero
+    private Integer estoqueMin;
+
+    private Integer estoqueMax;
+
 
     @PositiveOrZero
     private Integer qtdVendidos;
@@ -34,68 +56,10 @@ public abstract class Produto {
     @PositiveOrZero
     private Double valorVendidos;
 
-    @NotBlank
-    private String marca;
-
-    @Positive
-    private Double peso;
-
-    @NotBlank
-    private String categoria;
-
-
     //Metodos
     public abstract Boolean vender(int i);
 
-    @Override
-    public String toString() {
-        return String.format("" +
-                        "%6s %20s %9s %7s %7s %6s %10s %5s %10s" +
-                        "%06d %-20s %7.2f %7d %7d %4.2f %10s %4.1f %10s",
-                // Cabeçalho
-                "ID",
-                "Nome do Produto",
-                "Preco",
-                "Estoque",
-                "Vendidos",
-                "Valor dos Vendidos",
-                "Marca",
-                "Peso",
-                "Categoria",
-                // Corpo
-                codProduto,     // %06d
-                nome,           // %-20s
-                preco,          // %7.2f
-                qtdEstoque,     // %7d
-                qtdVendidos,    // %7d
-                valorVendidos,  // %4.2f
-                marca,          // %10s
-                peso,           // %4.1f
-                categoria);     // %10s
-    }
-
-//    public String pegaCategoria() {
-//        if (categoria.equals("v")) {
-//            return "Vestuário";
-//        } else if (categoria.equals("a")) {
-//            return "Alimento";
-//        } else {
-//            return "Serviço";
-//        }
-//    }
-
     //Getters and Setters
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
 
     public Long getCodProduto() {
         return codProduto;
@@ -103,6 +67,14 @@ public abstract class Produto {
 
     public void setCodProduto(Long codProduto) {
         this.codProduto = codProduto;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public String getNome() {
@@ -113,20 +85,76 @@ public abstract class Produto {
         this.nome = nome;
     }
 
-    public Double getPreco() {
-        return preco;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public Integer getQtdEstoque() {
-        return qtdEstoque;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setQtdEstoque(Integer qtdEstoque) {
-        this.qtdEstoque = qtdEstoque;
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
+    public Double getPrecoCompra() {
+        return precoCompra;
+    }
+
+    public void setPrecoCompra(Double precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
+    public Double getPrecoVenda() {
+        return precoVenda;
+    }
+
+    public void setPrecoVenda(Double precoVenda) {
+        this.precoVenda = precoVenda;
+    }
+
+    public Integer getEstoqueInicial() {
+        return estoqueInicial;
+    }
+
+    public void setEstoqueInicial(Integer estoqueInicial) {
+        this.estoqueInicial = estoqueInicial;
+    }
+
+    public Integer getEstoqueMin() {
+        return estoqueMin;
+    }
+
+    public void setEstoqueMin(Integer estoqueMin) {
+        this.estoqueMin = estoqueMin;
+    }
+
+    public Integer getEstoqueMax() {
+        return estoqueMax;
+    }
+
+    public void setEstoqueMax(Integer estoqueMax) {
+        this.estoqueMax = estoqueMax;
     }
 
     public Integer getQtdVendidos() {
@@ -143,29 +171,5 @@ public abstract class Produto {
 
     public void setValorVendidos(Double valorVendidos) {
         this.valorVendidos = valorVendidos;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public Double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(Double peso) {
-        this.peso = peso;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 }

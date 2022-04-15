@@ -45,17 +45,22 @@ function ProductList(props) {
 
 const columns = [
     {
+        field: "codigo",
+        headerName: "Código do produto",
+        width: 290
+    },
+    {
         field: "nome",
         headerName: "Nome",
         width: 290
     },
     {
-        field: "preco",
+        field: "precoVenda",
         headerName: "Preço",
         width: 200
     },
     {
-        field: "qtdEstoque",
+        field: "estoqueInicial",
         headerName: "Quantidade em estoque",
         width: 200
     },

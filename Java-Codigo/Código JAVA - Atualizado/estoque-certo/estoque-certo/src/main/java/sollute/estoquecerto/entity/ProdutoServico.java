@@ -26,51 +26,16 @@ public class ProdutoServico extends Produto {
     //Metodos
     @Override
     public Boolean vender(int i) {
-        if ((getQtdEstoque() - i) < 0) {
+        if ((getEstoqueInicial() - i) < 0) {
             System.out.println("Estoque insuficiente");
             return false;
         } else {
-            setQtdEstoque(getQtdEstoque() - i);
+            setEstoqueInicial(getEstoqueInicial() - i);
             super.setQtdVendidos(getQtdVendidos() + i);
-            super.setValorVendidos(super.getPreco() * i);
-            super.setPreco(super.getPreco()*1);
+            super.setValorVendidos(super.getPrecoVenda() * i);
+            super.setPrecoVenda(super.getPrecoVenda()*1);
             return true;
         }
-    }
-
-    @Override
-    public String toString() {
-        return String.format("" +
-                        "%6s %20s %9s %7s %7s %6s %10s %5s %10s %15s %15s %20s %12s" +
-                        "%06d %-20s %7.2f %7d %7d %4.2f %10s %4.1f %10s %15s %15s %20s %12s",
-                // Cabeçalho
-                "ID",
-                "Nome do Produto",
-                "Preco",
-                "Estoque",
-                "Vendidos",
-                "Valor dos Vendidos",
-                "Marca",
-                "Peso",
-                "Categoria",
-                "Tipo de Serviço",
-                "Data Agendada",
-                "Nome do Cliente",
-                "Whatsapp",
-                // Corpo
-                super.getCodProduto(),
-                super.getNome(),
-                super.getPreco(),
-                super.getQtdEstoque(),
-                super.getQtdVendidos(),
-                super.getValorVendidos(),
-                super.getMarca(),
-                super.getPreco(),
-                super.getCategoria(),
-                tipoServico,
-                dataAgendamento,
-                nomeCliente,
-                whatsappCliente);
     }
 
     // Getters e Setters

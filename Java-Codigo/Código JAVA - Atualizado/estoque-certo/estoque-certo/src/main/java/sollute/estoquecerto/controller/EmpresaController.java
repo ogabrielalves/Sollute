@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
-import sollute.estoquecerto.repository.EmpresaRepository;
-import sollute.estoquecerto.repository.ProdutoAlimentoRepository;
-import sollute.estoquecerto.repository.ProdutoServicoRepository;
-import sollute.estoquecerto.repository.ProdutoVestuarioRepository;
+import sollute.estoquecerto.repository.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +24,9 @@ public class EmpresaController {
 
     @Autowired
     private ProdutoVestuarioRepository repositoryProdutoVestuario;
+
+    @Autowired
+    private ProdutoRepository repositoryProduto;
 
     ListaObj<Empresa> listaEmpresa = new ListaObj(10);
     ListaObj<Produto> listaProduto = new ListaObj(10);
@@ -99,7 +99,7 @@ public class EmpresaController {
                         if (p.getNome().equals(nome)) {
                             // Verificando se o objeto do FOR é da classe ProdutoAlimento
                             if (p instanceof ProdutoAlimento) {
-                                if (p.getQtdEstoque() - qtd >= 0) {
+                                if (p.getEstoqueInicial() - qtd >= 0) {
                                     p.vender(qtd);
                                     e.setQtdProdutosVendidos(qtd);
                                     e.setTotalProdutosVendidos(p.getValorVendidos());
@@ -110,7 +110,7 @@ public class EmpresaController {
 
                             // Verificando se o objeto do FOR é da classe ProdutoServico
                             if (p instanceof ProdutoServico) {
-                                if (p.getQtdEstoque() - qtd >= 0) {
+                                if (p.getEstoqueInicial() - qtd >= 0) {
                                     p.vender(qtd);
                                     e.setQtdProdutosVendidos(qtd);
                                     e.setTotalProdutosVendidos(p.getValorVendidos());
@@ -121,7 +121,7 @@ public class EmpresaController {
 
                             // Verificando se o objeto do FOR é da classe ProdutoVestuario
                             if (p instanceof ProdutoVestuario) {
-                                if (p.getQtdEstoque() - qtd >= 0) {
+                                if (p.getEstoqueInicial() - qtd >= 0) {
                                     p.vender(qtd);
                                     e.setQtdProdutosVendidos(qtd);
                                     e.setTotalProdutosVendidos(p.getValorVendidos());
@@ -186,5 +186,11 @@ public class EmpresaController {
             }
         }
         return ResponseEntity.status(404).build(); // Empresa não encontrada.
+    }
+
+    @DeleteMapping("/deletar-produto/{codigo}")
+    public ResponseEntity deletarProduto(@PathVariable Long codigo) {
+        repositoryProduto.deleteById(codigo);
+        return ResponseEntity.status(200).build();
     }
 }

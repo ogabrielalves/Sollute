@@ -16,18 +16,18 @@ const leftBar = {
 }
 
 const rightBar = {
-    backgroundColor: "#DAD2F1", 
-    display: 'flex', 
-    flexDirection: 'column', 
-    alignItems: 'center', 
+    backgroundColor: "#DAD2F1",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center'
 }
 
 const botaoCadastrese = {
-    width: 400, 
-    fontWeight: 'bold', 
-    marginTop: 10, 
-    backgroundColor: '#511281', 
+    width: 400,
+    fontWeight: 'bold',
+    marginTop: 10,
+    backgroundColor: '#511281',
     borderColor: '#511281'
 }
 
@@ -52,8 +52,11 @@ function Login() {
                     <TextField fullWidth id="outlined-basic" label="Senha" variant="outlined" type={'password'} />
                 </Grid>
                 <Grid>
-                    <Button fullWidth
-                        variant="contained">
+                    <Button
+                        fullWidth
+                        onClick={() => window.location.href = "/dashboard"}
+                        variant="contained"
+                        >
                         Logar
                     </Button>
                     <Grid mt={2}>
@@ -64,14 +67,14 @@ function Login() {
             </Grid>
 
             <Grid item xs={7} style={rightBar}>
-                
+
                 <img width={400} src={ImagemCadastro} alt="img-cadastro" />
 
-                <span style={{ fontWeight: 'bold', fontSize: 18}}>Ainda não possui uma conta?</span>
+                <span style={{ fontWeight: 'bold', fontSize: 18 }}>Ainda não possui uma conta?</span>
 
 
                 <Button fullWidth variant="contained" style={botaoCadastrese} onClick={() => window.location.href = "/register"}>Cadstre-se</Button>
-            
+
             </Grid>
         </Grid >
     );

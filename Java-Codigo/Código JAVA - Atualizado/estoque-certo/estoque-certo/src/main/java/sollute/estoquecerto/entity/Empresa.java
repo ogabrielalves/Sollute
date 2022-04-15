@@ -94,7 +94,7 @@ public class Empresa {
         for (int i = 0; i < lista.getTamanho(); i++) {
             // Verificando se está com baixa quantidade em estoque
             // No caso, menor ou igual a 3
-            if (lista.getElemento(i).getQtdEstoque() <= 3) {
+            if (lista.getElemento(i).getEstoqueInicial() <= 3) {
                 produtosEmAlerta.adiciona(lista.getElemento(i));
             }
             // veficando se o alimento está vencendo...

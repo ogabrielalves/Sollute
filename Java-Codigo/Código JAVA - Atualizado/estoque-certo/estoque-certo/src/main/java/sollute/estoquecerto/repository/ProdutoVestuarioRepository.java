@@ -9,4 +9,7 @@ public interface ProdutoVestuarioRepository extends JpaRepository<ProdutoVestuar
 
     List<ProdutoVestuario> findByCnpj(String cnpj);
 
+    List<ProdutoVestuario> findByCodigo(String codigo);
+
+    void deleteByCodigo(String codigo);
 }
