@@ -30,13 +30,11 @@ public abstract class Produto {
     @Positive
     private Double peso;
 
-
     @PositiveOrZero
     private Double precoCompra;
 
     @PositiveOrZero
     private Double precoVenda;
-
 
     @PositiveOrZero
     private Integer estoqueInicial;
@@ -44,8 +42,8 @@ public abstract class Produto {
     @PositiveOrZero
     private Integer estoqueMin;
 
+    @PositiveOrZero
     private Integer estoqueMax;
-
 
     @PositiveOrZero
     private Integer qtdVendidos;
