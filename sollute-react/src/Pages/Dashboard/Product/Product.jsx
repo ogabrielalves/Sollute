@@ -66,6 +66,7 @@ function Product() {
                     <Button
                         fullWidth
                         variant="contained"
+                        onClick={() => window.location.href = "/dashboard/delete-product"}
                         endIcon={<DeleteIcon />}
                     >
                         Excluir Produto

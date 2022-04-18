@@ -30,6 +30,11 @@ class ProductService {
         console.error(`request failed ${err}`);
       });
   }
+
+  async deleteProdutos({ codigo }) {
+    const { data } = await axios.delete(`${urlBase}/deletar-produto/${codigo}`);
+    return data;
+  }
 }
 
 

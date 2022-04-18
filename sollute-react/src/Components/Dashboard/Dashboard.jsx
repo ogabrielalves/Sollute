@@ -89,7 +89,7 @@ function DashboardContent(props) {
         link: '',
         icon: <GroupIcon />
     }];
- 
+
     const drawerWidth = 240;
 
     const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -116,7 +116,7 @@ function DashboardContent(props) {
                 }),
             },
         }),
-    );  
+    );
 
     React.useEffect(() => {
         if (matches) {
@@ -140,7 +140,7 @@ function DashboardContent(props) {
                         px: [1],
                     }}
                 >
-                    <img src={LogoSollute} width={'70%'} className="logo_style" alt="" />
+                    <Link to={'/'}><img src={LogoSollute} width={'70%'} className="logo_style" alt="" /></Link>
                     <IconButton onClick={toggleDrawer}>
                         <ChevronLeftIcon />
                     </IconButton>
