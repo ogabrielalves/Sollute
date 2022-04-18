@@ -31,9 +31,9 @@ function NewProduct() {
     async function postProduto() {
         const service = new ProductService()
         await service.postProdutos({
+            "codigo": codigo,
             "cnpj": "55756157000133",
             "nome": nome,
-            "codigo": codigo,
             "marca": marca,
             "categoria": categoria,
             "peso": peso,
@@ -64,7 +64,7 @@ function NewProduct() {
                     <TextField required fullWidth id="outlined-basic" label="Nome do produto" variant="outlined" onChange={(evt) => setNome(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth id="outlined-basic" label="Código do produto" variant="outlined" onChange={(evt) => setCodigo(evt.target.value)}/>
+                    <TextField fullWidth id="outlined-basic" label="Código do produto" variant="outlined" onChange={(evt) => setCodigo(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField required fullWidth id="outlined-basic" label="Marca do produto" variant="outlined" onChange={(evt) => setMarca(evt.target.value)} />
@@ -86,17 +86,17 @@ function NewProduct() {
                     <TextField required fullWidth id="outlined-basic" label="Estoque Inicial" variant="outlined" onChange={(evt) => setEstoqueInicial(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField required fullWidth id="outlined-basic" label="Estoque Mínimo" variant="outlined" onChange={(evt) => setEstoqueMin(evt.target.value)}/>
+                    <TextField required fullWidth id="outlined-basic" label="Estoque Mínimo" variant="outlined" onChange={(evt) => setEstoqueMin(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField required fullWidth id="outlined-basic" label="Estoque Máximo" variant="outlined" onChange={(evt) => setEstoqueMax(evt.target.value)}/>
+                    <TextField required fullWidth id="outlined-basic" label="Estoque Máximo" variant="outlined" onChange={(evt) => setEstoqueMax(evt.target.value)} />
                 </Grid>
 
                 <Grid item xs={12}>
                     <h2>Preços</h2>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField required fullWidth id="outlined-basic" label="Preço de compra" variant="outlined" onChange={(evt) => setPrecoCompra(evt.target.value)}/>
+                    <TextField required fullWidth id="outlined-basic" label="Preço de compra" variant="outlined" onChange={(evt) => setPrecoCompra(evt.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField required fullWidth id="outlined-basic" label="Preço de venda" variant="outlined" onChange={(evt) => setPrecoVenda(evt.target.value)} />

@@ -29,7 +29,7 @@ function ProductList(props) {
             autoWidth={true}
             rowHeight={70}
             columns={columns}
-            getRowId={(row) => row.codProduto}
+            getRowId={(row) => row.codigo}
             rows={items}           
             page={page}
             pageSize={pageSize}

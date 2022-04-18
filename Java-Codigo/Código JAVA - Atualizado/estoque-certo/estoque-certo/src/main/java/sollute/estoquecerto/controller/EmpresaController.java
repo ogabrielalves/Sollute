@@ -189,7 +189,7 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/deletar-produto/{codigo}")
-    public ResponseEntity deletarProduto(@PathVariable Long codigo) {
+    public ResponseEntity deletarProduto(@PathVariable String codigo) {
         repositoryProduto.deleteById(codigo);
         return ResponseEntity.status(200).build();
     }

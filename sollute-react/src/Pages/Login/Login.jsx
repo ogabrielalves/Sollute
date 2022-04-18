@@ -39,7 +39,7 @@ function Login() {
 
             <Grid item xs={5} style={leftBar}>
 
-                <Grid mb={12} style={{ marginLeft: 140 }}>
+                <Grid mb={12} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                     <img src={LogoSollute} alt="Logo Sollute" onClick={() => window.location.href = "/"} style={{ cursor: 'pointer' }} />
                     <Grid mt={6}>
                         <span style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Acesse seu Perfil da Sollute</span>

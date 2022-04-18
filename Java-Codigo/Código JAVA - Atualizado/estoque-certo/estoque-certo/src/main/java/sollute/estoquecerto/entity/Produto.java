@@ -13,16 +13,13 @@ public abstract class Produto {
 
     //Atributos
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codProduto;
+    private String codigo;
 
     @NotBlank
     private String cnpj;
 
     @NotBlank
     private String nome;
-
-    private String codigo;
 
     @NotBlank
     private String marca;
@@ -60,15 +57,6 @@ public abstract class Produto {
     public abstract Boolean vender(int i);
 
     //Getters and Setters
-
-    public Long getCodProduto() {
-        return codProduto;
-    }
-
-    public void setCodProduto(Long codProduto) {
-        this.codProduto = codProduto;
-    }
-
     public String getCnpj() {
         return cnpj;
     }
