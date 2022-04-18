@@ -22,6 +22,9 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmpresa;
 
+    private String login;
+    private String senha;
+
     @NotBlank
     @Length(min = 3, max = 45)
     private String nomeFantasia;
@@ -39,6 +42,8 @@ public class Empresa {
     @Min(0)
     @Max(0)
     private double totalProdutosVendidos;
+
+    private boolean autenticado;
 
     //Construtor
     public Empresa(
@@ -207,5 +212,29 @@ public class Empresa {
 
     public void setCpfEmpresario(String cpfEmpresario) {
         this.cpfEmpresario = cpfEmpresario;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public boolean isAutenticado() {
+        return autenticado;
+    }
+
+    public void setAutenticado(boolean autenticado) {
+        this.autenticado = autenticado;
     }
 }

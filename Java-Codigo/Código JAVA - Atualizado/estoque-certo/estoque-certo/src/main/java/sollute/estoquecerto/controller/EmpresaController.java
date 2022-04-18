@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
+import sollute.estoquecerto.request.EmpresaResponse;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,6 +31,20 @@ public class EmpresaController {
 
     ListaObj<Empresa> listaEmpresa = new ListaObj(10);
     ListaObj<Produto> listaProduto = new ListaObj(10);
+
+    @PostMapping("/autenticacao")
+    public ResponseEntity postAutenticado(
+            @RequestBody EmpresaResponse requisicao) {
+        List<Empresa> empresa = repositoryEmpresa.findAll();
+        for (Empresa e : empresa) {
+            if (e.getLogin().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
+                repositoryEmpresa.atualizarAutenticado(requisicao.getLogin(), true);
+                return ResponseEntity.status(200).body(e);
+            }
+        }
+        return ResponseEntity.status(404).build();
+    }
+
 
     @PostMapping
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa,

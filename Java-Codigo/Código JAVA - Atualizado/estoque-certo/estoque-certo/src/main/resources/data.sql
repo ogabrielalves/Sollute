@@ -11,8 +11,8 @@ values
 
 -- Criando empresas
 insert into empresa
-(nome_fantasia, cnpj, inscricao_estadual, cpf_empresario, qtd_produtos_vendidos, total_produtos_vendidos)
+(nome_fantasia, cnpj, inscricao_estadual, cpf_empresario, qtd_produtos_vendidos, total_produtos_vendidos, login, senha, autenticado)
 values
-('Loja do Jose', '55756157000133', '616.085.042.411', '386.218.240-19', 0, 0),
-('Loja da Maria', '28961059000165', '616.085.042.411', '052.664.570-90', 0, 0),
-('Loja da Julieta', '2258575000102', '616.085.042.411', '663.162.930-62', 0, 0);
+('Loja do Jose', '55756157000133', '616.085.042.411', '386.218.240-19', 0, 0, 'jose', '123456', false),
+('Loja da Maria', '28961059000165', '616.085.042.411', '052.664.570-90', 0, 0, 'maria', '123', false),
+('Loja da Julieta', '2258575000102', '616.085.042.411', '663.162.930-62', 0, 0, 'julieta', '456', false);
