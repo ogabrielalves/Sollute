@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -35,12 +35,12 @@ function Register() {
             case 2:
                 if (matches) {
                     styleButtonBack = {
-                        width: '35.5%'                       
+                        width: '35.5%'
                     }
                 }
                 else {
                     styleButtonBack = {
-                        width: '34%'                       
+                        width: '34%'
                     }
                 }
                 break;
@@ -52,12 +52,25 @@ function Register() {
     }
 
     // Usado para mudar a página
-    const [one, setOne] = React.useState(true);
-    const [two, setTwo] = React.useState(false);
-    const [three, setThree] = React.useState(false);
+    const [one, setOne] = useState(true);
+    const [two, setTwo] = useState(false);
+    const [three, setThree] = useState(false);
+
+    const [emailInput, setEmailInput] = useState('');
+    const [senhaInput, setSenhaInput] = useState('');
+    const [nomeFantasiaInput, setNomeFantasiaInput] = useState('');
+    const [razaoSocialInput, setRazaoSocialInput] = useState('');
+    const [cnpjInput, setCnpjInput] = useState('');
+    const [cepInput, setCepInput] = useState('');
+    const [ufInput, setUfInput] = useState('');
+    const [cidadeInput, setCidadeInput] = useState('');
+    const [logradouroInput, setLogradouroInput] = useState('');
+    const [pontoRefInput, setPontoRefInput] = useState('');
 
     return (
-        <div>
+        <form onSubmit={(evt) => {
+            evt.preventDefault();
+        }}>
             {/* Step One */}
             {one &&
                 <RegisterPage>
@@ -67,10 +80,24 @@ function Register() {
                             <p style={{ color: '#8E8E8E', width: '60%' }}>Coloque seu e-mail e senha, suas informações estarão seguras conosco.</p>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} >
-                            <TextField fullWidth id="outlined-basic" label="E-mail" variant="outlined" type={'email'} />
+                            <TextField
+                                value={emailInput}
+                                onChange={(evt) => { setEmailInput(evt.target.value) }}
+                                fullWidth
+                                id="email"
+                                label="E-mail"
+                                variant="outlined"
+                                type={'email'} />
                         </Grid>
                         <Grid item xs={12} md={8}>
-                            <TextField fullWidth id="outlined-basic" label="Senha" variant="outlined" type={'password'} />
+                            <TextField
+                                alue={senhaInput}
+                                onChange={(evt) => { setSenhaInput(evt.target.value) }}
+                                fullWidth
+                                id="senha"
+                                label="Senha"
+                                variant="outlined"
+                                type={'password'} />
                         </Grid>
                         <Grid item md={4}></Grid>
                         <Grid item md={4}></Grid>
@@ -99,15 +126,33 @@ function Register() {
                             <p style={{ color: '#8E8E8E', width: '60%' }}>Coloque mais informações sobre sua empresa, para saber de como devemos chama-la.</p>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} style={{ display: 'flex', alignItems: 'center' }}>
-                            <TextField fullWidth id="outlined-basic" label="Nome Fantasia" variant="outlined" />
+                            <TextField
+                                value={nomeFantasiaInput}
+                                onChange={(evt) => { setNomeFantasiaInput(evt.target.value) }}
+                                fullWidth
+                                id="nomeFantasia"
+                                label="Nome Fantasia"
+                                variant="outlined" />
                             <PopOver>O nome fantasia é o nome da sua marca.</PopOver>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} style={{ display: 'flex', alignItems: 'center' }}>
-                            <TextField fullWidth id="outlined-basic" label="Razão Social" variant="outlined" />
+                            <TextField
+                                value={razaoSocialInput}
+                                onChange={(evt) => { setRazaoSocialInput(evt.target.value) }}
+                                fullWidth
+                                id="razaoSocial"
+                                label="Razão Social"
+                                variant="outlined" />
                             <PopOver>A razão social é o nome completo da Pessoa Física seguido do CPF do titular do MEI.</PopOver>
                         </Grid>
                         <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center', marginBottom: 6 }}>
-                            <TextField fullWidth id="outlined-basic" label="CNPJ" variant="outlined" />
+                            <TextField
+                                value={cnpjInput}
+                                onChange={(evt) => { setCnpjInput(evt.target.value) }}
+                                fullWidth
+                                id="cnpj"
+                                label="CNPJ"
+                                variant="outlined" />
                             <PopOver>O número estará no seu CCMEI, o Certificado da Condição do Microempreendedor Individual.</PopOver>
                         </Grid>
                         <Grid item md={4}></Grid>
@@ -146,20 +191,50 @@ function Register() {
                             <p style={{ color: '#8E8E8E', width: '60%' }}>Digite seu endereço para sabermos onde fica localizado sua empresa, apenas para fins comerciais.</p>
                         </Grid>
                         <Grid item xs={12} md={8} mb={2} >
-                            <TextField fullWidth id="outlined-basic" label="CEP" variant="outlined" />
+                            <TextField
+                                value={cepInput}
+                                onChange={(evt) => { setCepInput(evt.target.value) }}
+                                fullWidth
+                                id="cep"
+                                label="CEP"
+                                variant="outlined" />
                         </Grid>
                         <Grid item xs={4}></Grid>
                         <Grid item xs={12} md={1} mb={2}>
-                            <TextField fullWidth id="outlined-basic" label="UF" variant="outlined" />
+                            <TextField
+                                value={ufInput}
+                                onChange={(evt) => { setUfInput(evt.target.value) }}
+                                fullWidth
+                                id="uf"
+                                label="UF"
+                                variant="outlined" />
                         </Grid>
                         <Grid item xs={12} md={7} mb={2}>
-                            <TextField fullWidth id="outlined-basic" label="Cidade" variant="outlined" />
+                            <TextField
+                                value={cidadeInput}
+                                onChange={(evt) => { setCidadeInput(evt.target.value) }}
+                                fullWidth
+                                id="cidade"
+                                label="Cidade"
+                                variant="outlined" />
                         </Grid>
                         <Grid item xs={12} md={8} mb={2}>
-                            <TextField fullWidth id="outlined-basic" label="Logradouro" variant="outlined" />
+                            <TextField
+                                value={logradouroInput}
+                                onChange={(evt) => { setLogradouroInput(evt.target.value) }}
+                                fullWidth
+                                id="logradouro"
+                                label="Logradouro"
+                                variant="outlined" />
                         </Grid>
                         <Grid item xs={12} md={8}>
-                            <TextField fullWidth id="outlined-basic" label="Ponto de refêrencia" variant="outlined" />
+                            <TextField
+                                value={pontoRefInput}
+                                onChange={(evt) => { setPontoRefInput(evt.target.value) }}
+                                fullWidth
+                                id="pontoDeReferencia"
+                                label="Ponto de refêrencia"
+                                variant="outlined" />
                         </Grid>
                         <Grid item md={4}></Grid>
                         <Grid item md={4}></Grid>
@@ -178,17 +253,14 @@ function Register() {
                                 style={screenFit(2)}
                                 variant="contained"
                                 endIcon={<CheckIcon />}
-                                onClick={() => {
-                                    setTwo(false)
-                                    setThree(true)
-                                }}>
+                                type='submit'>
                                 Finalizar
                             </Button>
                         </Grid>
                     </Grid>
                 </RegisterPage>
             }
-        </div>
+        </form>
     );
 
 }
