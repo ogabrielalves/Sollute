@@ -22,7 +22,7 @@ class ProductService {
   }
 
   async postProdutos(obj) {
-    return await axios.post(`${urlBase}/criar-produto-vestuario/55756157000133`, 
+    return await axios.post(`${urlBase}/criar-produto-vestuario/55756157000133`,
       obj
     )
       .then(res => res.data)
@@ -31,9 +31,9 @@ class ProductService {
       });
   }
 
-  async deleteProdutos({ codigo }) {
-    const { data } = await axios.delete(`${urlBase}/deletar-produto/${codigo}`);
-    return data;
+  deleteProdutos({ codigo }) {
+    axios.delete(`${urlBase}/deletar-produto/${codigo}`);
+
   }
 }
 

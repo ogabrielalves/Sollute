@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import Dashboard from '../../../Components/Dashboard/Dashboard';
-import ProductService from '../../../Services/Product/ProductService';
+import axios from 'axios';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { Grid, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function DeleteProduct() {
+
+    const navigate = useNavigate();
+
     const center = {
         display: 'flex',
         alignItems: 'center',
@@ -16,11 +20,10 @@ function DeleteProduct() {
 
     const [id, setId] = useState('');
 
-    async function deleteProduto(id) {
-        const service = new ProductService()
-        await service.deleteProdutos(id)
+    function deleteProduto(codigo) {
+        axios.delete(`http://localhost:8080/empresas/deletar-produto/${codigo}`);
     }
-    deleteProduto(id)
+
     return (
         <Dashboard>
             <form action="">
@@ -36,7 +39,10 @@ function DeleteProduct() {
                     <Grid item xs={12}></Grid>
                     <Grid item xs={12} md={4}>
                         <Button
-                            onClick={deleteProduto(id)}
+                            onClick={() => {
+                                deleteProduto(id)
+                                navigate('/dashboard/product')
+                            }}
                             fullWidth
                             variant="contained"
                             startIcon={<DeleteIcon />}
@@ -48,7 +54,7 @@ function DeleteProduct() {
                         <Button
                             fullWidth
                             variant="outlined"
-                            onClick={() => window.location.href = "/dashboard/product"}
+                            onClick={() => navigate("/dashboard/product")}
                             startIcon={<ArrowBackIcon />}
                         >
                             Voltar

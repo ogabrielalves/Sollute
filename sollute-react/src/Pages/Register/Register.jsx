@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import RegisterService from '../../Services/Register/RegisterService';
+import { useNavigate } from 'react-router-dom';
 
 import RegisterPage from '../../Components/RegisterPage/RegisterPage';
 import PopOver from '../../Components/PopOver/PopOver';
@@ -13,6 +15,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 function Register() {
     const matches = useMediaQuery('(max-width:1325px)');
+    const navigate = useNavigate();
 
     function screenFit(page) {
         var styleButtonBack = 0;
@@ -56,6 +59,7 @@ function Register() {
     const [two, setTwo] = useState(false);
     const [three, setThree] = useState(false);
 
+    // Campos para o cadastro
     const [emailInput, setEmailInput] = useState('');
     const [senhaInput, setSenhaInput] = useState('');
     const [nomeFantasiaInput, setNomeFantasiaInput] = useState('');
@@ -66,6 +70,30 @@ function Register() {
     const [cidadeInput, setCidadeInput] = useState('');
     const [logradouroInput, setLogradouroInput] = useState('');
     const [pontoRefInput, setPontoRefInput] = useState('');
+
+    // States para
+    const [errosCep, setErrosCep] = useState({ cep: { valido: true, texto: "" } });
+    const [errosUf, setErrosUf] = useState({ uf: { valido: true, texto: "" } });
+
+    // Função para criação de usuário
+    async function registerEmpresa() {
+        const service = new RegisterService()
+        await service.postEmpresa({
+            "login": emailInput,
+            "senha": senhaInput,
+            "nomeFantasia": nomeFantasiaInput,
+            "razaoSocial": razaoSocialInput,
+            "cnpj": cnpjInput,
+            "cep": cepInput,
+            "uf": ufInput,
+            "cidade": cidadeInput,
+            "logradouro": logradouroInput,
+            "pontoReferencia": pontoRefInput,
+            "qtdProdutosVendidos": 0,
+            "totalProdutosVendidos": 0,
+            "autenticado": false
+        })
+    }
 
     return (
         <form onSubmit={(evt) => {
@@ -194,6 +222,12 @@ function Register() {
                             <TextField
                                 value={cepInput}
                                 onChange={(evt) => { setCepInput(evt.target.value) }}
+                                onBlur={(evt) => {
+                                    const ehValido = validarCEP(cepInput)
+                                    setErrosCep({ cep: ehValido })
+                                }}
+                                error={!errosCep.cep.valido}
+                                helperText={errosCep.cep.texto}
                                 fullWidth
                                 id="cep"
                                 label="CEP"
@@ -204,6 +238,12 @@ function Register() {
                             <TextField
                                 value={ufInput}
                                 onChange={(evt) => { setUfInput(evt.target.value) }}
+                                onBlur={(evt) => {
+                                    const ehValido = validarUF(ufInput)
+                                    setErrosUf({ uf: ehValido })
+                                }}
+                                error={!errosUf.uf.valido}
+                                helperText={errosUf.uf.texto}
                                 fullWidth
                                 id="uf"
                                 label="UF"
@@ -253,6 +293,10 @@ function Register() {
                                 style={screenFit(2)}
                                 variant="contained"
                                 endIcon={<CheckIcon />}
+                                onClick={() => {
+                                    registerEmpresa()
+                                    navigate('/login')
+                                }}
                                 type='submit'>
                                 Finalizar
                             </Button>
@@ -262,6 +306,26 @@ function Register() {
             }
         </form>
     );
+
+    // Validações
+
+    function validarCEP(cepInput) {
+        if (cepInput.length !== 8) {
+            return { valido: false, texto: "CEP deve ter 8 dígitos." }
+        }
+        else {
+            return { valido: true, texto: "" }
+        }
+    }
+
+    function validarUF(ufInput) {
+        if (ufInput.length !== 2) {
+            return { valido: false, texto: "UF deve ter 2 dígitos." }
+        }
+        else {
+            return { valido: true, texto: "" }
+        }
+    }
 
 }
 
