@@ -47,8 +47,7 @@ public class EmpresaController {
 
 
     @PostMapping
-    public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa,
-                                      @PathVariable String cpf) {
+    public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa) {
         listaEmpresa.adiciona(novaEmpresa);
         repositoryEmpresa.save(novaEmpresa);
         return ResponseEntity.status(201).build();
@@ -205,7 +204,7 @@ public class EmpresaController {
 
     @DeleteMapping("/deletar-produto/{codigo}")
     public ResponseEntity deletarProduto(@PathVariable String codigo) {
-        repositoryProduto.deleteById(codigo);
+        repositoryProdutoVestuario.deleteById(codigo);
         return ResponseEntity.status(200).build();
     }
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -22,18 +23,30 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmpresa;
 
+    @Email(message = "Insira um e-mail válido")
     private String login;
+
+    @NotBlank
     private String senha;
 
     @NotBlank
     @Length(min = 3, max = 45)
     private String nomeFantasia;
 
+    @Length(min = 3, max = 45)
+    private String razaoSocial;
+
     private String cnpj;
 
-    private String inscricaoEstadual;
-    @CPF
-    private String cpfEmpresario;
+    @Length(min = 8, max = 8, message = "O CEP deve conter 8 digitos.")
+    private String cep;
+
+    @Length(min = 2, max = 2)
+    private String uf;
+
+    private String cidade;
+    private String logradouro;
+    private String pontoReferencia;
 
     @Min(0)
     @Max(0)
@@ -44,27 +57,6 @@ public class Empresa {
     private double totalProdutosVendidos;
 
     private boolean autenticado;
-
-    //Construtor
-    public Empresa(
-            String nomeFantasia,
-            String cnpj,
-            String inscricaoEstadual,
-            String cpfEmpresario) {
-        this.nomeFantasia = nomeFantasia;
-        this.cnpj = cnpj;
-        this.inscricaoEstadual = inscricaoEstadual;
-        this.cpfEmpresario = cpfEmpresario;
-        qtdProdutosVendidos = 0;
-        totalProdutosVendidos = 0.0;
-    }
-
-    public Empresa() {
-
-    }
-
-    public Empresa(Empresa byIdEmpresa) {
-    }
 
     // Metodos
     public void venderProduto(ListaObj<Empreendedor> listaE,
@@ -134,29 +126,6 @@ public class Empresa {
         return totalProdutosVendidos;
     }
 
-    // toString()
-    @Override
-    public String toString() {
-        return String.format("" +
-                        "%6s %25s %15s %10s %20s %20s %15s" +
-                        "%06d %-25s %15s %10s %20s %5d %4.1f",
-                // Cabeçalho
-                "ID",
-                "Nome da Empresa",
-                "CNPJ",
-                "Empreendedor",
-                "Inscrição Estadual",
-                "Produtos Vendidos",
-                "Valor Vendidos",
-                // Corpo
-                idEmpresa,
-                nomeFantasia,
-                cnpj,
-                // empresario.getNome(),
-                inscricaoEstadual,
-                qtdProdutosVendidos,
-                totalProdutosVendidos);
-    }
 
     public Long getIdEmpresa() {
         return idEmpresa;
@@ -164,54 +133,6 @@ public class Empresa {
 
     public void setIdEmpresa(Long idEmpresa) {
         this.idEmpresa = idEmpresa;
-    }
-
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getInscricaoEstadual() {
-        return inscricaoEstadual;
-    }
-
-    public void setInscricaoEstadual(String inscricaoEstadual) {
-        this.inscricaoEstadual = inscricaoEstadual;
-    }
-
-    public int getQtdProdutosVendidos() {
-        return qtdProdutosVendidos;
-    }
-
-    public void setQtdProdutosVendidos(int qtdProdutosVendidos) {
-        this.qtdProdutosVendidos = qtdProdutosVendidos;
-    }
-
-    public double getTotalProdutosVendidos() {
-        return totalProdutosVendidos;
-    }
-
-    public void setTotalProdutosVendidos(double totalProdutosVendidos) {
-        this.totalProdutosVendidos = totalProdutosVendidos;
-    }
-
-    public String getCpfEmpresario() {
-        return cpfEmpresario;
-    }
-
-    public void setCpfEmpresario(String cpfEmpresario) {
-        this.cpfEmpresario = cpfEmpresario;
     }
 
     public String getLogin() {
@@ -228,6 +149,86 @@ public class Empresa {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getPontoReferencia() {
+        return pontoReferencia;
+    }
+
+    public void setPontoReferencia(String pontoReferencia) {
+        this.pontoReferencia = pontoReferencia;
+    }
+
+    public int getQtdProdutosVendidos() {
+        return qtdProdutosVendidos;
+    }
+
+    public void setQtdProdutosVendidos(int qtdProdutosVendidos) {
+        this.qtdProdutosVendidos = qtdProdutosVendidos;
+    }
+
+    public double getTotalProdutosVendidos() {
+        return totalProdutosVendidos;
+    }
+
+    public void setTotalProdutosVendidos(double totalProdutosVendidos) {
+        this.totalProdutosVendidos = totalProdutosVendidos;
     }
 
     public boolean isAutenticado() {
