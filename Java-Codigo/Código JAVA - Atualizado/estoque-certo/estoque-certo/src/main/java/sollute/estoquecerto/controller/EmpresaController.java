@@ -42,7 +42,7 @@ public class EmpresaController {
                 return ResponseEntity.status(200).body(e);
             }
         }
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(401).build();
     }
 
 

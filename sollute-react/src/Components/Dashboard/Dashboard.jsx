@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -15,11 +14,12 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuPopUp from '../MenuPopUp/MenuPopUp';
-import LogoSollute from '../../Assets/Image/Logo2-modelo.svg'
+import LogoSollute from '../../Assets/Image/Logo4-cor.svg'
 
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import PersonIcon from '@mui/icons-material/Person';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -97,6 +97,7 @@ function DashboardContent(props) {
             '& .MuiDrawer-paper': {
                 position: 'relative',
                 whiteSpace: 'nowrap',
+                backgroundColor: '#3E00FF',
                 width: drawerWidth,
                 transition: theme.transitions.create('width', {
                     easing: theme.transitions.easing.sharp,
@@ -136,13 +137,15 @@ function DashboardContent(props) {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        px: [1],
+                        justifyContent: 'center',
+                        px: [5]
                     }}
                 >
-                    <Link to={'/'}><img src={LogoSollute} width={'70%'} className="logo_style" alt="" /></Link>
+                    <Link to={'/'}><img src={LogoSollute} width={'100%'} className="logo_style" alt="" /></Link>
                     <IconButton onClick={toggleDrawer}>
-                        <ChevronLeftIcon />
+                        {open ?
+                            <ChevronLeftIcon sx={{ color: 'white' }} /> : <ChevronRightIcon sx={{ color: 'white' }} />
+                        }
                     </IconButton>
                 </Toolbar>
 
@@ -156,9 +159,9 @@ function DashboardContent(props) {
                             )
                         }
                         return (
-                            <Link key={text.title} to={text.link} style={{ textDecoration: 'none', color: '#000000' }}>
+                            <Link key={text.title} to={text.link} style={{ textDecoration: 'none', color: 'white' }}>
                                 <ListItem button>
-                                    <ListItemIcon>
+                                    <ListItemIcon style={{ color: 'white' }}>
                                         {text.icon}
                                     </ListItemIcon>
                                     <ListItemText primary={text.title} />

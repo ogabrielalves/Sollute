@@ -117,8 +117,7 @@ function NewProduct() {
                                 variant="contained"
                                 startIcon={<CheckCircleIcon />}
                                 onClick={() => {
-                                    postProduto()
-                                    navigate('/dashboard/product')
+                                    postProduto()                                    
                                 }}
                             >
                                 Criar produto
@@ -130,7 +129,7 @@ function NewProduct() {
                                 fullWidth
                                 variant="outlined"
                                 startIcon={<ArrowBackIcon />}
-                                onClick={() => window.location.href = "/dashboard/product"}
+                                onClick={() => navigate('/dashboard/product')}
                             >
                                 Voltar
                             </Button>

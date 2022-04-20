@@ -1,15 +1,11 @@
 import axios from 'axios';
+import { notify } from '../../Components/Notify/Notify';
 
 const urlBase = 'http://localhost:8080/empresas';
 const headers = {
   'Content-Type': 'application/json'
 };
 class ProductService {
-  constructor() {
-    this.state = {
-      data: []
-    };
-  }
 
   async getProdutos() {
     return await axios.get(`${urlBase}/listar-produtos-vestuario/55756157000133`, {
@@ -17,7 +13,7 @@ class ProductService {
     })
       .then(res => res.data)
       .catch((err) => {
-        console.error(`request failed ${err}`);
+        console.error(`Request Failed ${err}`);
       });
   }
 
@@ -25,15 +21,18 @@ class ProductService {
     return await axios.post(`${urlBase}/criar-produto-vestuario/55756157000133`,
       obj
     )
-      .then(res => res.data)
+      .then(res => {
+        notify('Produto criado com sucesso!', 'sucess')
+        return res.data
+      })
       .catch((err) => {
-        console.error(`request failed ${err}`);
+        notify('Erro ao criar produto.', 'error')
+        console.error(`Request Failed ${err}`);
       });
   }
 
   deleteProdutos({ codigo }) {
-    axios.delete(`${urlBase}/deletar-produto/${codigo}`);
-
+    axios.delete(`${urlBase}/deletar-produto/${codigo}`)
   }
 }
 

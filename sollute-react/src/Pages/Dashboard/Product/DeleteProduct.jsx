@@ -40,8 +40,7 @@ function DeleteProduct() {
                     <Grid item xs={12} md={4}>
                         <Button
                             onClick={() => {
-                                deleteProduto(id)
-                                navigate('/dashboard/product')
+                                deleteProduto(id)                                
                             }}
                             fullWidth
                             variant="contained"
