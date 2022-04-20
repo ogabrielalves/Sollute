@@ -26,6 +26,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from 'react-router-dom'
 
@@ -88,6 +89,11 @@ function DashboardContent(props) {
         title: 'Clientes',
         link: '',
         icon: <GroupIcon />
+    },
+    {
+        title: 'Sair',
+        link: '/login',
+        icon: <LogoutIcon />
     }];
 
     const drawerWidth = 240;

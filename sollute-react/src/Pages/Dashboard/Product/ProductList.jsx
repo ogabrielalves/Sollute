@@ -77,14 +77,8 @@ const columns = [
     {
         field: "categoria",
         headerName: "Categoria",
-        width: 150
-    },
-    {
-        field: "tipoVestuario",
-        headerName: "Tipo de vestuario",
-        width: 220
+        width: 180
     }
-
 ];
 
 export default ProductList;

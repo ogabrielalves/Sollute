@@ -18,15 +18,6 @@ public class EmpresaController {
     private EmpresaRepository repositoryEmpresa;
 
     @Autowired
-    private ProdutoAlimentoRepository repositoryProdutoAlimento;
-
-    @Autowired
-    private ProdutoServicoRepository repositoryProdutoServico;
-
-    @Autowired
-    private ProdutoVestuarioRepository repositoryProdutoVestuario;
-
-    @Autowired
     private ProdutoRepository repositoryProduto;
 
     ListaObj<Empresa> listaEmpresa = new ListaObj(10);
@@ -45,7 +36,6 @@ public class EmpresaController {
         return ResponseEntity.status(401).build();
     }
 
-
     @PostMapping
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa) {
         listaEmpresa.adiciona(novaEmpresa);
@@ -53,31 +43,11 @@ public class EmpresaController {
         return ResponseEntity.status(201).build();
     }
 
-    @PostMapping("/criar-produto-alimento/{cnpj}")
-    public ResponseEntity adicionaProdutoAlimento(@RequestBody @Valid ProdutoAlimento novoProdutoAlimento,
-                                                  @PathVariable String cnpj) {
+    @PostMapping("/criar-produto/{cnpj}")
+    public ResponseEntity adicionaProduto(@RequestBody @Valid Produto novoProduto,
+                                          @PathVariable String cnpj) {
         if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
-            repositoryProdutoAlimento.save(novoProdutoAlimento);    // Adicionado no Banco de Dados
-            return ResponseEntity.status(201).build();
-        }
-        return ResponseEntity.status(404).build();
-    }
-
-    @PostMapping("/criar-produto-servico/{cnpj}")
-    public ResponseEntity adicionaProdutoServico(@RequestBody @Valid ProdutoServico novoProdutoServico,
-                                                 @PathVariable String cnpj) {
-        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
-            repositoryProdutoServico.save(novoProdutoServico);    // Adicionado no Banco de Dados
-            return ResponseEntity.status(201).build();
-        }
-        return ResponseEntity.status(404).build();
-    }
-
-    @PostMapping("/criar-produto-vestuario/{cnpj}")
-    public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario,
-                                                   @PathVariable String cnpj) {
-        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
-            repositoryProdutoVestuario.save(novoProdutoVestuario);    // Adicionado no Banco de Dados
+            repositoryProduto.save(novoProduto);    // Adicionado no Banco de Dados
             return ResponseEntity.status(201).build();
         }
         return ResponseEntity.status(404).build();
@@ -112,7 +82,7 @@ public class EmpresaController {
                         // Verificando se o nome do produto é o mesmo do parâmetro
                         if (p.getNome().equals(nome)) {
                             // Verificando se o objeto do FOR é da classe ProdutoAlimento
-                            if (p instanceof ProdutoAlimento) {
+                            if (p instanceof Produto) {
                                 if (p.getEstoqueInicial() - qtd >= 0) {
                                     p.vender(qtd);
                                     e.setQtdProdutosVendidos(qtd);
@@ -123,7 +93,7 @@ public class EmpresaController {
                             }
 
                             // Verificando se o objeto do FOR é da classe ProdutoServico
-                            if (p instanceof ProdutoServico) {
+                            if (p instanceof Produto) {
                                 if (p.getEstoqueInicial() - qtd >= 0) {
                                     p.vender(qtd);
                                     e.setQtdProdutosVendidos(qtd);
@@ -134,7 +104,7 @@ public class EmpresaController {
                             }
 
                             // Verificando se o objeto do FOR é da classe ProdutoVestuario
-                            if (p instanceof ProdutoVestuario) {
+                            if (p instanceof Produto) {
                                 if (p.getEstoqueInicial() - qtd >= 0) {
                                     p.vender(qtd);
                                     e.setQtdProdutosVendidos(qtd);
@@ -153,22 +123,12 @@ public class EmpresaController {
         }
     }
 
-    @GetMapping("/listar-produtos-vestuario/{cnpj}")
-    public ResponseEntity<List<ProdutoVestuario>> listarProdutosVestuarioPorCnpj(@PathVariable @Valid String cnpj) {
-        return ResponseEntity.status(200).body(repositoryProdutoVestuario.findByCnpj(cnpj));
+    @GetMapping("/listar-produtos/{cnpj}")
+    public ResponseEntity<List<Produto>> listarProdutosVestuarioPorCnpj(@PathVariable @Valid String cnpj) {
+        return ResponseEntity.status(200).body(repositoryProduto.findByCnpj(cnpj));
     }
 
-    @GetMapping("/listar-produtos-servico/{cnpj}")
-    public ResponseEntity<List<ProdutoServico>> listarProdutosServicoPorCnpj(@PathVariable @Valid String cnpj) {
-        return ResponseEntity.status(200).body(repositoryProdutoServico.findByCnpj(cnpj));
-    }
-
-    @GetMapping("/listar-produtos-alimento/{cnpj}")
-    public ResponseEntity<List<ProdutoAlimento>> listarProdutosAlimentoPorCnpj(@PathVariable @Valid String cnpj) {
-        return ResponseEntity.status(200).body(repositoryProdutoAlimento.findByCnpj(cnpj));
-    }
-
-    @GetMapping("/calcularProdutosVendidos/{cnpj}")
+    @GetMapping("/calcular-produtos-vendidos/{cnpj}")
     public ResponseEntity calcularProdutosVendidos(@PathVariable String cnpj) {
         if (cnpj.length() != 14) {
             return ResponseEntity.status(400).build(); // CNPJ inválido.
@@ -185,7 +145,7 @@ public class EmpresaController {
         return ResponseEntity.status(404).build(); // Empresa não encontrada.
     }
 
-    @GetMapping("/calcularValorVendidos/{cnpj}")
+    @GetMapping("/calcular-valor-vendidos/{cnpj}")
     public ResponseEntity calcularValorVendidos(@PathVariable String cnpj) {
         if (cnpj.length() != 14) {
             return ResponseEntity.status(400).build(); // CNPJ inválido.
@@ -204,7 +164,7 @@ public class EmpresaController {
 
     @DeleteMapping("/deletar-produto/{codigo}")
     public ResponseEntity deletarProduto(@PathVariable String codigo) {
-        repositoryProdutoVestuario.deleteById(codigo);
+        repositoryProduto.deleteById(codigo);
         return ResponseEntity.status(200).build();
     }
 }

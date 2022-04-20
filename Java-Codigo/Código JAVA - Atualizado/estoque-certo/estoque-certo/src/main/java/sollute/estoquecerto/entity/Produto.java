@@ -12,14 +12,15 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
-public abstract class Produto {
+public class Produto {
 
     //Atributos
     @Id
+    @NotBlank(message = "ID é necessario.")
     private String codigo;
 
     @NotBlank
-    @Length(min = 14, max = 14)
+    @Length(min = 14, max = 14, message = "CNPJ deve ter 14 dígitos.")
     private String cnpj;
 
     @NotBlank
@@ -34,7 +35,7 @@ public abstract class Produto {
     @Length(min = 3, max = 45)
     private String categoria;
 
-    @Positive
+    @PositiveOrZero
     private Double peso;
 
     @PositiveOrZero
@@ -59,7 +60,9 @@ public abstract class Produto {
     private Double valorVendidos;
 
     //Metodos
-    public abstract Boolean vender(int i);
+    public Boolean vender(int i) {
+        return true;
+    };
 
     //Getters and Setters
     public String getCnpj() {

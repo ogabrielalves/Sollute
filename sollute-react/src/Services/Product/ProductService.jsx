@@ -8,7 +8,7 @@ const headers = {
 class ProductService {
 
   async getProdutos() {
-    return await axios.get(`${urlBase}/listar-produtos-vestuario/55756157000133`, {
+    return await axios.get(`${urlBase}/listar-produtos/55756157000133`, {
       headers: headers
     })
       .then(res => res.data)
@@ -18,7 +18,7 @@ class ProductService {
   }
 
   async postProdutos(obj) {
-    return await axios.post(`${urlBase}/criar-produto-vestuario/55756157000133`,
+    return await axios.post(`${urlBase}/criar-produto/55756157000133`,
       obj
     )
       .then(res => {

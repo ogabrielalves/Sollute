@@ -47,15 +47,8 @@ public class Empresa {
     private String cidade;
     private String logradouro;
     private String pontoReferencia;
-
-    @Min(0)
-    @Max(0)
     private int qtdProdutosVendidos;
-
-    @Min(0)
-    @Max(0)
     private double totalProdutosVendidos;
-
     private boolean autenticado;
 
     // Metodos
@@ -95,7 +88,7 @@ public class Empresa {
                 produtosEmAlerta.adiciona(lista.getElemento(i));
             }
             // veficando se o alimento está vencendo...
-            if (lista.getElemento(i) instanceof ProdutoAlimento) {
+            if (lista.getElemento(i) instanceof Produto) {
                 if (lista.getElemento(i).equals(dataFormatada)) {
                     produtosEmAlerta.adiciona(lista.getElemento(i));
                 }
