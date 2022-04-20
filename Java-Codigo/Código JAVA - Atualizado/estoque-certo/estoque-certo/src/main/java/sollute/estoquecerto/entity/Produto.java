@@ -1,9 +1,12 @@
 package sollute.estoquecerto.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -16,15 +19,19 @@ public abstract class Produto {
     private String codigo;
 
     @NotBlank
+    @Length(min = 14, max = 14)
     private String cnpj;
 
     @NotBlank
+    @Length(min = 2, max = 45)
     private String nome;
 
     @NotBlank
+    @Length(min = 2, max = 45)
     private String marca;
 
     @NotBlank
+    @Length(min = 3, max = 45)
     private String categoria;
 
     @Positive
@@ -42,7 +49,7 @@ public abstract class Produto {
     @PositiveOrZero
     private Integer estoqueMin;
 
-    @PositiveOrZero
+    @Positive
     private Integer estoqueMax;
 
     @PositiveOrZero

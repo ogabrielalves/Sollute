@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuPopUp from '../MenuPopUp/MenuPopUp';
-import LogoSollute from '../../Assets/Image/Logo4-cor.svg'
+import LogoSollute from '../../Assets/Image/Logo2-modelo.svg'
 
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -97,7 +97,6 @@ function DashboardContent(props) {
             '& .MuiDrawer-paper': {
                 position: 'relative',
                 whiteSpace: 'nowrap',
-                backgroundColor: '#3E00FF',
                 width: drawerWidth,
                 transition: theme.transitions.create('width', {
                     easing: theme.transitions.easing.sharp,
@@ -144,7 +143,7 @@ function DashboardContent(props) {
                     <Link to={'/'}><img src={LogoSollute} width={'100%'} className="logo_style" alt="" /></Link>
                     <IconButton onClick={toggleDrawer}>
                         {open ?
-                            <ChevronLeftIcon sx={{ color: 'white' }} /> : <ChevronRightIcon sx={{ color: 'white' }} />
+                            <ChevronLeftIcon /> : <ChevronRightIcon />
                         }
                     </IconButton>
                 </Toolbar>
@@ -159,9 +158,9 @@ function DashboardContent(props) {
                             )
                         }
                         return (
-                            <Link key={text.title} to={text.link} style={{ textDecoration: 'none', color: 'white' }}>
+                            <Link key={text.title} to={text.link} style={{ textDecoration: 'none' }}>
                                 <ListItem button>
-                                    <ListItemIcon style={{ color: 'white' }}>
+                                    <ListItemIcon >
                                         {text.icon}
                                     </ListItemIcon>
                                     <ListItemText primary={text.title} />
