@@ -4,18 +4,15 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "Empresa")
 public class Empresa {
 
     //Atributos
@@ -36,6 +33,7 @@ public class Empresa {
     @Length(min = 3, max = 45)
     private String razaoSocial;
 
+    @CNPJ
     private String cnpj;
 
     @Length(min = 8, max = 8, message = "O CEP deve conter 8 digitos.")
@@ -44,71 +42,82 @@ public class Empresa {
     @Length(min = 2, max = 2)
     private String uf;
 
+    @NotBlank
+    @Length(min = 3, max = 45)
     private String cidade;
+
+    @NotBlank
+    @Length(min = 3, max = 45)
     private String logradouro;
+
+    @NotBlank
+    @Length(min = 3, max = 45)
     private String pontoReferencia;
+
+    @PositiveOrZero
     private int qtdProdutosVendidos;
+
+    @PositiveOrZero
     private double totalProdutosVendidos;
+
+    @NotNull
     private boolean autenticado;
 
     // Metodos
-    public void venderProduto(ListaObj<Empreendedor> listaE,
-                              String cnpj,
-                              ListaObj<Produto> lista,
-                              Produto p,
-                              Integer qtd) {
-        boolean vendido = p.vender(qtd);
-        if (vendido) {
-            ListaObj<Produto> produtosVerificados = verificaStatus(listaE, cnpj, lista);
-            if (produtosVerificados.getTamanho() > 0) {
-                //notificarTodos(listaE, cnpj, produtosVerificados);
-                notificarTodos(listaE, produtosVerificados);
-            }
-        }
-    }
+//    public void venderProduto(ListaObj<Empreendedor> listaE,
+//                              String cnpj,
+//                              ListaObj<Produto> lista,
+//                              Produto p,
+//                              Integer qtd) {
+//        boolean vendido = p.vender(qtd);
+//        if (vendido) {
+//            ListaObj<Produto> produtosVerificados = verificaStatus(listaE, cnpj, lista);
+//            if (produtosVerificados.getTamanho() > 0) {
+//                //notificarTodos(listaE, cnpj, produtosVerificados);
+//                notificarTodos(listaE, produtosVerificados);
+//            }
+//        }
+//    }
+//
+//    public ListaObj<Produto> verificaStatus(ListaObj<Empreendedor> listaE,
+//                                            String cnpj,
+//                                            ListaObj<Produto> lista) {
+//
+//        LocalDate data = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("-7{dd/MM/yyyy}");
+//        String dataFormatada = data.format(formatter);
+//
+//        if (lista.getTamanho() == 0) {
+//            return null;
+//        }
+//
+//        ListaObj<Produto> produtosEmAlerta = new ListaObj<>(lista.getTamanho());
+//
+//        for (int i = 0; i < lista.getTamanho(); i++) {
+//            // Verificando se está com baixa quantidade em estoque
+//            // No caso, menor ou igual a 3
+//            if (lista.getElemento(i).getEstoqueInicial() <= 3) {
+//                produtosEmAlerta.adiciona(lista.getElemento(i));
+//            }
+//            // veficando se o alimento está vencendo...
+//            if (lista.getElemento(i) instanceof Produto) {
+//                if (lista.getElemento(i).equals(dataFormatada)) {
+//                    produtosEmAlerta.adiciona(lista.getElemento(i));
+//                }
+//            }
+//        }
+//        return produtosEmAlerta;
+//    }
+//
+//    public void notificarTodos(ListaObj<Empreendedor> listaE,
+//                               // String cnpj,
+//                               ListaObj<Produto> lista) {
+//        for (int i = 0; i < lista.getTamanho(); i++) {
+//            System.out.printf("\nO produto %s necessita de atenção", lista.getElemento(i).getNome());
+//        }
+//    }
 
-    public ListaObj<Produto> verificaStatus(ListaObj<Empreendedor> listaE,
-                                            String cnpj,
-                                            ListaObj<Produto> lista) {
-
-        LocalDate data = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("-7{dd/MM/yyyy}");
-        String dataFormatada = data.format(formatter);
-
-        if (lista.getTamanho() == 0) {
-            return null;
-        }
-
-        ListaObj<Produto> produtosEmAlerta = new ListaObj<>(lista.getTamanho());
-
-        for (int i = 0; i < lista.getTamanho(); i++) {
-            // Verificando se está com baixa quantidade em estoque
-            // No caso, menor ou igual a 3
-            if (lista.getElemento(i).getEstoqueInicial() <= 3) {
-                produtosEmAlerta.adiciona(lista.getElemento(i));
-            }
-            // veficando se o alimento está vencendo...
-            if (lista.getElemento(i) instanceof Produto) {
-                if (lista.getElemento(i).equals(dataFormatada)) {
-                    produtosEmAlerta.adiciona(lista.getElemento(i));
-                }
-            }
-        }
-        return produtosEmAlerta;
-    }
-
-    public void notificarTodos(ListaObj<Empreendedor> listaE,
-                               // String cnpj,
-                               ListaObj<Produto> lista) {
-        for (int i = 0; i < lista.getTamanho(); i++) {
-            System.out.printf("\nO produto %s necessita de atenção", lista.getElemento(i).getNome());
-        }
-    }
-
-    public int calculaTotalProdutosVendidos(ListaObj<Produto> lista) {
-        for (int i = 0; i < lista.getTamanho(); i++) {
-            qtdProdutosVendidos += lista.getElemento(i).getQtdVendidos();
-        }
+    public int calculaTotalProdutosVendidos(List<Produto> lista) {
         return qtdProdutosVendidos;
     }
 

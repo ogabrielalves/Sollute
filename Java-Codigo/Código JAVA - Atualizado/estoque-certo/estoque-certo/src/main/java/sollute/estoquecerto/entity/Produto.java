@@ -17,7 +17,10 @@ public class Produto {
     //Atributos
     @Id
     @NotBlank(message = "ID é necessario.")
-    private String codigo;
+    private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
+
+    @NotBlank
+    private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
 
     @NotBlank
     @Length(min = 14, max = 14, message = "CNPJ deve ter 14 dígitos.")
