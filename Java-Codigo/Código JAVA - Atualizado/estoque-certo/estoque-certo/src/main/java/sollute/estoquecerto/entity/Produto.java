@@ -1,26 +1,32 @@
 package sollute.estoquecerto.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 
 @Entity
-public class Produto {
+@Table(name = "produto")
+public class Produto  {
+
 
     //Atributos
     @Id
-    @NotBlank(message = "ID é necessario.")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
 
     @NotBlank
     private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_empresa")
+    private Empresa empresa;
 
     @NotBlank
     @Length(min = 14, max = 14, message = "CNPJ deve ter 14 dígitos.")
@@ -170,5 +176,21 @@ public class Produto {
 
     public void setValorVendidos(Double valorVendidos) {
         this.valorVendidos = valorVendidos;
+    }
+
+    public Integer getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

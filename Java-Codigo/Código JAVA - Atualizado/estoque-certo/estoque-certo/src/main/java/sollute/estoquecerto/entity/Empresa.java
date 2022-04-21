@@ -6,14 +6,15 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Empresa")
-public class Empresa {
+@Table(name = "empresa")
+public class Empresa  {
 
     //Atributos
     @Id
@@ -21,7 +22,7 @@ public class Empresa {
     private Long idEmpresa;
 
     @Email(message = "Insira um e-mail válido")
-    private String login;
+    private String email;
 
     @NotBlank
     private String senha;
@@ -62,6 +63,8 @@ public class Empresa {
 
     @NotNull
     private boolean autenticado;
+
+
 
     // Metodos
 //    public void venderProduto(ListaObj<Empreendedor> listaE,
@@ -121,12 +124,12 @@ public class Empresa {
         return qtdProdutosVendidos;
     }
 
-    public double calculaValorProdutosVendidos(ListaObj<Produto> lista) {
-        for (int i = 0; i < lista.getTamanho(); i++) {
-            totalProdutosVendidos += lista.getElemento(i).getQtdVendidos();
-        }
-        return totalProdutosVendidos;
-    }
+//    public double calculaValorProdutosVendidos(ListaObj<Produto> lista) {
+//        for (int i = 0; i < lista.getTamanho(); i++) {
+//            totalProdutosVendidos += lista.getElemento(i).getQtdVendidos();
+//        }
+//        return totalProdutosVendidos;
+//    }
 
 
     public Long getIdEmpresa() {
@@ -137,12 +140,12 @@ public class Empresa {
         this.idEmpresa = idEmpresa;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSenha() {
@@ -240,4 +243,5 @@ public class Empresa {
     public void setAutenticado(boolean autenticado) {
         this.autenticado = autenticado;
     }
+
 }

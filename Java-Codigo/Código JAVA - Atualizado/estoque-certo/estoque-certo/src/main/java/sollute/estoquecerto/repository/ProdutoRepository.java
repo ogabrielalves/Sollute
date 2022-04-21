@@ -8,7 +8,7 @@ import sollute.estoquecerto.entity.Produto;
 
 import java.util.List;
 
-public interface ProdutoRepository extends JpaRepository<Produto, String> {
+public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     List<Produto> findByCnpj(String cnpj);
     boolean existsByCodigo(Integer codigo);

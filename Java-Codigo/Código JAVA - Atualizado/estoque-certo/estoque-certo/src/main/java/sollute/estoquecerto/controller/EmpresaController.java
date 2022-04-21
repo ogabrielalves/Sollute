@@ -32,7 +32,7 @@ public class EmpresaController {
             @RequestBody EmpresaResponse requisicao) {
         List<Empresa> empresa = repositoryEmpresa.findAll();
         for (Empresa e : empresa) {
-            if (e.getLogin().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
+            if (e.getEmail().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
                 repositoryEmpresa.atualizarAutenticado(requisicao.getLogin(), true);
                 return ResponseEntity.status(200).body(e);
             }
@@ -44,6 +44,8 @@ public class EmpresaController {
     public ResponseEntity adicionaProduto(@RequestBody @Valid Produto novoProduto,
                                           @PathVariable Long idEmpresa) {
         if (repositoryEmpresa.existsById(idEmpresa)) { // Verificando se a empresa existe
+            Empresa empresa = repositoryEmpresa.findByIdEmpresa(idEmpresa); // Criou um objeto do tipo empresa igual ao id desejado
+            novoProduto.setEmpresa(empresa); // Esta setando o objeto no campo FK
             repositoryProduto.save(novoProduto);    // Adicionado no Banco de Dados
             return ResponseEntity.status(201).build();
         }
@@ -52,7 +54,7 @@ public class EmpresaController {
 
     @GetMapping
     public ResponseEntity<List<Empresa>> listarEmpresas() {
-        return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
+        return ResponseEntity.ok(repositoryEmpresa.findAll());
     }
 
     @PostMapping("/vender-produtos")
@@ -73,7 +75,7 @@ public class EmpresaController {
         return ResponseEntity.status(404).build(); // Não existe empresa com o cnpj informado
     }
 
-    @GetMapping("/listar-produtos/{idEmpresa}")
+    @GetMapping("/listar-produtos/{cnpj}")
     public ResponseEntity<List<Produto>> listarProdutos(@PathVariable @Valid String cnpj) {
 
         if (repositoryEmpresa.existsByCnpj(cnpj)) {
@@ -107,7 +109,7 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/deletar-produto/{codigo}")
-    public ResponseEntity deletarProduto(@PathVariable String codigo) {
+    public ResponseEntity deletarProduto(@PathVariable Integer codigo) {
         repositoryProduto.deleteById(codigo);
         return ResponseEntity.status(200).build();
     }
