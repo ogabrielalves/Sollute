@@ -2,22 +2,19 @@ package sollute.estoquecerto.entity;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 public class Produto {
 
     //Atributos
     @Id
-    @NotBlank(message = "ID é necessario.")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
+
+    @NotNull
+    private Integer fkEmpresa;
 
     @NotBlank
     private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
@@ -42,25 +39,35 @@ public class Produto {
     private Double peso;
 
     @PositiveOrZero
+    @Column(name = "preco_compra")
     private Double precoCompra;
 
     @PositiveOrZero
+    @Column(name = "preco-venda")
     private Double precoVenda;
 
     @PositiveOrZero
+    @Column(name = "estoque_inicial")
     private Integer estoqueInicial;
 
     @PositiveOrZero
+    @Column(name = "estoque_min")
     private Integer estoqueMin;
 
     @Positive
+    @Column(name = "estoque_max")
     private Integer estoqueMax;
 
     @PositiveOrZero
+    @Column(name = "qtd_vendidos")
     private Integer qtdVendidos;
 
     @PositiveOrZero
+    @Column(name = "valor_vendidos")
     private Double valorVendidos;
+
+    @PositiveOrZero
+    private String tamanho;
 
     //Metodos
     public Boolean vender(int i) {
@@ -68,6 +75,22 @@ public class Produto {
     };
 
     //Getters and Setters
+    public Integer getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public Integer getFkEmpresa() {
+        return fkEmpresa;
+    }
+
+    public void setFkEmpresa(Integer fkEmpresa) {
+        this.fkEmpresa = fkEmpresa;
+    }
+
     public String getCnpj() {
         return cnpj;
     }

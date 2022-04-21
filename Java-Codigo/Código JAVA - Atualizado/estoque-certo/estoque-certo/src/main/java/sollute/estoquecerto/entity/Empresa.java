@@ -2,17 +2,13 @@ package sollute.estoquecerto.entity;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Empresa")
+@Table(name= "empresa")
 public class Empresa {
 
     //Atributos
@@ -21,6 +17,7 @@ public class Empresa {
     private Long idEmpresa;
 
     @Email(message = "Insira um e-mail válido")
+    @Column(name = "email")
     private String login;
 
     @NotBlank
@@ -28,9 +25,11 @@ public class Empresa {
 
     @NotBlank
     @Length(min = 3, max = 45)
+    @Column(name = "nome_fantasia")
     private String nomeFantasia;
 
     @Length(min = 3, max = 45)
+    @Column(name = "razao_social")
     private String razaoSocial;
 
     @CNPJ
@@ -52,12 +51,15 @@ public class Empresa {
 
     @NotBlank
     @Length(min = 3, max = 45)
+    @Column(name = "ponto_referencia")
     private String pontoReferencia;
 
     @PositiveOrZero
+    @Column(name = "qtd_produtos_vendidos")
     private int qtdProdutosVendidos;
 
     @PositiveOrZero
+    @Column(name = "total_produtos_vendidos")
     private double totalProdutosVendidos;
 
     @NotNull
