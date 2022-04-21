@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
+@Table(name= "produto")
 public class Produto {
 
     //Atributos
@@ -14,14 +15,11 @@ public class Produto {
     private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
 
     @NotNull
+    @Column(name = "fk_empresa")
     private Integer fkEmpresa;
 
     @NotBlank
     private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
-
-    @NotBlank
-    @Length(min = 14, max = 14, message = "CNPJ deve ter 14 dígitos.")
-    private String cnpj;
 
     @NotBlank
     @Length(min = 2, max = 45)
@@ -36,6 +34,9 @@ public class Produto {
     private String categoria;
 
     @PositiveOrZero
+    private String tamanho;
+
+    @PositiveOrZero
     private Double peso;
 
     @PositiveOrZero
@@ -43,7 +44,7 @@ public class Produto {
     private Double precoCompra;
 
     @PositiveOrZero
-    @Column(name = "preco-venda")
+    @Column(name = "preco_venda")
     private Double precoVenda;
 
     @PositiveOrZero
@@ -66,15 +67,6 @@ public class Produto {
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
-    @PositiveOrZero
-    private String tamanho;
-
-    //Metodos
-    public Boolean vender(int i) {
-        return true;
-    };
-
-    //Getters and Setters
     public Integer getIdProduto() {
         return idProduto;
     }
@@ -89,14 +81,6 @@ public class Produto {
 
     public void setFkEmpresa(Integer fkEmpresa) {
         this.fkEmpresa = fkEmpresa;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
     }
 
     public String getNome() {
@@ -129,6 +113,14 @@ public class Produto {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getTamanho() {
+        return tamanho;
+    }
+
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
     }
 
     public Double getPeso() {

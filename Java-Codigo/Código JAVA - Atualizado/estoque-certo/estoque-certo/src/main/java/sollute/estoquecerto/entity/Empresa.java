@@ -11,7 +11,6 @@ import java.util.List;
 @Table(name= "empresa")
 public class Empresa {
 
-    //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmpresa;
@@ -65,7 +64,6 @@ public class Empresa {
     @NotNull
     private boolean autenticado;
 
-    // Metodos
 //    public void venderProduto(ListaObj<Empreendedor> listaE,
 //                              String cnpj,
 //                              ListaObj<Produto> lista,
@@ -80,11 +78,11 @@ public class Empresa {
 //            }
 //        }
 //    }
-//
+
 //    public ListaObj<Produto> verificaStatus(ListaObj<Empreendedor> listaE,
 //                                            String cnpj,
 //                                            ListaObj<Produto> lista) {
-//
+
 //        LocalDate data = LocalDate.now();
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("-7{dd/MM/yyyy}");
 //        String dataFormatada = data.format(formatter);
@@ -92,9 +90,9 @@ public class Empresa {
 //        if (lista.getTamanho() == 0) {
 //            return null;
 //        }
-//
+
 //        ListaObj<Produto> produtosEmAlerta = new ListaObj<>(lista.getTamanho());
-//
+
 //        for (int i = 0; i < lista.getTamanho(); i++) {
 //            // Verificando se está com baixa quantidade em estoque
 //            // No caso, menor ou igual a 3
@@ -110,7 +108,7 @@ public class Empresa {
 //        }
 //        return produtosEmAlerta;
 //    }
-//
+
 //    public void notificarTodos(ListaObj<Empreendedor> listaE,
 //                               // String cnpj,
 //                               ListaObj<Produto> lista) {
@@ -118,18 +116,6 @@ public class Empresa {
 //            System.out.printf("\nO produto %s necessita de atenção", lista.getElemento(i).getNome());
 //        }
 //    }
-
-    public int calculaTotalProdutosVendidos(List<Produto> lista) {
-        return qtdProdutosVendidos;
-    }
-
-    public double calculaValorProdutosVendidos(ListaObj<Produto> lista) {
-        for (int i = 0; i < lista.getTamanho(); i++) {
-            totalProdutosVendidos += lista.getElemento(i).getQtdVendidos();
-        }
-        return totalProdutosVendidos;
-    }
-
 
     public Long getIdEmpresa() {
         return idEmpresa;
