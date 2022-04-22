@@ -11,14 +11,10 @@ import java.util.List;
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 
     Empresa findByIdEmpresa(Long idEmpresa);
-
     boolean existsByCnpj(String cnpj);
 
-    @Transactional // do pacote org.spring....
+    @Transactional
     @Modifying
-    @Query(
-            "update Empresa u set u.autenticado = ?2" +
-                    " where u.login = ?1")
-    void atualizarAutenticado(String codigo,
-                              boolean autenticado);
+    @Query("update Empresa u set u.autenticado = ?2 where u.login = ?1")
+    void atualizarAutenticado(String codigo, boolean autenticado);
 }

@@ -13,7 +13,7 @@ public class EmpresaResponse {
         this.login = login;
     }
 
-    public String getSenha() {
+    public String pegarSenha() {
         return senha;
     }
 

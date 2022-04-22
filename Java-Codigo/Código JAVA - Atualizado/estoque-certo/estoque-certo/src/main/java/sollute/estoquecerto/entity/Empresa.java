@@ -133,7 +133,7 @@ public class Empresa {
         this.login = login;
     }
 
-    public String getSenha() {
+    public String pegarSenha() {
         return senha;
     }
 

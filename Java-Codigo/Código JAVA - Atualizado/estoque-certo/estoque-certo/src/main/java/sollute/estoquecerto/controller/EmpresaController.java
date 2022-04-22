@@ -31,11 +31,10 @@ public class EmpresaController {
     }
 
     @PostMapping("/autenticacao")
-    public ResponseEntity postAutenticado(
-            @RequestBody EmpresaResponse requisicao) {
+    public ResponseEntity postAutenticado(@RequestBody @Valid EmpresaResponse requisicao) {
         List<Empresa> empresa = repositoryEmpresa.findAll();
         for (Empresa e : empresa) {
-            if (e.getLogin().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
+            if (e.getLogin().equals(requisicao.getLogin()) && e.pegarSenha().equals(requisicao.pegarSenha())) {
                 repositoryEmpresa.atualizarAutenticado(requisicao.getLogin(), true);
                 return ResponseEntity.status(200).body(e);
             }
@@ -60,7 +59,7 @@ public class EmpresaController {
     }
 
     @PostMapping("/vender-produtos")
-    public ResponseEntity venderProdutos(@RequestBody ProdutoResponse produtoResponse) {
+    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoResponse produtoResponse) {
         if (repositoryEmpresa.existsById(produtoResponse.getIdEmpresa())) {
             if (repositoryProduto.existsByCodigo(produtoResponse.getCodigo())) {
                 if (repositoryProduto.findByQtdVendidosIsGreaterThan(produtoResponse.getQtdVendida())) {
@@ -78,19 +77,18 @@ public class EmpresaController {
     }
 
     @GetMapping("/listar-produtos/{fkEmpresa}")
-    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable @Valid String cnpj,
-                                                        @PathVariable Integer fkEmpresa) {
+    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer fkEmpresa) {
 
-        if (repositoryEmpresa.existsByCnpj(cnpj)) {
+        if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
             return ResponseEntity.status(200).body(repositoryProduto.findByFkEmpresa(fkEmpresa));
         }
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/calcular-produtos-vendidos/{cnpj}")
-    public ResponseEntity calcularProdutosVendidos(@PathVariable @Valid String cnpj) {
+    @GetMapping("/calcular-produtos-vendidos/{fkEmpresa}")
+    public ResponseEntity calcularProdutosVendidos(@PathVariable Integer fkEmpresa) {
         int aux = 0;
-        if (repositoryEmpresa.existsByCnpj(cnpj)) {
+        if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
             for (Produto prod : repositoryProduto.findAll()) {
                 aux += prod.getQtdVendidos();
             }
@@ -99,10 +97,10 @@ public class EmpresaController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/calcular-valor-vendidos/{cnpj}")
-    public ResponseEntity calcularValorVendidos(@PathVariable String cnpj) {
+    @GetMapping("/calcular-valor-vendidos/{fkEmpresa}")
+    public ResponseEntity calcularValorVendidos(@PathVariable Integer fkEmpresa) {
         int aux = 0;
-        if (repositoryEmpresa.existsByCnpj(cnpj)) {
+        if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
             for (Produto prod : repositoryProduto.findAll()) {
                 aux += prod.getValorVendidos();
             }
@@ -120,134 +118,13 @@ public class EmpresaController {
     @GetMapping("/relatorio")
     public ResponseEntity relatorio() {
 
-//        List<Produto> lista = new List<>() {
-//            @Override
-//            public int size() {
-//                return 0;
-//            }
-//
-//            @Override
-//            public boolean isEmpty() {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean contains(Object o) {
-//                return false;
-//            }
-//
-//            @Override
-//            public Iterator<Produto> iterator() {
-//                return null;
-//            }
-//
-//            @Override
-//            public Object[] toArray() {
-//                return new Object[0];
-//            }
-//
-//            @Override
-//            public <T> T[] toArray(T[] a) {
-//                return null;
-//            }
-//
-//            @Override
-//            public boolean add(Produto produto) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean remove(Object o) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean containsAll(Collection<?> c) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean addAll(Collection<? extends Produto> c) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean addAll(int index, Collection<? extends Produto> c) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean removeAll(Collection<?> c) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean retainAll(Collection<?> c) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void clear() {
-//
-//            }
-//
-//            @Override
-//            public Produto get(int index) {
-//                return null;
-//            }
-//
-//            @Override
-//            public Produto set(int index, Produto element) {
-//                return null;
-//            }
-//
-//            @Override
-//            public void add(int index, Produto element) {
-//
-//            }
-//
-//            @Override
-//            public Produto remove(int index) {
-//                return null;
-//            }
-//
-//            @Override
-//            public int indexOf(Object o) {
-//                return 0;
-//            }
-//
-//            @Override
-//            public int lastIndexOf(Object o) {
-//                return 0;
-//            }
-//
-//            @Override
-//            public ListIterator<Produto> listIterator() {
-//                return null;
-//            }
-//
-//            @Override
-//            public ListIterator<Produto> listIterator(int index) {
-//                return null;
-//            }
-//
-//            @Override
-//            public List<Produto> subList(int fromIndex, int toIndex) {
-//                return null;
-//            }
-//        };
-//
-//        for (int j = 0; j < repositoryEmpresa.count(); j++) {
-//            lista.add(repositoryProduto.findByIdProduto(j));
-//        }
-//
-//        ArquivoCsv.gravaArquivoCsv(repositoryProduto.findAll(), "relatorio-de-produtos");
-
         List<Produto> lista = repositoryProduto.findAll();
-        String relatorio = "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;";
+        String relatorio = "" +
+                "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
+                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS";
         for (Produto prod : lista) {
             relatorio += "" +
-                    "" + prod.getCodigo() +
+                    ";" + prod.getCodigo() +
                     ";" + prod.getNome() +
                     ";" + prod.getMarca() +
                     ";" + prod.getCategoria() +
@@ -258,8 +135,7 @@ public class EmpresaController {
                     ";" + prod.getEstoqueInicial() +
                     ";" + prod.getEstoqueMin() +
                     ";" + prod.getEstoqueMax() +
-                    ";" + prod.getQtdVendidos() +
-            "\r\n";
+                    ";" + prod.getQtdVendidos() + "\r\n";
         }
 
         return ResponseEntity
