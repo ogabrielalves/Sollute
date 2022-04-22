@@ -9,8 +9,8 @@ const headers = {
 
 class ProductService {
 
-  async getProdutos(cnpj, idEmpresa) {
-    return await axios.get(`${urlBase}/listar-produtos/${cnpj}/${idEmpresa}`, {
+  async getProdutos(idEmpresa) {
+    return await axios.get(`${urlBase}/listar-produtos/${idEmpresa}`, {
       headers: headers
     })
       .then(res => res.data)

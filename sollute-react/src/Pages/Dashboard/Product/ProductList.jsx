@@ -15,11 +15,11 @@ function ProductList(props) {
 
     useEffect(() => {
 
-        if(!empresa) return null;
+        if (!empresa) return null;
 
         getData()
         async function getData() {
-            const apiResponse = await service.getProdutos(empresa?.cnpj, empresa?.idEmpresa)
+            const apiResponse = await service.getProdutos(empresa?.idEmpresa)
             console.log(apiResponse)
             setItems(apiResponse)
         }

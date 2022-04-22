@@ -93,11 +93,6 @@ function DashboardContent(props) {
         title: 'Clientes',
         link: '',
         icon: <GroupIcon />
-    },
-    {
-        title: 'Sair',
-        link: '/login',
-        icon: <LogoutIcon />
     }];
 
     const drawerWidth = 240;
@@ -197,7 +192,7 @@ function DashboardContent(props) {
                 <Toolbar />
                 <Container maxWidth="false" sx={{ mt: 4, mb: 4 }} >
 
-                    <AppBar position="fixed" sx={{maxHeight: 65, backgroundColor: "#784DFF"}} open={open}>
+                    <AppBar position="fixed" sx={{ maxHeight: 65, backgroundColor: "#784DFF" }} open={open}>
                         <Toolbar
                             sx={{
                                 pr: '24px', // keep right padding when drawer closed
