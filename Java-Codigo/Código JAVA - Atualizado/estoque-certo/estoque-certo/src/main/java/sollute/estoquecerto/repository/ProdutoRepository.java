@@ -11,6 +11,7 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, String> {
 
     Produto findByIdProduto(Integer idProduto);
+    void deleteByIdProduto(Integer idProduto);
     List<Produto> findByFkEmpresa(Integer fkEmpresa);
     boolean existsByCodigo(Integer codigo);
     boolean findByQtdVendidosIsGreaterThan(int qtd);
@@ -20,5 +21,4 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
     @Modifying
     @Query("update Produto p set p.qtdVendidos = ?2 where p.codigo = ?1")
     void atualizarQtdVendida(Integer codigo, Integer qtdVendidos);
-
 }

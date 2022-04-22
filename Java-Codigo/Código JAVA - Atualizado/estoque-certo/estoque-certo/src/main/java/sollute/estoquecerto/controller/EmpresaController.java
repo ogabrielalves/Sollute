@@ -109,9 +109,15 @@ public class EmpresaController {
         return ResponseEntity.status(404).build();
     }
 
-    @DeleteMapping("/deletar-produto/{codigo}")
-    public ResponseEntity deletarProduto(@PathVariable String codigo) {
-        repositoryProduto.deleteById(codigo);
+//    @DeleteMapping("/deletar-produto/{codigo}")
+//    public ResponseEntity deletarProduto(@PathVariable String codigo) {
+//        repositoryProduto.deleteById(codigo);
+//        return ResponseEntity.status(200).build();
+//    }
+
+    @DeleteMapping("/deletar-produto/{idProduto}")
+    public ResponseEntity deletarProduto(@PathVariable Integer idProduto) {
+        repositoryProduto.deleteByIdProduto(idProduto);
         return ResponseEntity.status(200).build();
     }
 
@@ -121,10 +127,10 @@ public class EmpresaController {
         List<Produto> lista = repositoryProduto.findAll();
         String relatorio = "" +
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
-                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS";
+                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
         for (Produto prod : lista) {
             relatorio += "" +
-                    ";" + prod.getCodigo() +
+                    "" + prod.getCodigo() +
                     ";" + prod.getNome() +
                     ";" + prod.getMarca() +
                     ";" + prod.getCategoria() +
@@ -135,7 +141,7 @@ public class EmpresaController {
                     ";" + prod.getEstoqueInicial() +
                     ";" + prod.getEstoqueMin() +
                     ";" + prod.getEstoqueMax() +
-                    ";" + prod.getQtdVendidos() + "\r\n";
+                    ";" + (prod.getQtdVendidos() == null ? 0 : prod.getQtdVendidos()) + "\r\n";
         }
 
         return ResponseEntity

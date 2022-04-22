@@ -19,7 +19,7 @@ public class Produto {
     private Integer fkEmpresa;
 
     @NotBlank
-    private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
+    private Integer codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
 
     @NotBlank
     @Length(min = 2, max = 45)
@@ -33,7 +33,7 @@ public class Produto {
     @Length(min = 3, max = 45)
     private String categoria;
 
-    @PositiveOrZero
+    @NotBlank
     private String tamanho;
 
     @PositiveOrZero
@@ -61,7 +61,7 @@ public class Produto {
 
     @PositiveOrZero
     @Column(name = "qtd_vendidos")
-    private int qtdVendidos;
+    private Integer qtdVendidos;
 
     @PositiveOrZero
     @Column(name = "valor_vendidos")
@@ -91,11 +91,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public String getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -171,7 +171,7 @@ public class Produto {
         this.estoqueMax = estoqueMax;
     }
 
-    public int getQtdVendidos() {
+    public Integer getQtdVendidos() {
         return qtdVendidos;
     }
 
