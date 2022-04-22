@@ -61,7 +61,7 @@ public class Produto {
 
     @PositiveOrZero
     @Column(name = "qtd_vendidos")
-    private Integer qtdVendidos;
+    private int qtdVendidos;
 
     @PositiveOrZero
     @Column(name = "valor_vendidos")
@@ -171,11 +171,11 @@ public class Produto {
         this.estoqueMax = estoqueMax;
     }
 
-    public Integer getQtdVendidos() {
+    public int getQtdVendidos() {
         return qtdVendidos;
     }
 
-    public void setQtdVendidos(Integer qtdVendidos) {
+    public void setQtdVendidos(int qtdVendidos) {
         this.qtdVendidos = qtdVendidos;
     }
 
