@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 @Table(name= "produto")
 public class Produto {
 
-    //Atributos
+    // Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
