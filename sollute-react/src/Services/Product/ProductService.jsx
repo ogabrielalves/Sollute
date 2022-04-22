@@ -5,10 +5,12 @@ const urlBase = 'http://localhost:8080/empresas';
 const headers = {
   'Content-Type': 'application/json'
 };
+
+
 class ProductService {
 
-  async getProdutos() {
-    return await axios.get(`${urlBase}/listar-produtos/55756157000133`, {
+  async getProdutos(cnpj, idEmpresa) {
+    return await axios.get(`${urlBase}/listar-produtos/${cnpj}/${idEmpresa}`, {
       headers: headers
     })
       .then(res => res.data)
@@ -17,8 +19,8 @@ class ProductService {
       });
   }
 
-  async postProdutos(obj) {
-    return await axios.post(`${urlBase}/criar-produto/55756157000133`,
+  async postProdutos(obj, idEmpresa) {
+    return await axios.post(`${urlBase}/criar-produto/${idEmpresa}`,
       obj
     )
       .then(res => {
@@ -28,6 +30,7 @@ class ProductService {
       .catch((err) => {
         notify('Erro ao criar produto.', 'error')
         console.error(`Request Failed ${err}`);
+        return null
       });
   }
 

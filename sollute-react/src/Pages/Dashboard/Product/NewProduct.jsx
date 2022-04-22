@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import useAuth from '../../../Hooks/useAuth';
 
 // Style
 const styleGridButton = {
@@ -21,6 +22,8 @@ function NewProduct() {
 
     const navigate = useNavigate();
 
+    const { empresa } = useAuth();
+
     const [nome, setNome] = useState('');
     const [codigo, setCodigo] = useState('');
     const [marca, setMarca] = useState('');
@@ -31,15 +34,18 @@ function NewProduct() {
     const [estoqueMax, setEstoqueMax] = useState('');
     const [precoCompra, setPrecoCompra] = useState('');
     const [precoVenda, setPrecoVenda] = useState('');
+    const [tamanho, setTamanho] = useState('');
 
     async function postProduto() {
+
         const service = new ProductService()
-        await service.postProdutos({
+        if(await service.postProdutos({
+            "fkEmpresa": empresa?.idEmpresa,
             "codigo": codigo,
-            "cnpj": "55756157000133",
             "nome": nome,
             "marca": marca,
             "categoria": categoria,
+            "tamanho": tamanho,
             "peso": peso,
             "precoCompra": precoCompra,
             "precoVenda": precoVenda,
@@ -47,10 +53,10 @@ function NewProduct() {
             "estoqueMin": estoqueMin,
             "estoqueMax": estoqueMax,
             "qtdVendidos": 0,
-            "valorVendidos": 0,
-            "tipoVestuario": categoria,
-            "tamanho": "M"
-        })
+            "valorVendidos": 0
+        },  empresa?.idEmpresa)){
+            navigate(-1)
+        }
     }
 
 
@@ -83,7 +89,7 @@ function NewProduct() {
                         <TextField fullWidth id="outlined-basic" label="Peso" variant="outlined" onChange={(evt) => setPeso(evt.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <TextField fullWidth id="outlined-basic" label="Validade" variant="outlined" />
+                        <TextField fullWidth id="outlined-basic" label="Tamanho" variant="outlined" onChange={(evt) => setTamanho(evt.target.value)} />
                     </Grid>
 
                     <Grid item xs={12}>
@@ -117,7 +123,7 @@ function NewProduct() {
                                 variant="contained"
                                 startIcon={<CheckCircleIcon />}
                                 onClick={() => {
-                                    postProduto()                                    
+                                    postProduto()
                                 }}
                             >
                                 Criar produto

@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import RegisterService from '../../Services/Register/RegisterService';
-import { useNavigate } from 'react-router-dom';
 
 import RegisterPage from '../../Components/RegisterPage/RegisterPage';
 import PopOver from '../../Components/PopOver/PopOver';
@@ -15,7 +14,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 function Register() {
     const matches = useMediaQuery('(max-width:1325px)');
-    const navigate = useNavigate();
 
     function screenFit(page) {
         var styleButtonBack = 0;
@@ -74,6 +72,7 @@ function Register() {
     // States para
     const [errosCep, setErrosCep] = useState({ cep: { valido: true, texto: "" } });
     const [errosUf, setErrosUf] = useState({ uf: { valido: true, texto: "" } });
+    const [errosCnpj, setErrosCnpj] = useState({ cnpj: { valido: true, texto: "" } });
 
     // Função para criação de usuário
     async function registerEmpresa() {
@@ -177,6 +176,12 @@ function Register() {
                             <TextField
                                 value={cnpjInput}
                                 onChange={(evt) => { setCnpjInput(evt.target.value) }}
+                                onBlur={(evt) => {
+                                    const ehValido = validarCNPJ(cnpjInput)
+                                    setErrosCnpj({ cnpj: ehValido })
+                                }}
+                                error={!errosCnpj.cnpj.valido}
+                                helperText={errosCnpj.cnpj.texto}
                                 fullWidth
                                 id="cnpj"
                                 label="CNPJ"
@@ -295,7 +300,6 @@ function Register() {
                                 endIcon={<CheckIcon />}
                                 onClick={() => {
                                     registerEmpresa()
-                                    navigate('/login')
                                 }}
                                 type='submit'>
                                 Finalizar
@@ -321,6 +325,15 @@ function Register() {
     function validarUF(ufInput) {
         if (ufInput.length !== 2) {
             return { valido: false, texto: "UF deve ter 2 dígitos." }
+        }
+        else {
+            return { valido: true, texto: "" }
+        }
+    }
+
+    function validarCNPJ(cnpjInput) {
+        if (cnpjInput.length !== 14) {
+            return { valido: false, texto: "CNPJ deve ter 14 dígitos e sem traços e pontos." }
         }
         else {
             return { valido: true, texto: "" }

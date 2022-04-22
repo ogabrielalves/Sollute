@@ -15,6 +15,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuPopUp from '../MenuPopUp/MenuPopUp';
 import LogoSollute from '../../Assets/Image/Logo2-modelo.svg'
+import Profile from '../Profile/Profile'
 
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -27,10 +28,13 @@ import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { Link } from 'react-router-dom'
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { AppBar, Typography } from '@mui/material';
+import { AuthContext } from '../../Context/AuthContext';
 
 class Dashboard extends React.Component {
     render() {
@@ -192,6 +196,39 @@ function DashboardContent(props) {
             >
                 <Toolbar />
                 <Container maxWidth="false" sx={{ mt: 4, mb: 4 }} >
+
+                    <AppBar position="fixed" sx={{maxHeight: 65, backgroundColor: "#784DFF"}} open={open}>
+                        <Toolbar
+                            sx={{
+                                pr: '24px', // keep right padding when drawer closed
+                            }}
+                        >
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={toggleDrawer}
+                                sx={{
+                                    marginRight: '36px',
+                                    ...(open && { display: 'none' }),
+                                }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography
+                                component="h1"
+                                variant="h6"
+                                color="inherit"
+                                noWrap
+                                sx={{ flexGrow: 1 }}
+                            >
+
+                            </Typography>
+
+                            <Profile />
+
+                        </Toolbar>
+                    </AppBar>
 
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12} lg={12}>

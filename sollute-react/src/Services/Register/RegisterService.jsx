@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { notify } from '../../Components/Notify/Notify';
 
 const urlBase = 'http://localhost:8080/empresas';
 const headers = {
@@ -12,12 +13,16 @@ class RegisterService {
   }
 
   async postEmpresa(obj) {
-    return await axios.post(`${urlBase}`, 
+    return await axios.post(`${urlBase}`,
       obj
     )
-      .then(res => res.data)
+      .then(res => {
+        notify('Conta criada com sucesso!', 'sucess')
+        return res.data
+      })
       .catch((err) => {
-        console.error(`request failed ${err}`);
+        notify('Erro ao criar a conta.', 'error')
+        console.error(`Request Failed ${err}`);
       });
   }
 

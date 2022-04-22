@@ -77,7 +77,7 @@ public class EmpresaController {
         return ResponseEntity.status(404).build(); // Não existe empresa com o cnpj informado
     }
 
-    @GetMapping("/listar-produtos/{cnpj}/{fkEmpresa}")
+    @GetMapping("/listar-produtos/{fkEmpresa}")
     public ResponseEntity<List<Produto>> listarProdutos(@PathVariable @Valid String cnpj,
                                                         @PathVariable Integer fkEmpresa) {
 

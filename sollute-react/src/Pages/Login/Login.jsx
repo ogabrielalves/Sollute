@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Grid } from "@mui/material";
 import ImagemCadastro from '../../Assets/Image/img-login.svg';
 import LogoSollute from '../../Assets/Image/Logo2-modelo.svg';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { AuthContext } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 //Styles
 const leftBar = {
@@ -34,6 +36,23 @@ const botaoCadastrese = {
 
 function Login() {
 
+    const navigate = useNavigate()
+
+    const { signIn, loggedIn } = useContext(AuthContext)
+
+    const [email, setEmail] = useState('')
+    const [senha, setSenha] = useState('')
+
+    async function logar(){
+        signIn(email, senha)
+    }
+
+    useEffect(()=>{
+        if(loggedIn){
+            navigate('/dashboard')
+        }
+    }, [loggedIn])
+
     return (
         <Grid container>
 
@@ -46,15 +65,15 @@ function Login() {
                     </Grid>
                 </Grid>
                 <Grid mb={2}>
-                    <TextField fullWidth size="large" id="outlined-basic" label="E-mail" variant="outlined" type={'email'} />
+                    <TextField onChange={(e)=>setEmail(e.target.value)} fullWidth size="large" id="outlined-basic" label="E-mail" variant="outlined" type={'email'} />
                 </Grid>
                 <Grid mb={2}>
-                    <TextField fullWidth id="outlined-basic" label="Senha" variant="outlined" type={'password'} />
+                    <TextField onChange={(e)=>setSenha(e.target.value)} fullWidth id="outlined-basic" label="Senha" variant="outlined" type={'password'} />
                 </Grid>
                 <Grid>
                     <Button
                         fullWidth
-                        onClick={() => window.location.href = "/dashboard"}
+                        onClick={() => logar()}
                         variant="contained"
                         >
                         Logar
