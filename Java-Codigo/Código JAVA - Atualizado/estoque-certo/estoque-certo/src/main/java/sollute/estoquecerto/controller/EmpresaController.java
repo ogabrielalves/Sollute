@@ -11,6 +11,7 @@ import sollute.estoquecerto.request.ProdutoLoginResponse;
 import javax.validation.Valid;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/empresas")
 public class EmpresaController {

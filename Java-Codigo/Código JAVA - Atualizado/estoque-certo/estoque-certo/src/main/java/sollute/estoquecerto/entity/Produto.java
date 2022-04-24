@@ -67,6 +67,9 @@ public class Produto {
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
+    // Atributo necessário para a implementação do design patters Observer
+    // @NotNull
+    // private boolean alerta;
 
     public Integer getIdProduto() {
         return idProduto;
