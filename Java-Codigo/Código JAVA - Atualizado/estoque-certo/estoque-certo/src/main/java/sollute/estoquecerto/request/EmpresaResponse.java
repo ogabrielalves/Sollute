@@ -9,15 +9,8 @@ public class EmpresaResponse {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String pegarSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 }

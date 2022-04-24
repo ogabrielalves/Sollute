@@ -6,13 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
 import sollute.estoquecerto.request.EmpresaResponse;
-import sollute.estoquecerto.request.ProdutoResponse;
+import sollute.estoquecerto.request.ProdutoLoginResponse;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 @RestController
 @RequestMapping("/empresas")
@@ -59,13 +56,14 @@ public class EmpresaController {
     }
 
     @PostMapping("/vender-produtos")
-    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoResponse produtoResponse) {
-        if (repositoryEmpresa.existsById(produtoResponse.getIdEmpresa())) {
-            if (repositoryProduto.existsByCodigo(produtoResponse.getCodigo())) {
-                if (repositoryProduto.findByQtdVendidosIsGreaterThan(produtoResponse.getQtdVendida())) {
+    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoLoginResponse produtoLoginResponse) {
+        if (repositoryEmpresa.existsById(produtoLoginResponse.getIdEmpresa())) {
+            if (repositoryProduto.existsByCodigo(produtoLoginResponse.getCodigo())) {
+                if (repositoryProduto.findByQtdVendidosIsGreaterThan(produtoLoginResponse.getQtdVendida())) {
                     repositoryProduto.atualizarQtdVendida(
-                            produtoResponse.getCodigo(),
-                            produtoResponse.getQtdVendida());
+                            produtoLoginResponse.getCodigo(),
+                            produtoLoginResponse.getQtdVendida());
+                    return ResponseEntity.status(200).build();
                 } else {
                     return ResponseEntity.status(400).build(); // Não há estoque suficiente.
                 }
@@ -109,22 +107,18 @@ public class EmpresaController {
         return ResponseEntity.status(404).build();
     }
 
-//    @DeleteMapping("/deletar-produto/{codigo}")
-//    public ResponseEntity deletarProduto(@PathVariable String codigo) {
-//        repositoryProduto.deleteById(codigo);
-//        return ResponseEntity.status(200).build();
-//    }
 
-    @DeleteMapping("/deletar-produto/{idProduto}")
-    public ResponseEntity deletarProduto(@PathVariable Integer idProduto) {
-        repositoryProduto.deleteByIdProduto(idProduto);
+    @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
+    public ResponseEntity deletarProduto(@PathVariable String codigo, @PathVariable Integer fkEmpresa) {
+        repositoryProduto.deleteProdutoByIdProduto(repositoryProduto.findByCodigoAndFkEmpresa(codigo, fkEmpresa).getIdProduto());
         return ResponseEntity.status(200).build();
     }
 
-    @GetMapping("/relatorio")
-    public ResponseEntity relatorio() {
 
-        List<Produto> lista = repositoryProduto.findAll();
+    @GetMapping("/relatorio/{fkEmpresa}")
+    public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
+
+        List<Produto> lista = repositoryProduto.findByFkEmpresa(fkEmpresa);
         String relatorio = "" +
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
                 "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";

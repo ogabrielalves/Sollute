@@ -10,10 +10,19 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, String> {
 
-    Produto findByIdProduto(Integer idProduto);
-    void deleteByIdProduto(Integer idProduto);
+    // Retorna um Produto completo, é utilizado para posteriormente apagar pelo getIdProduto() no endpoint DELETE
+    Produto findByCodigoAndFkEmpresa(String codigo, Integer fkEmpresa);
+
+    // Apaga do banco de dados um produto
+    @Transactional
+    void deleteProdutoByIdProduto(Integer idProduto);
+
+    // Retorna uma lista de PRODUTO pelo fk da empresa
     List<Produto> findByFkEmpresa(Integer fkEmpresa);
+
+    // Verifica se o produto existe ou não!
     boolean existsByCodigo(Integer codigo);
+
     boolean findByQtdVendidosIsGreaterThan(int qtd);
 
     // Atualiza a quantidade de produtos vendidos pelo produto

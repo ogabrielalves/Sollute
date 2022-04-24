@@ -19,7 +19,7 @@ public class Produto {
     private Integer fkEmpresa;
 
     @NotBlank
-    private Integer codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
+    private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
 
     @NotBlank
     @Length(min = 2, max = 45)
@@ -67,6 +67,7 @@ public class Produto {
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
+
     public Integer getIdProduto() {
         return idProduto;
     }
@@ -91,11 +92,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public Integer getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
