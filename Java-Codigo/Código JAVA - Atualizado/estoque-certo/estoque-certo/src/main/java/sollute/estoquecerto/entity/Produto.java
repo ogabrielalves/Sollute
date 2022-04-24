@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name= "produto")
+@Table(name = "produto")
 public class Produto {
 
     // Atributos

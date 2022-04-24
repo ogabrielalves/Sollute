@@ -23,11 +23,17 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
     // Verifica se o produto existe ou não!
     boolean existsByCodigo(Integer codigo);
 
-    boolean findByQtdVendidosIsGreaterThan(int qtd);
+    boolean findByEstoqueInicialLessThanEqual(int estoqueMin);
 
     // Atualiza a quantidade de produtos vendidos pelo produto
     @Transactional
     @Modifying
     @Query("update Produto p set p.qtdVendidos = ?2 where p.codigo = ?1")
     void atualizarQtdVendida(Integer codigo, Integer qtdVendidos);
+
+    // Atualiza a boolean alerta para true
+//    @Transactional
+//    @Modifying
+//    @Query("update Produto p set p.alerta = ?2 where p.codigo = ?1")
+//    void atualizarAlerta(Integer codigo, Boolean alerta);
 }

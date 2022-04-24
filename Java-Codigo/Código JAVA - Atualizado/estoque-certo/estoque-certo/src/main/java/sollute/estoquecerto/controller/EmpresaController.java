@@ -60,20 +60,22 @@ public class EmpresaController {
     public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoLoginResponse produtoLoginResponse) {
         if (repositoryEmpresa.existsById(produtoLoginResponse.getIdEmpresa())) {
             if (repositoryProduto.existsByCodigo(produtoLoginResponse.getCodigo())) {
-                if (repositoryProduto.findByQtdVendidosIsGreaterThan(produtoLoginResponse.getQtdVendida())) {
-                    repositoryProduto.atualizarQtdVendida(
-                            produtoLoginResponse.getCodigo(),
-                            produtoLoginResponse.getQtdVendida());
-                    return ResponseEntity.status(200).build();
-                } else {
-                    return ResponseEntity.status(400).build(); // Não há estoque suficiente.
-                }
+                //if (repositoryProduto.findByEstoqueInicialLessThanEqual(produtoLoginResponse.getEstoqueInicial())) {
+                //  repositoryProduto.atualizarAlerta(
+                //        produtoLoginResponse.getCodigo(),
+                //      true);
+                repositoryProduto.atualizarQtdVendida(
+                        produtoLoginResponse.getCodigo(),
+                        produtoLoginResponse.getQtdVendida());
+                return ResponseEntity.status(200).build();
             } else {
-                return ResponseEntity.status(404).build(); // Não existe produto com o codigo informado
+                return ResponseEntity.status(400).build(); // Não há estoque suficiente.
             }
+        } else {
+            return ResponseEntity.status(404).build(); // Não existe produto com o codigo informado
         }
-        return ResponseEntity.status(404).build(); // Não existe empresa com o cnpj informado
     }
+
 
     @GetMapping("/listar-produtos/{fkEmpresa}")
     public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer fkEmpresa) {
