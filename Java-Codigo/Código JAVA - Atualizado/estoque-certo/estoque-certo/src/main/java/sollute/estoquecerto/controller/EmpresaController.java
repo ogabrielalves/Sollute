@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
-import sollute.estoquecerto.repository.EmpresaRepository;
-import sollute.estoquecerto.repository.ProdutoAlimentoRepository;
-import sollute.estoquecerto.repository.ProdutoServicoRepository;
-import sollute.estoquecerto.repository.ProdutoVestuarioRepository;
+import sollute.estoquecerto.repository.*;
+import sollute.estoquecerto.request.EmpresaResponse;
+import sollute.estoquecerto.request.ProdutoLoginResponse;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/empresas")
 public class EmpresaController {
@@ -20,56 +20,32 @@ public class EmpresaController {
     private EmpresaRepository repositoryEmpresa;
 
     @Autowired
-    private ProdutoAlimentoRepository repositoryProdutoAlimento;
-
-    @Autowired
-    private ProdutoServicoRepository repositoryProdutoServico;
-
-    @Autowired
-    private ProdutoVestuarioRepository repositoryProdutoVestuario;
-
-    ListaObj<Empresa> listaEmpresa = new ListaObj(10);
-    ListaObj<Produto> listaProduto = new ListaObj(10);
-
-    @PostMapping("/login/{email}/{senha}")
-    public ResponseEntity logarEmpresa(@PathVariable String email,
-                                       @PathVariable String senha) {
-        return null;
-    }
+    private ProdutoRepository repositoryProduto;
 
     @PostMapping
-    public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa,
-                                      @PathVariable String cpf) {
-        listaEmpresa.adiciona(novaEmpresa);
+    public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa) {
         repositoryEmpresa.save(novaEmpresa);
         return ResponseEntity.status(201).build();
     }
 
-    @PostMapping("/criar-produto-alimento/{cnpj}")
-    public ResponseEntity adicionaProdutoAlimento(@RequestBody @Valid ProdutoAlimento novoProdutoAlimento,
-                                                  @PathVariable String cnpj) {
-        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
-            repositoryProdutoAlimento.save(novoProdutoAlimento);    // Adicionado no Banco de Dados
-            return ResponseEntity.status(201).build();
+    @PostMapping("/autenticacao")
+    public ResponseEntity postAutenticado(@RequestBody @Valid EmpresaResponse requisicao) {
+        List<Empresa> empresa = repositoryEmpresa.findAll();
+        for (Empresa e : empresa) {
+            if (e.getLogin().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
+                repositoryEmpresa.atualizarAutenticado(requisicao.getLogin(), true);
+                return ResponseEntity.status(200).body(e);
+            }
         }
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(401).build();
     }
 
-    @PostMapping("/criar-produto-servico/{cnpj}")
-    public ResponseEntity adicionaProdutoServico(@RequestBody @Valid ProdutoServico novoProdutoServico,
-                                                 @PathVariable String cnpj) {
-        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
-            repositoryProdutoServico.save(novoProdutoServico);    // Adicionado no Banco de Dados
-            return ResponseEntity.status(201).build();
-        }
-        return ResponseEntity.status(404).build();
-    }
-
-    @PostMapping("/criar-produto-vestuario/{cnpj}")
-    public ResponseEntity adicionaProdutoVestuario(@RequestBody @Valid ProdutoVestuario novoProdutoVestuario,
-                                                   @PathVariable String cnpj) {
-        if (repositoryEmpresa.existsByCnpj(cnpj)) { // Verificando se o CNPJ existe
-            repositoryProdutoVestuario.save(novoProdutoVestuario);    // Adicionado no Banco de Dados
+    @PostMapping("/criar-produto/{idEmpresa}")
+    public ResponseEntity adicionaProduto(@RequestBody @Valid Produto novoProduto,
+                                          @PathVariable Long idEmpresa) {
+        novoProduto.getFkEmpresa();
+        if (repositoryEmpresa.existsById(idEmpresa)) { // Verificando se a empresa existe
+            repositoryProduto.save(novoProduto);       // Adicionado no Banco de Dados
             return ResponseEntity.status(201).build();
         }
         return ResponseEntity.status(404).build();
@@ -80,117 +56,95 @@ public class EmpresaController {
         return ResponseEntity.status(200).body(repositoryEmpresa.findAll());
     }
 
-    @PostMapping("/venderProdutos/{cnpj}/{nome}/{qtd}")
-    public ResponseEntity venderProdutosPorCnpj(@PathVariable String cnpj,
-                                                @PathVariable String nome,
-                                                @PathVariable int qtd) {
-        if (listaEmpresa.getTamanho() == 0) {
-            return ResponseEntity.status(204).build(); // Não há empresas.
-        } else {
-
-            // Iterando a lista de Empresas
-            for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
-
-                // Verificando se existe uma empresa com o cnpj do parâmetro
-                if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) {
-
-                    // Iterando a lista de Produtos
-                    for (int j = 0; j < listaProduto.getTamanho(); j++) {
-
-                        // Variáveis criadas para evitar repetição de código
-                        Produto p = listaProduto.getElemento(i);
-                        Empresa e = listaEmpresa.getElemento(i);
-
-                        // Verificando se o nome do produto é o mesmo do parâmetro
-                        if (p.getNome().equals(nome)) {
-                            // Verificando se o objeto do FOR é da classe ProdutoAlimento
-                            if (p instanceof ProdutoAlimento) {
-                                if (p.getQtdEstoque() - qtd >= 0) {
-                                    p.vender(qtd);
-                                    e.setQtdProdutosVendidos(qtd);
-                                    e.setTotalProdutosVendidos(p.getValorVendidos());
-                                    return ResponseEntity.status(200).build();
-                                }
-                                return ResponseEntity.status(400).build(); // Estoque insuficiente
-                            }
-
-                            // Verificando se o objeto do FOR é da classe ProdutoServico
-                            if (p instanceof ProdutoServico) {
-                                if (p.getQtdEstoque() - qtd >= 0) {
-                                    p.vender(qtd);
-                                    e.setQtdProdutosVendidos(qtd);
-                                    e.setTotalProdutosVendidos(p.getValorVendidos());
-                                    return ResponseEntity.status(200).build();
-                                }
-                                return ResponseEntity.status(400).build(); // Estoque insuficiente
-                            }
-
-                            // Verificando se o objeto do FOR é da classe ProdutoVestuario
-                            if (p instanceof ProdutoVestuario) {
-                                if (p.getQtdEstoque() - qtd >= 0) {
-                                    p.vender(qtd);
-                                    e.setQtdProdutosVendidos(qtd);
-                                    e.setTotalProdutosVendidos(p.getValorVendidos());
-                                    return ResponseEntity.status(200).build();
-                                }
-                                return ResponseEntity.status(400).build(); // Estoque insuficiente
-                            }
-
-                        }
-                    }
-                }
+    @PostMapping("/vender-produtos")
+    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoLoginResponse produtoLoginResponse) {
+        if (repositoryEmpresa.existsById(produtoLoginResponse.getIdEmpresa())) {
+            if (repositoryProduto.existsByCodigo(produtoLoginResponse.getCodigo())) {
+                //if (repositoryProduto.findByEstoqueInicialLessThanEqual(produtoLoginResponse.getEstoqueInicial())) {
+                //  repositoryProduto.atualizarAlerta(
+                //        produtoLoginResponse.getCodigo(),
+                //      true);
+                repositoryProduto.atualizarQtdVendida(
+                        produtoLoginResponse.getCodigo(),
+                        produtoLoginResponse.getQtdVendida());
+                return ResponseEntity.status(200).build();
+            } else {
+                return ResponseEntity.status(400).build(); // Não há estoque suficiente.
             }
-            // Retornando 400 se não houver a empresa cadastrada
-            return ResponseEntity.status(404).build(); // Empresa não encontrada.
+        } else {
+            return ResponseEntity.status(404).build(); // Não existe produto com o codigo informado
         }
     }
 
-    @GetMapping("/listar-produtos-vestuario/{cnpj}")
-    public ResponseEntity<List<ProdutoVestuario>> listarProdutosVestuarioPorCnpj(@PathVariable @Valid String cnpj) {
-      return ResponseEntity.status(200).body(repositoryProdutoVestuario.findByCnpj(cnpj));
-    }
 
-    @GetMapping("/listar-produtos-servico/{cnpj}")
-    public ResponseEntity<List<ProdutoServico>> listarProdutosServicoPorCnpj(@PathVariable @Valid String cnpj) {
-        return ResponseEntity.status(200).body(repositoryProdutoServico.findByCnpj(cnpj));
-    }
+    @GetMapping("/listar-produtos/{fkEmpresa}")
+    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer fkEmpresa) {
 
-    @GetMapping("/listar-produtos-alimento/{cnpj}")
-    public ResponseEntity<List<ProdutoAlimento>> listarProdutosAlimentoPorCnpj(@PathVariable @Valid String cnpj) {
-        return ResponseEntity.status(200).body(repositoryProdutoAlimento.findByCnpj(cnpj));
-    }
-
-    @GetMapping("/calcularProdutosVendidos/{cnpj}")
-    public ResponseEntity calcularProdutosVendidos(@PathVariable String cnpj) {
-        if (cnpj.length() != 14) {
-            return ResponseEntity.status(400).build(); // CNPJ inválido.
-        } else {
-            for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
-                // Validando se a empresa existe com o cnpj do parametro
-                if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) {
-                    // Pegando a quantidade produtos que foram vendidos pela empresa
-                    int aux = listaEmpresa.getElemento(i).getQtdProdutosVendidos();
-                    return ResponseEntity.status(204).body("Total de produtos Vendidos: " + aux);
-                }
-            }
+        if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
+            return ResponseEntity.status(200).body(repositoryProduto.findByFkEmpresa(fkEmpresa));
         }
-        return ResponseEntity.status(404).build(); // Empresa não encontrada.
+        return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/calcularValorVendidos/{cnpj}")
-    public ResponseEntity calcularValorVendidos(@PathVariable String cnpj) {
-        if (cnpj.length() != 14) {
-            return ResponseEntity.status(400).build(); // CNPJ inválido.
-        } else {
-            for (int i = 0; i < listaEmpresa.getTamanho(); i++) {
-                // Validando se a empresa existe com o cnpj do parametro
-                if (listaEmpresa.getElemento(i).getCnpj().equals(cnpj)) {
-                    // Pegando a quantidade produtos que foram vendidos pela empresa
-                    double aux = listaEmpresa.getElemento(i).getTotalProdutosVendidos();
-                    return ResponseEntity.status(204).body("Valor total de produtos Vendidos: R$" + aux);
-                }
+    @GetMapping("/calcular-produtos-vendidos/{fkEmpresa}")
+    public ResponseEntity calcularProdutosVendidos(@PathVariable Integer fkEmpresa) {
+        int aux = 0;
+        if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
+            for (Produto prod : repositoryProduto.findAll()) {
+                aux += prod.getQtdVendidos();
             }
+            return ResponseEntity.status(200).body(aux);
         }
-        return ResponseEntity.status(404).build(); // Empresa não encontrada.
+        return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/calcular-valor-vendidos/{fkEmpresa}")
+    public ResponseEntity calcularValorVendidos(@PathVariable Integer fkEmpresa) {
+        int aux = 0;
+        if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
+            for (Produto prod : repositoryProduto.findAll()) {
+                aux += prod.getValorVendidos();
+            }
+            return ResponseEntity.status(200).body(aux);
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+
+    @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
+    public ResponseEntity deletarProduto(@PathVariable String codigo, @PathVariable Integer fkEmpresa) {
+        repositoryProduto.deleteProdutoByIdProduto(repositoryProduto.findByCodigoAndFkEmpresa(codigo, fkEmpresa).getIdProduto());
+        return ResponseEntity.status(200).build();
+    }
+
+
+    @GetMapping("/relatorio/{fkEmpresa}")
+    public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
+
+        List<Produto> lista = repositoryProduto.findByFkEmpresa(fkEmpresa);
+        String relatorio = "" +
+                "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
+                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
+        for (Produto prod : lista) {
+            relatorio += "" +
+                    "" + prod.getCodigo() +
+                    ";" + prod.getNome() +
+                    ";" + prod.getMarca() +
+                    ";" + prod.getCategoria() +
+                    ";" + prod.getTamanho() +
+                    ";" + prod.getPeso() +
+                    ";" + prod.getPrecoCompra() +
+                    ";" + prod.getPrecoVenda() +
+                    ";" + prod.getEstoqueInicial() +
+                    ";" + prod.getEstoqueMin() +
+                    ";" + prod.getEstoqueMax() +
+                    ";" + (prod.getQtdVendidos() == null ? 0 : prod.getQtdVendidos()) + "\r\n";
+        }
+
+        return ResponseEntity
+                .status(200)
+                .header("content-type", "text/csv")
+                .header("content-disposition", "filename=\"relatorio-de-produtos.csv\"")
+                .body(relatorio);
     }
 }

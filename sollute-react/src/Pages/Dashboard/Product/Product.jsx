@@ -20,8 +20,8 @@ function Product() {
     return (
         <Dashboard>
             <Grid container spacing={3} sx={center}>
-                <Grid item xs={12}>
-                    <LocalOfferIcon />
+                <Grid item xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <LocalOfferIcon style={{ marginRight: '20px' }} />
                     <h1>Produtos</h1>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -47,6 +47,7 @@ function Product() {
                         fullWidth
                         variant="contained"
                         startIcon={<AddCircleIcon />}
+                        onClick={() => window.location.href = "/dashboard/new-product"}
                     >
                         Novo Produto
                     </Button>
@@ -56,6 +57,7 @@ function Product() {
                         fullWidth
                         variant="contained"
                         startIcon={<EditIcon />}
+                        onClick={() => window.location.href = "/dashboard/edit-product"}
                     >
                         Editar Produto
                     </Button>
@@ -64,13 +66,14 @@ function Product() {
                     <Button
                         fullWidth
                         variant="contained"
+                        onClick={() => window.location.href = "/dashboard/delete-product"}
                         endIcon={<DeleteIcon />}
                     >
                         Excluir Produto
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
-                    <ProductList></ProductList>
+                    <ProductList />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Button

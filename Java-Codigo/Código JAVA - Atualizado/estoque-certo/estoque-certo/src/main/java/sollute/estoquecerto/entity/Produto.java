@@ -1,108 +1,90 @@
 package sollute.estoquecerto.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
-public abstract class Produto {
+@Table(name = "produto")
+public class Produto {
 
-    //Atributos
+    // Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codProduto;
+    private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
+
+    @NotNull
+    @Column(name = "fk_empresa")
+    private Integer fkEmpresa;
 
     @NotBlank
-    private String cnpj;
+    private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
 
     @NotBlank
+    @Length(min = 2, max = 45)
     private String nome;
 
-    @PositiveOrZero
-    private Double preco;
+    @NotBlank
+    @Length(min = 2, max = 45)
+    private String marca;
+
+    @NotBlank
+    @Length(min = 3, max = 45)
+    private String categoria;
+
+    @NotBlank
+    private String tamanho;
 
     @PositiveOrZero
-    private Integer qtdEstoque;
+    private Double peso;
 
     @PositiveOrZero
+    @Column(name = "preco_compra")
+    private Double precoCompra;
+
+    @PositiveOrZero
+    @Column(name = "preco_venda")
+    private Double precoVenda;
+
+    @PositiveOrZero
+    @Column(name = "estoque_inicial")
+    private Integer estoqueInicial;
+
+    @PositiveOrZero
+    @Column(name = "estoque_min")
+    private Integer estoqueMin;
+
+    @Positive
+    @Column(name = "estoque_max")
+    private Integer estoqueMax;
+
+    @PositiveOrZero
+    @Column(name = "qtd_vendidos")
     private Integer qtdVendidos;
 
     @PositiveOrZero
+    @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
-    @NotBlank
-    private String marca;
+    // Atributo necessário para a implementação do design patters Observer
+    // @NotNull
+    // private boolean alerta;
 
-    @Positive
-    private Double peso;
-
-    @NotBlank
-    private String categoria;
-
-
-    //Metodos
-    public abstract Boolean vender(int i);
-
-    @Override
-    public String toString() {
-        return String.format("" +
-                        "%6s %20s %9s %7s %7s %6s %10s %5s %10s" +
-                        "%06d %-20s %7.2f %7d %7d %4.2f %10s %4.1f %10s",
-                // Cabeçalho
-                "ID",
-                "Nome do Produto",
-                "Preco",
-                "Estoque",
-                "Vendidos",
-                "Valor dos Vendidos",
-                "Marca",
-                "Peso",
-                "Categoria",
-                // Corpo
-                codProduto,     // %06d
-                nome,           // %-20s
-                preco,          // %7.2f
-                qtdEstoque,     // %7d
-                qtdVendidos,    // %7d
-                valorVendidos,  // %4.2f
-                marca,          // %10s
-                peso,           // %4.1f
-                categoria);     // %10s
+    public Integer getIdProduto() {
+        return idProduto;
     }
 
-//    public String pegaCategoria() {
-//        if (categoria.equals("v")) {
-//            return "Vestuário";
-//        } else if (categoria.equals("a")) {
-//            return "Alimento";
-//        } else {
-//            return "Serviço";
-//        }
-//    }
-
-    //Getters and Setters
-    public String getCnpj() {
-        return cnpj;
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
     }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+    public Integer getFkEmpresa() {
+        return fkEmpresa;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public Long getCodProduto() {
-        return codProduto;
-    }
-
-    public void setCodProduto(Long codProduto) {
-        this.codProduto = codProduto;
+    public void setFkEmpresa(Integer fkEmpresa) {
+        this.fkEmpresa = fkEmpresa;
     }
 
     public String getNome() {
@@ -113,36 +95,12 @@ public abstract class Produto {
         this.nome = nome;
     }
 
-    public Double getPreco() {
-        return preco;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public Integer getQtdEstoque() {
-        return qtdEstoque;
-    }
-
-    public void setQtdEstoque(Integer qtdEstoque) {
-        this.qtdEstoque = qtdEstoque;
-    }
-
-    public Integer getQtdVendidos() {
-        return qtdVendidos;
-    }
-
-    public void setQtdVendidos(Integer qtdVendidos) {
-        this.qtdVendidos = qtdVendidos;
-    }
-
-    public Double getValorVendidos() {
-        return valorVendidos;
-    }
-
-    public void setValorVendidos(Double valorVendidos) {
-        this.valorVendidos = valorVendidos;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getMarca() {
@@ -153,6 +111,22 @@ public abstract class Produto {
         this.marca = marca;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getTamanho() {
+        return tamanho;
+    }
+
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
+
     public Double getPeso() {
         return peso;
     }
@@ -161,11 +135,59 @@ public abstract class Produto {
         this.peso = peso;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public Double getPrecoCompra() {
+        return precoCompra;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setPrecoCompra(Double precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
+    public Double getPrecoVenda() {
+        return precoVenda;
+    }
+
+    public void setPrecoVenda(Double precoVenda) {
+        this.precoVenda = precoVenda;
+    }
+
+    public Integer getEstoqueInicial() {
+        return estoqueInicial;
+    }
+
+    public void setEstoqueInicial(Integer estoqueInicial) {
+        this.estoqueInicial = estoqueInicial;
+    }
+
+    public Integer getEstoqueMin() {
+        return estoqueMin;
+    }
+
+    public void setEstoqueMin(Integer estoqueMin) {
+        this.estoqueMin = estoqueMin;
+    }
+
+    public Integer getEstoqueMax() {
+        return estoqueMax;
+    }
+
+    public void setEstoqueMax(Integer estoqueMax) {
+        this.estoqueMax = estoqueMax;
+    }
+
+    public Integer getQtdVendidos() {
+        return qtdVendidos;
+    }
+
+    public void setQtdVendidos(int qtdVendidos) {
+        this.qtdVendidos = qtdVendidos;
+    }
+
+    public Double getValorVendidos() {
+        return valorVendidos;
+    }
+
+    public void setValorVendidos(Double valorVendidos) {
+        this.valorVendidos = valorVendidos;
     }
 }

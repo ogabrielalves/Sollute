@@ -1,152 +1,87 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import ProductService from '../../../Services/Product/ProductService';
+import { AuthContext } from "../../../Context/AuthContext";
 const service = new ProductService()
 
-function ProductList(props){
+function ProductList(props) {
+
+    const { empresa } = useContext(AuthContext)
 
     const [pageSize, setPageSize] = useState(10)
     const [page, setPage] = useState(0)
 
     const [items, setItems] = useState([])
-    const [rowCount, setRowCount] = useState(0)
 
-    useEffect(()=>{
+    useEffect(() => {
+
+        if (!empresa) return null;
+
         getData()
-        async function getData(){
-
-            const filters = props.filters;
-
-            const apiResponse = await service.getPOSPagination(page+1, pageSize, filters)
+        async function getData() {
+            const apiResponse = await service.getProdutos(empresa?.idEmpresa)
             console.log(apiResponse)
-            setRowCount(apiResponse.totalRecords)
-            setItems(apiResponse.items)
+            setItems(apiResponse)
         }
-    }, [pageSize, page, props.filters])
+    }, [empresa])
 
-    return(
+    return (
         <DataGrid
-                sortable={true}
-                filter={true}
-                density="compact"
-                autoWidth={true}
-                rowHeight={70}
-                columns={columns}
+            sortable={true}
+            filter={true}
+            density="compact"
+            autoWidth={true}
+            rowHeight={70}
+            columns={columns}
+            getRowId={(row) => row.codigo}
+            rows={items}
+            page={page}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            onPageChange={(newPage) => setPage(newPage)}
 
-                rows={items}
-                paginationMode="server"
-                page={page}
-                pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                onPageChange={(newPage)=>setPage(newPage)}
-    	        rowCount={rowCount}
-
-                rowsPerPageOptions={[10, 20, 30]}
-                autoHeight={true} >
+            rowsPerPageOptions={[10, 20, 30]}
+            autoHeight={true} >
         </DataGrid>
     )
 }
 
-const situacao = [{ key: 1, value: "Não Liberado Para Instalação" },
-{ key: 2, value: "Liberado Para Instalação" },
-{ key: 3, value: "Instalado" },
-{ key: 4, value: "Inativo" },
-{ key: 5, value: "Transacionando" }]
 
 const columns = [
     {
-        field: "identifier",
-        headerName: "Identificador",
-        width: 120
+        field: "codigo",
+        headerName: "Código do produto",
+        width: 290
     },
     {
-        field: "automationName",
-        headerName: "Nome Fantasia",
+        field: "nome",
+        headerName: "Nome",
+        width: 290
+    },
+    {
+        field: "precoVenda",
+        headerName: "Preço",
         width: 200
     },
     {
-        field: "a1",
-        headerName: "ID do Sistema Externo",
+        field: "estoqueInicial",
+        headerName: "Quantidade em estoque",
         width: 200
     },
     {
-        field: "description",
-        headerName: "Descrição",
+        field: "marca",
+        headerName: "Marca",
         width: 220
     },
     {
-        field: "automationCompanyName",
-        headerName: "Razão Social",
-        width: 280
-    },   
-    {
-        field: "a45",
-        headerName: "CPF/CNPJ",
+        field: "peso",
+        headerName: "Peso",
         width: 120
     },
     {
-        field: "pointOfSaleType",
-        headerName: "Tipo de PDC",
-        width: 120,
-        valueGetter: (v) => {
-            if(v.row.pointOfSaleType === null) {
-                return ""
-            }
-            return v.row.pointOfSaleType.description
-        }
-    },
-    {
-        field: "a6",
-        headerName: "Aplicação Instalada",
-        width: 160
-    },
-    {
-        field: "applicationVersionInstalled",
-        headerName: "Versão Instalada",
-        width: 200,
-        valueGetter: (v) => {
-            if(v.row.applicationVersionInstalled === null) {
-                return ""
-            }
-            return v.row.applicationVersionInstalled.version
-        }
-    },
-    {
-        field: "applicationVersionForInstallation",
-        headerName: "Versão Para Instalação",
-        width: 200,
-        valueGetter: (v) => {
-            if(v.row.applicationVersionForInstallation === null) {
-                return ""
-            }
-            return v.row.applicationVersionForInstallation.version
-        }
-    },
-    {
-        field: "status",
-        headerName: "Situação",
-        width: 180,
-        valueGetter: (v) => situacao.find(e => e.key === v.value).value
-    },
-    {
-        field: 'lastCommunicationAt',
-        headerName: 'Última Comunicação',
-        width: 160,
-        valueGetter: (v) => {
-            const x = new Date(v.value)
-            return [x.getDate(), x.getMonth() + 1, x.getFullYear()].map(e => e < 10 ? '0' + e : e).join('/')
-                + " " + [x.getHours(), x.getMinutes()].map(e => e < 10 ? '0' + e : e).join(':')
-        }
-    },
-    {
-        field: 'lastTransactionAt',
-        headerName: 'Última Transação Financeira',
-        width: 160,
-        valueGetter: (v) => {
-            const x = new Date(v.value)
-            return [x.getDate(), x.getMonth() + 1, x.getFullYear()].map(e => e < 10 ? '0' + e : e).join('/')
-                + " " + [x.getHours(), x.getMinutes()].map(e => e < 10 ? '0' + e : e).join(':')
-        }
+        field: "categoria",
+        headerName: "Categoria",
+        width: 180
     }
 ];
 

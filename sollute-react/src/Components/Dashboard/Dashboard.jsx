@@ -3,10 +3,7 @@ import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,20 +15,26 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuPopUp from '../MenuPopUp/MenuPopUp';
 import LogoSollute from '../../Assets/Image/Logo2-modelo.svg'
+import Profile from '../Profile/Profile'
 
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import PersonIcon from '@mui/icons-material/Person';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { Link } from 'react-router-dom'
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { AppBar, Typography } from '@mui/material';
+import { AuthContext } from '../../Context/AuthContext';
 
 class Dashboard extends React.Component {
     render() {
@@ -92,27 +95,7 @@ function DashboardContent(props) {
         icon: <GroupIcon />
     }];
 
-    const isMenuOpen = false;
-
     const drawerWidth = 240;
-
-    const AppBar = styled(MuiAppBar, {
-        shouldForwardProp: (prop) => prop !== 'open',
-    })(({ theme, open }) => ({
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        ...(open && {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(['width', 'margin'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        }),
-    }));
 
     const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
         ({ theme, open }) => ({
@@ -138,7 +121,7 @@ function DashboardContent(props) {
                 }),
             },
         }),
-    );  
+    );
 
     React.useEffect(() => {
         if (matches) {
@@ -158,13 +141,15 @@ function DashboardContent(props) {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        px: [1],
+                        justifyContent: 'center',
+                        px: [5]
                     }}
                 >
-                    <img src={LogoSollute} width={'70%'} className="logo_style" alt="" />
+                    <Link to={'/'}><img src={LogoSollute} width={'100%'} className="logo_style" alt="" /></Link>
                     <IconButton onClick={toggleDrawer}>
-                        <ChevronLeftIcon />
+                        {open ?
+                            <ChevronLeftIcon /> : <ChevronRightIcon />
+                        }
                     </IconButton>
                 </Toolbar>
 
@@ -178,9 +163,9 @@ function DashboardContent(props) {
                             )
                         }
                         return (
-                            <Link key={text.title} to={text.link} style={{ textDecoration: 'none', color: '#000000' }}>
+                            <Link key={text.title} to={text.link} style={{ textDecoration: 'none' }}>
                                 <ListItem button>
-                                    <ListItemIcon>
+                                    <ListItemIcon >
                                         {text.icon}
                                     </ListItemIcon>
                                     <ListItemText primary={text.title} />
@@ -206,6 +191,39 @@ function DashboardContent(props) {
             >
                 <Toolbar />
                 <Container maxWidth="false" sx={{ mt: 4, mb: 4 }} >
+
+                    <AppBar position="fixed" sx={{ maxHeight: 65, backgroundColor: "#784DFF" }} open={open}>
+                        <Toolbar
+                            sx={{
+                                pr: '24px', // keep right padding when drawer closed
+                            }}
+                        >
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={toggleDrawer}
+                                sx={{
+                                    marginRight: '36px',
+                                    ...(open && { display: 'none' }),
+                                }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography
+                                component="h1"
+                                variant="h6"
+                                color="inherit"
+                                noWrap
+                                sx={{ flexGrow: 1 }}
+                            >
+
+                            </Typography>
+
+                            <Profile />
+
+                        </Toolbar>
+                    </AppBar>
 
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12} lg={12}>
