@@ -9,7 +9,7 @@ public class EmpresaResponse {
         return login;
     }
 
-    public String pegarSenha() {
+    public String getSenha() {
         return senha;
     }
 

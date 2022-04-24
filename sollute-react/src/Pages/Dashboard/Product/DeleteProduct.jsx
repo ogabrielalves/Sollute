@@ -7,8 +7,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { Grid, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../../Hooks/useAuth';
 
 function DeleteProduct() {
+    const { empresa } = useAuth();
 
     const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ function DeleteProduct() {
     const [id, setId] = useState('');
 
     function deleteProduto(codigo) {
-        axios.delete(`http://localhost:8080/empresas/deletar-produto/${codigo}`);
+        axios.delete(`http://localhost:8080/empresas/deletar-produto/${codigo}/${empresa?.idEmpresa}`);
     }
 
     return (

@@ -32,7 +32,7 @@ public class EmpresaController {
     public ResponseEntity postAutenticado(@RequestBody @Valid EmpresaResponse requisicao) {
         List<Empresa> empresa = repositoryEmpresa.findAll();
         for (Empresa e : empresa) {
-            if (e.getLogin().equals(requisicao.getLogin()) && e.pegarSenha().equals(requisicao.pegarSenha())) {
+            if (e.getLogin().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
                 repositoryEmpresa.atualizarAutenticado(requisicao.getLogin(), true);
                 return ResponseEntity.status(200).body(e);
             }
