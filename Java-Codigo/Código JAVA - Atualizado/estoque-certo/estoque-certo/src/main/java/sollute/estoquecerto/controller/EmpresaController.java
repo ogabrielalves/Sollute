@@ -11,7 +11,6 @@ import sollute.estoquecerto.request.ProdutoLoginResponse;
 import javax.validation.Valid;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/empresas")
 public class EmpresaController {
@@ -113,8 +112,11 @@ public class EmpresaController {
 
     @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
     public ResponseEntity deletarProduto(@PathVariable String codigo, @PathVariable Integer fkEmpresa) {
-        repositoryProduto.deleteProdutoByIdProduto(repositoryProduto.findByCodigoAndFkEmpresa(codigo, fkEmpresa).getIdProduto());
-        return ResponseEntity.status(200).build();
+        if (repositoryProduto.existsByCodigo(codigo)){
+            repositoryProduto.deleteProdutoByIdProduto(repositoryProduto.findByCodigoAndFkEmpresa(codigo, fkEmpresa).getIdProduto());
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
     }
 
 

@@ -17,6 +17,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
     @Transactional
     void deleteProdutoByIdProduto(Integer idProduto);
 
+    boolean existsByCodigo(String codigo);
     // Retorna uma lista de PRODUTO pelo fk da empresa
     List<Produto> findByFkEmpresa(Integer fkEmpresa);
 

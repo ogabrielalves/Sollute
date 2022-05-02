@@ -1,6 +1,7 @@
 import React from 'react';
 import Dashboard from '../../../Components/Dashboard/Dashboard';
 import { TextField, Grid, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -16,6 +17,9 @@ const styleGridButton = {
 
 
 function EditProduct() {
+
+    const navigate = useNavigate();
+
     return (
         <Dashboard>
             <Grid container spacing={3}>
@@ -84,7 +88,7 @@ function EditProduct() {
                             fullWidth
                             variant="outlined"
                             startIcon={<ArrowBackIcon />}
-                            onClick={() => window.location.href = "/dashboard/product"}
+                            onClick={() => navigate("/dashboard/product")}
                         >
                             Voltar
                         </Button>

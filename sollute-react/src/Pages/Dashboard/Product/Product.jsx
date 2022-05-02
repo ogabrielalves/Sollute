@@ -1,6 +1,7 @@
 import React from 'react';
 import Dashboard from '../../../Components/Dashboard/Dashboard';
 import { TextField, Grid, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -17,6 +18,9 @@ const center = {
 }
 
 function Product() {
+
+    const navigate = useNavigate();
+
     return (
         <Dashboard>
             <Grid container spacing={3} sx={center}>
@@ -47,7 +51,7 @@ function Product() {
                         fullWidth
                         variant="contained"
                         startIcon={<AddCircleIcon />}
-                        onClick={() => window.location.href = "/dashboard/new-product"}
+                        onClick={() => navigate("/dashboard/new-product")}
                     >
                         Novo Produto
                     </Button>
@@ -57,7 +61,7 @@ function Product() {
                         fullWidth
                         variant="contained"
                         startIcon={<EditIcon />}
-                        onClick={() => window.location.href = "/dashboard/edit-product"}
+                        onClick={() => navigate("/dashboard/edit-product")}
                     >
                         Editar Produto
                     </Button>
@@ -66,7 +70,7 @@ function Product() {
                     <Button
                         fullWidth
                         variant="contained"
-                        onClick={() => window.location.href = "/dashboard/delete-product"}
+                        onClick={() => navigate("/dashboard/delete-product")}
                         endIcon={<DeleteIcon />}
                     >
                         Excluir Produto

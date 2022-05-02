@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dashboard from '../../../Components/Dashboard/Dashboard';
 import axios from 'axios';
+import { notify } from '../../../Components/Notify/Notify';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -23,7 +24,15 @@ function DeleteProduct() {
     const [id, setId] = useState('');
 
     function deleteProduto(codigo) {
-        axios.delete(`http://localhost:8080/empresas/deletar-produto/${codigo}/${empresa?.idEmpresa}`);
+        axios.delete(`http://localhost:8080/empresas/deletar-produto/${codigo}/${empresa?.idEmpresa}`)
+            .then((res) => {
+                if (res.status === 200) {
+                    notify('Produto deletado com sucesso!', 'sucess')
+                }
+
+            }).catch((err) => {
+                notify('Produto não encontrado!', 'error')
+            });
     }
 
     return (
@@ -35,14 +44,14 @@ function DeleteProduct() {
                         <h1>Excluir Produto</h1>
                     </Grid>
                     <Grid item xs={12} md={8} marginBottom={2}>
-                        <TextField fullWidth id="outlined-basic" label="ID do Produto" variant="outlined"
+                        <TextField fullWidth id="outlined-basic" label="Código do Produto" variant="outlined"
                             onChange={(evt) => setId(evt.target.value)} />
                     </Grid>
                     <Grid item xs={12}></Grid>
                     <Grid item xs={12} md={4}>
                         <Button
                             onClick={() => {
-                                deleteProduto(id)                                
+                                deleteProduto(id)
                             }}
                             fullWidth
                             variant="contained"
