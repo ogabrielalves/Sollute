@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Entity
 @Table(name= "empresa")
 public class Empresa {

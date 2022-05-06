@@ -8,6 +8,7 @@ import sollute.estoquecerto.entity.Empresa;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 
     Empresa findByIdEmpresa(Long idEmpresa);
