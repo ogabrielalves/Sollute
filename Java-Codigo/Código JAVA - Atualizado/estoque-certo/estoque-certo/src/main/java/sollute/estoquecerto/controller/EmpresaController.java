@@ -7,6 +7,7 @@ import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
 import sollute.estoquecerto.request.EmpresaResponse;
 import sollute.estoquecerto.request.ProdutoLoginResponse;
+import sollute.estoquecerto.response.NovaEmpresaResponse;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,13 +18,30 @@ public class EmpresaController {
 
     @Autowired
     private EmpresaRepository repositoryEmpresa;
+    EmpresaInsertRepository empresaInsertRepository;
 
     @Autowired
     private ProdutoRepository repositoryProduto;
 
+    @Autowired
+    private CaixaRepository caixaRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private FornecedorRepository fornecedorRepository;
+
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+
     @PostMapping
-    public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa novaEmpresa) {
-        repositoryEmpresa.save(novaEmpresa);
+    public ResponseEntity criaEmpresa(@RequestBody @Valid NovaEmpresaResponse novaEmpresa) {
+        // enderecoInsertRepository.insertEndereco(novaEmpresa.getCep(), novaEmpresa.getUf());
+        empresaInsertRepository.insertEmpresa(novaEmpresa);
         return ResponseEntity.status(201).build();
     }
 
@@ -31,7 +49,7 @@ public class EmpresaController {
     public ResponseEntity postAutenticado(@RequestBody @Valid EmpresaResponse requisicao) {
         List<Empresa> empresa = repositoryEmpresa.findAll();
         for (Empresa e : empresa) {
-            if (e.getLogin().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
+            if (e.getEmail().equals(requisicao.getLogin()) && e.getSenha().equals(requisicao.getSenha())) {
                 repositoryEmpresa.atualizarAutenticado(requisicao.getLogin(), true);
                 return ResponseEntity.status(200).body(e);
             }
@@ -137,7 +155,7 @@ public class EmpresaController {
                     ";" + prod.getPeso() +
                     ";" + prod.getPrecoCompra() +
                     ";" + prod.getPrecoVenda() +
-                    ";" + prod.getEstoqueInicial() +
+                    ";" + prod.getEstoque() +
                     ";" + prod.getEstoqueMin() +
                     ";" + prod.getEstoqueMax() +
                     ";" + (prod.getQtdVendidos() == null ? 0 : prod.getQtdVendidos()) + "\r\n";

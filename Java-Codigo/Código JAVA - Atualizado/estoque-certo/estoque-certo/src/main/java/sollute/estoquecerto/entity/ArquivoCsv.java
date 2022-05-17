@@ -35,7 +35,7 @@ public class ArquivoCsv {
                         prod.getPeso(),
                         prod.getPrecoCompra(),
                         prod.getPrecoVenda(),
-                        prod.getEstoqueInicial(),
+                        prod.getEstoque(),
                         prod.getEstoqueMin(),
                         prod.getEstoqueMax(),
                         prod.getQtdVendidos());

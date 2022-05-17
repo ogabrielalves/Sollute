@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.List;
 
 @Entity
 @Table(name= "empresa")
@@ -17,7 +16,7 @@ public class Empresa {
 
     @Email(message = "Insira um e-mail válido")
     @Column(name = "email")
-    private String login;
+    private String email;
 
     @NotBlank
     private String senha;
@@ -33,25 +32,6 @@ public class Empresa {
 
     @CNPJ
     private String cnpj;
-
-    @Length(min = 8, max = 8, message = "O CEP deve conter 8 digitos.")
-    private String cep;
-
-    @Length(min = 2, max = 2)
-    private String uf;
-
-    @NotBlank
-    @Length(min = 3, max = 45)
-    private String cidade;
-
-    @NotBlank
-    @Length(min = 3, max = 45)
-    private String logradouro;
-
-    @NotBlank
-    @Length(min = 3, max = 45)
-    @Column(name = "ponto_referencia")
-    private String pontoReferencia;
 
     @PositiveOrZero
     @Column(name = "qtd_produtos_vendidos")
@@ -125,12 +105,12 @@ public class Empresa {
         this.idEmpresa = idEmpresa;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String login) {
+        this.email = login;
     }
 
     public String getSenha() {
@@ -163,46 +143,6 @@ public class Empresa {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public String getPontoReferencia() {
-        return pontoReferencia;
-    }
-
-    public void setPontoReferencia(String pontoReferencia) {
-        this.pontoReferencia = pontoReferencia;
     }
 
     public int getQtdProdutosVendidos() {

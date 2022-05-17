@@ -16,7 +16,8 @@ public class Produto {
 
     @NotNull
     @Column(name = "fk_empresa")
-    private Integer fkEmpresa;
+    @ManyToOne
+    private Empresa fkEmpresa;
 
     @NotBlank
     private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
@@ -48,8 +49,8 @@ public class Produto {
     private Double precoVenda;
 
     @PositiveOrZero
-    @Column(name = "estoque_inicial")
-    private Integer estoqueInicial;
+    @Column(name = "estoque")
+    private Integer estoque;
 
     @PositiveOrZero
     @Column(name = "estoque_min")
@@ -67,10 +68,6 @@ public class Produto {
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
-    // Atributo necessário para a implementação do design patters Observer
-    // @NotNull
-    // private boolean alerta;
-
     public Integer getIdProduto() {
         return idProduto;
     }
@@ -79,11 +76,11 @@ public class Produto {
         this.idProduto = idProduto;
     }
 
-    public Integer getFkEmpresa() {
+    public Empresa getFkEmpresa() {
         return fkEmpresa;
     }
 
-    public void setFkEmpresa(Integer fkEmpresa) {
+    public void setFkEmpresa(Empresa fkEmpresa) {
         this.fkEmpresa = fkEmpresa;
     }
 
@@ -151,12 +148,12 @@ public class Produto {
         this.precoVenda = precoVenda;
     }
 
-    public Integer getEstoqueInicial() {
-        return estoqueInicial;
+    public Integer getEstoque() {
+        return estoque;
     }
 
-    public void setEstoqueInicial(Integer estoqueInicial) {
-        this.estoqueInicial = estoqueInicial;
+    public void setEstoque(Integer estoqueInicial) {
+        this.estoque = estoqueInicial;
     }
 
     public Integer getEstoqueMin() {
@@ -189,5 +186,9 @@ public class Produto {
 
     public void setValorVendidos(Double valorVendidos) {
         this.valorVendidos = valorVendidos;
+    }
+
+    public void setQtdVendidos(Integer qtdVendidos) {
+        this.qtdVendidos = qtdVendidos;
     }
 }
