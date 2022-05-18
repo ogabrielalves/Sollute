@@ -11,13 +11,12 @@ public class Produto {
 
     // Atributos
     @Id
+    @Column(name = "id_produto")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
 
-    @NotNull
-    @Column(name = "fk_empresa")
     @ManyToOne
-    private Empresa fkEmpresa;
+    private Empresa empresa;
 
     @NotBlank
     private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
@@ -49,7 +48,6 @@ public class Produto {
     private Double precoVenda;
 
     @PositiveOrZero
-    @Column(name = "estoque")
     private Integer estoque;
 
     @PositiveOrZero
@@ -60,13 +58,51 @@ public class Produto {
     @Column(name = "estoque_max")
     private Integer estoqueMax;
 
+    // Deverá vir como 0 pelo front-end
     @PositiveOrZero
     @Column(name = "qtd_vendidos")
     private Integer qtdVendidos;
 
+    // Deverá vir como 0 pelo front-end
     @PositiveOrZero
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
+
+    public Produto(String codigo,
+                   String nome,
+                   String marca,
+                   String categoria,
+                   String tamanho,
+                   Double peso,
+                   Double precoCompra,
+                   Double precoVenda,
+                   Integer estoque,
+                   Integer estoqueMin,
+                   Integer estoqueMax,
+                   Integer qtdVendidos,
+                   Double valorVendidos) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.tamanho = tamanho;
+        this.peso = peso;
+        this.precoCompra = precoCompra;
+        this.precoVenda = precoVenda;
+        this.estoque = estoque;
+        this.estoqueMin = estoqueMin;
+        this.estoqueMax = estoqueMax;
+        this.qtdVendidos = qtdVendidos;
+        this.valorVendidos = valorVendidos;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
 
     public Integer getIdProduto() {
         return idProduto;
@@ -74,14 +110,6 @@ public class Produto {
 
     public void setIdProduto(Integer idProduto) {
         this.idProduto = idProduto;
-    }
-
-    public Empresa getFkEmpresa() {
-        return fkEmpresa;
-    }
-
-    public void setFkEmpresa(Empresa fkEmpresa) {
-        this.fkEmpresa = fkEmpresa;
     }
 
     public String getNome() {

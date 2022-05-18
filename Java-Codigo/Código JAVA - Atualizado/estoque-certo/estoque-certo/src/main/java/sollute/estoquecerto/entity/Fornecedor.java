@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
+@Table(name = "fornecedor")
 public class Fornecedor {
 
     @Id
@@ -14,12 +15,12 @@ public class Fornecedor {
     private Long idFornecedor;
 
     @NotNull
-    @Column(name = "fk_empresa")
+    // @Column(name = "fk_empresa")
     @ManyToOne
     private Empresa fkEmpresa;
 
     @NotNull
-    @Column(name = "fk_endereco")
+    // @Column(name = "fk_endereco")
     @OneToOne
     private Endereco fkEndereco;
 
@@ -36,7 +37,6 @@ public class Fornecedor {
     private String nomeProduto;
 
     @PositiveOrZero
-    @Column(name = "qtd")
     private Integer qtd;
 
     public Long getIdFornecedor() {

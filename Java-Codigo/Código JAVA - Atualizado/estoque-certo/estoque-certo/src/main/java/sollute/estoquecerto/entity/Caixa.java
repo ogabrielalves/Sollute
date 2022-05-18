@@ -5,14 +5,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
+@Table(name = "caixa")
 public class Caixa {
 
     @Id
+    @Column(name = "id_caixa")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCaixa;
 
     @NotNull
-    @Column(name = "fk_empresa")
+    // @Column(name = "fk_empresa")
     @ManyToOne
     private Empresa fkEmpresa;
 

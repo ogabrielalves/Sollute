@@ -4,32 +4,32 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "endereco")
 public class Endereco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_endereco")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEndereco;
 
-    @NotBlank
-    @Column(name = "fk_empresa")
+    // @Column(name = "fk_empresa")
     @ManyToOne
     private Empresa fkEmpresa;
 
     @ManyToOne
-    @Column(name = "fk_cliente")
+    // @Column(name = "fk_cliente")
     private Cliente fkCliente;
 
     @ManyToOne
-    @Column(name = "fk_fornecedor")
+    // @Column(name = "fk_fornecedor")
     private Fornecedor fkFornecedor;
 
     @ManyToOne
-    @Column(name = "fk_funcionario")
+//    @Column(name = "fk_funcionario")
     private Funcionario fkFuncionario;
 
     @NotBlank
-    private String logradura;
+    private String logradouro;
 
     @NotBlank
     private String cep;
@@ -84,12 +84,12 @@ public class Endereco {
         this.fkFuncionario = fkFuncionario;
     }
 
-    public String getLogradura() {
-        return logradura;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setLogradura(String logradura) {
-        this.logradura = logradura;
+    public void setLogradouro(String logradura) {
+        this.logradouro = logradura;
     }
 
     public String getCep() {

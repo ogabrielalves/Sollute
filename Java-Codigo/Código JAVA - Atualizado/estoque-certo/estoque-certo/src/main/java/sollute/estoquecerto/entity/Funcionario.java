@@ -7,6 +7,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
+@Table(name = "funcionario")
 public class Funcionario {
 
     @Id
@@ -15,12 +16,12 @@ public class Funcionario {
     private Long idFuncionario;
 
     @NotNull
-    @Column(name = "fk_empresa")
+    // @Column(name = "fk_empresa")
     @ManyToOne
     private Empresa fkEmpresa;
 
     @NotNull
-    @Column(name = "fk_endereco")
+    // @Column(name = "fk_endereco")
     @OneToOne
     private Endereco fkEndereco;
 

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "cliente")
 public class Cliente {
 
     @Id
@@ -13,12 +14,12 @@ public class Cliente {
     private Long idCliente;
 
     @NotNull
-    @Column(name = "fk_empresa")
+    // @Column(name = "fk_empresa")
     @ManyToOne
     private Empresa fkEmpresa;
 
     @NotNull
-    @Column(name = "fk_endereco")
+    // @Column(name = "fk_endereco")
     @OneToOne
     private Endereco fkEndereco;
 

@@ -1,4 +1,4 @@
-package sollute.estoquecerto.request;
+package sollute.estoquecerto.response;
 
 public class ProdutoLoginResponse {
     private Long idEmpresa;

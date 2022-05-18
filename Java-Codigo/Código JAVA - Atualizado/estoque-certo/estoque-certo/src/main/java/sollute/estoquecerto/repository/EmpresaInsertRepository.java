@@ -12,13 +12,24 @@ public class EmpresaInsertRepository {
     EntityManager entityManager = null;
 
     @Transactional
-    public void insertEmpresa(NovaEmpresaResponse novaEmpresa) {
-        entityManager.createNativeQuery("insert into empresa (email, senha, nome_fantasia, razao_social, cnpj) values" +
-                        "(?,?,?,?,?)")
-                .setParameter(1, novaEmpresa.getEmail())
-                .setParameter(2, novaEmpresa.getSenha())
-                .setParameter(3, novaEmpresa.getNomeFantasia())
-                .setParameter(4, novaEmpresa.getRazaoSocial())
-                .setParameter(5, novaEmpresa.getCnpj());
+    public void insertEmpresa(String email,
+                              String senha,
+                              String nomeFantasia,
+                              String razaoSocial,
+                              String cnpj,
+                              Integer qtdProdutosVendidos,
+                              Double totalProdutosVendidos,
+                              Boolean autenticado) {
+        entityManager.createNativeQuery("" +
+                        "insert into empresa (email, senha, nome_fantasia, razao_social, cnpj) values" +
+                        "(?,?,?,?,?,?,?,?)")
+                .setParameter(1, email)
+                .setParameter(2, senha)
+                .setParameter(3, nomeFantasia)
+                .setParameter(4, razaoSocial)
+                .setParameter(5, cnpj)
+                .setParameter(6, qtdProdutosVendidos)
+                .setParameter(7, totalProdutosVendidos)
+                .setParameter(8, autenticado);
     }
 }

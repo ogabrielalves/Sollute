@@ -5,15 +5,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import sollute.estoquecerto.entity.Empresa;
-import sollute.estoquecerto.response.NovaEmpresaResponse;
+import sollute.estoquecerto.entity.Produto;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
+public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
 
-    Empresa findByIdEmpresa(Long idEmpresa);
+    Empresa findById(Long idEmpresa);
 
     boolean existsByCnpj(String cnpj);
 

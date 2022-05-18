@@ -7,12 +7,12 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name= "empresa")
+// @Table(name= "empresa")
 public class Empresa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEmpresa;
+    private Integer id;
 
     @Email(message = "Insira um e-mail válido")
     @Column(name = "email")
@@ -97,12 +97,12 @@ public class Empresa {
 //        }
 //    }
 
-    public Long getIdEmpresa() {
-        return idEmpresa;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdEmpresa(Long idEmpresa) {
-        this.idEmpresa = idEmpresa;
+    public void setId(Integer idEmpresa) {
+        this.id = idEmpresa;
     }
 
     public String getEmail() {

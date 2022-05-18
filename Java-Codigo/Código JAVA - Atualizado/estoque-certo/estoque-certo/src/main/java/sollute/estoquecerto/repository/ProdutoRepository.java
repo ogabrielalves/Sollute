@@ -8,23 +8,42 @@ import sollute.estoquecerto.entity.Produto;
 
 import java.util.List;
 
-public interface ProdutoRepository extends JpaRepository<Produto, String> {
+public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     // Retorna um Produto completo, é utilizado para posteriormente apagar pelo getIdProduto() no endpoint DELETE
-    Produto findByCodigoAndFkEmpresa(String codigo, Integer fkEmpresa);
+    Produto findByCodigoAndEmpresaId(String codigo, Integer fkEmpresa);
 
     // Apaga do banco de dados um produto
     @Transactional
     void deleteProdutoByIdProduto(Integer idProduto);
 
     boolean existsByCodigo(String codigo);
+
     // Retorna uma lista de PRODUTO pelo fk da empresa
-    List<Produto> findByFkEmpresa(Integer fkEmpresa);
+    List<Produto> findProdutoById(Integer id);
+    @Query("" +
+            "select new sollute.estoquecerto.entity.Produto(" +
+            "   p.nome, " +
+            "   p.codigo," +
+            "   p.marca," +
+            "   p.categoria," +
+            "   p.tamanho," +
+            "   p.peso," +
+            "   p.precoCompra," +
+            "   p.precoVenda," +
+            "   p.estoque," +
+            "   p.estoqueMin," +
+            "   p.estoqueMax," +
+            "   p.qtdVendidos," +
+            "   p.valorVendidos) " +
+            "from Produto p " +
+            "where p.empresa.id = ?1")
+    List<Produto> findProdutosById(Integer id);
 
     // Verifica se o produto existe ou não!
     boolean existsByCodigo(Integer codigo);
 
-    boolean findByEstoqueInicialLessThanEqual(int estoqueMin);
+    boolean findByEstoqueLessThanEqual(int estoqueMin);
 
     // Atualiza a quantidade de produtos vendidos pelo produto
     @Transactional

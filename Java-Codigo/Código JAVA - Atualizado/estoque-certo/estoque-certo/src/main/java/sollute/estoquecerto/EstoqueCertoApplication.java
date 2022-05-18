@@ -9,4 +9,5 @@ public class EstoqueCertoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EstoqueCertoApplication.class, args);
 	}
+
 }
