@@ -12,7 +12,7 @@ public class Empresa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idEmpresa;
 
     @Email(message = "Insira um e-mail válido")
     @Column(name = "email")
@@ -98,11 +98,11 @@ public class Empresa {
 //    }
 
     public Integer getId() {
-        return id;
+        return idEmpresa;
     }
 
     public void setId(Integer idEmpresa) {
-        this.id = idEmpresa;
+        this.idEmpresa = idEmpresa;
     }
 
     public String getEmail() {

@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     // Retorna um Produto completo, é utilizado para posteriormente apagar pelo getIdProduto() no endpoint DELETE
-    Produto findByCodigoAndEmpresaId(String codigo, Integer fkEmpresa);
+    Produto findByCodigoAndEmpresaIdEmpresa(String codigo, Integer fkEmpresa);
 
     // Apaga do banco de dados um produto
     @Transactional
@@ -20,7 +20,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     boolean existsByCodigo(String codigo);
 
     // Retorna uma lista de PRODUTO pelo fk da empresa
-    List<Produto> findByEmpresaId(Integer id);
+    List<Produto> findByEmpresaIdEmpresa(Integer idEmpresa);
 
 //    @Query("" +
 //            "select new sollute.estoquecerto.entity.Produto(" +

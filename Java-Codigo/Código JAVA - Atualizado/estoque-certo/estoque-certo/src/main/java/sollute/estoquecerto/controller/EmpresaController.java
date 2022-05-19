@@ -152,7 +152,7 @@ public class EmpresaController {
 
         //if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
 
-        List<Produto> lista = repositoryProduto.findByEmpresaId(fkEmpresa);
+        List<Produto> lista = repositoryProduto.findByEmpresaIdEmpresa(fkEmpresa);
 
             return status(200).body(lista);
         //}
@@ -187,7 +187,7 @@ public class EmpresaController {
     @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
     public ResponseEntity deletarProduto(@PathVariable String codigo, @PathVariable Integer fkEmpresa) {
         if (repositoryProduto.existsByCodigo(codigo)){
-            repositoryProduto.deleteProdutoByIdProduto(repositoryProduto.findByCodigoAndEmpresaId(codigo, fkEmpresa).getIdProduto());
+            repositoryProduto.deleteProdutoByIdProduto(repositoryProduto.findByCodigoAndEmpresaIdEmpresa(codigo, fkEmpresa).getIdProduto());
             return status(200).build();
         }
         return status(404).build();
@@ -197,7 +197,7 @@ public class EmpresaController {
     @GetMapping("/relatorio/{fkEmpresa}")
     public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
 
-        List<Produto> lista = repositoryProduto.findByEmpresaId(fkEmpresa);
+        List<Produto> lista = repositoryProduto.findByEmpresaIdEmpresa(fkEmpresa);
         String relatorio = "" +
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
                 "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
