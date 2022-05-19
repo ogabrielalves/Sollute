@@ -18,11 +18,6 @@ public class Cliente {
     @JoinColumn(name="fk_empresa")
     private Empresa fkEmpresa;
 
-    @NotNull
-    @OneToOne
-    @JoinColumn(name="fk_endereco")
-    private Endereco fkEndereco;
-
     @NotBlank
     @Column(name = "nome_cliente")
     private String nomeCliente;
@@ -45,14 +40,6 @@ public class Cliente {
 
     public void setFkEmpresa(Empresa fkEmpresa) {
         this.fkEmpresa = fkEmpresa;
-    }
-
-    public Endereco getFkEndereco() {
-        return fkEndereco;
-    }
-
-    public void setFkEndereco(Endereco fkEndereco) {
-        this.fkEndereco = fkEndereco;
     }
 
     public String getNomeCliente() {

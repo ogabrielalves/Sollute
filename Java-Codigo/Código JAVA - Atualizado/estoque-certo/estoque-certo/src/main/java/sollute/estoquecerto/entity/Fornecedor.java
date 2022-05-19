@@ -19,11 +19,6 @@ public class Fornecedor {
     @JoinColumn(name="fk_empresa")
     private Empresa fkEmpresa;
 
-    @NotNull
-    @OneToOne
-    @JoinColumn(name="fk_endereco")
-    private Endereco fkEndereco;
-
     @NotBlank
     @Column(name = "nome_fornecedor")
     private String nomeFornecedor;
@@ -55,13 +50,13 @@ public class Fornecedor {
         this.fkEmpresa = fkEmpresa;
     }
 
-    public Endereco getFkEndereco() {
-        return fkEndereco;
-    }
-
-    public void setFkEndereco(Endereco fkEndereco) {
-        this.fkEndereco = fkEndereco;
-    }
+//    public Endereco getFkEndereco() {
+//        return fkEndereco;
+//    }
+//
+//    public void setFkEndereco(Endereco fkEndereco) {
+//        this.fkEndereco = fkEndereco;
+//    }
 
     public String getNomeFornecedor() {
         return nomeFornecedor;

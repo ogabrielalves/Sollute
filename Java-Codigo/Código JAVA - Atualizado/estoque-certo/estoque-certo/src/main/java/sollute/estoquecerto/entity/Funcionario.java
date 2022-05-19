@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "funcionario")
@@ -16,15 +15,9 @@ public class Funcionario {
     private Long idFuncionario;
 
     @NotNull
-    // @Column(name = "fk_empresa")
     @ManyToOne
     @JoinColumn(name="fk_empresa")
     private Empresa fkEmpresa;
-
-    @NotNull
-    @OneToOne
-    @JoinColumn(name="fk_endereco")
-    private Endereco fkEndereco;
 
     @NotBlank
     @Column(name = "nome_funcionario")
@@ -56,14 +49,6 @@ public class Funcionario {
 
     public void setFkEmpresa(Empresa fkEmpresa) {
         this.fkEmpresa = fkEmpresa;
-    }
-
-    public Endereco getFkEndereco() {
-        return fkEndereco;
-    }
-
-    public void setFkEndereco(Endereco fkEndereco) {
-        this.fkEndereco = fkEndereco;
     }
 
     public String getNomeFuncionario() {

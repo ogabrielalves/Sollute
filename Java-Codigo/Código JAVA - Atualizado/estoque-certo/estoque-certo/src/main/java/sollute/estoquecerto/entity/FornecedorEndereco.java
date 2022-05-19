@@ -4,29 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "endereco")
-public class Endereco {
+public class FornecedorEndereco {
 
     @Id
     @Column(name = "id_endereco")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEndereco;
 
-    // @Column(name = "fk_empresa")
     @ManyToOne
-    private Empresa fkEmpresa;
-
-    @ManyToOne
-    // @Column(name = "fk_cliente")
-    private Cliente fkCliente;
-
-    @ManyToOne
-    // @Column(name = "fk_fornecedor")
+    @JoinColumn(name="fk_fornecedor")
     private Fornecedor fkFornecedor;
-
-    @ManyToOne
-//    @Column(name = "fk_funcionario")
-    private Funcionario fkFuncionario;
 
     @NotBlank
     private String logradouro;
@@ -52,22 +39,6 @@ public class Endereco {
         this.idEndereco = idEndereco;
     }
 
-    public Empresa getFkEmpresa() {
-        return fkEmpresa;
-    }
-
-    public void setFkEmpresa(Empresa fkEmpresa) {
-        this.fkEmpresa = fkEmpresa;
-    }
-
-    public Cliente getFkCliente() {
-        return fkCliente;
-    }
-
-    public void setFkCliente(Cliente fkCliente) {
-        this.fkCliente = fkCliente;
-    }
-
     public Fornecedor getFkFornecedor() {
         return fkFornecedor;
     }
@@ -76,20 +47,12 @@ public class Endereco {
         this.fkFornecedor = fkFornecedor;
     }
 
-    public Funcionario getFkFuncionario() {
-        return fkFuncionario;
-    }
-
-    public void setFkFuncionario(Funcionario fkFuncionario) {
-        this.fkFuncionario = fkFuncionario;
-    }
-
     public String getLogradouro() {
         return logradouro;
     }
 
-    public void setLogradouro(String logradura) {
-        this.logradouro = logradura;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getCep() {
