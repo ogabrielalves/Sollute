@@ -20,25 +20,26 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     boolean existsByCodigo(String codigo);
 
     // Retorna uma lista de PRODUTO pelo fk da empresa
-    List<Produto> findProdutoById(Integer id);
-    @Query("" +
-            "select new sollute.estoquecerto.entity.Produto(" +
-            "   p.nome, " +
-            "   p.codigo," +
-            "   p.marca," +
-            "   p.categoria," +
-            "   p.tamanho," +
-            "   p.peso," +
-            "   p.precoCompra," +
-            "   p.precoVenda," +
-            "   p.estoque," +
-            "   p.estoqueMin," +
-            "   p.estoqueMax," +
-            "   p.qtdVendidos," +
-            "   p.valorVendidos) " +
-            "from Produto p " +
-            "where p.empresa.id = ?1")
-    List<Produto> findProdutosById(Integer id);
+    List<Produto> findByEmpresaId(Integer id);
+
+//    @Query("" +
+//            "select new sollute.estoquecerto.entity.Produto(" +
+//            " p.nome, " +
+//            " p.codigo, " +
+//            " p.marca, " +
+//            " p.categoria, " +
+//            " p.tamanho, " +
+//            " p.peso, " +
+//            " p.precoCompra, " +
+//            " p.precoVenda, " +
+//            " p.estoque, " +
+//            " p.estoqueMin, " +
+//            " p.estoqueMax, " +
+//            " p.qtdVendidos, " +
+//            " p.valorVendidos) " +
+//            "from Produto p " +
+//            "where p.empresa.id = ?1 ")
+//    List<Produto> findProdutosById(Integer id);
 
     // Verifica se o produto existe ou não!
     boolean existsByCodigo(Integer codigo);

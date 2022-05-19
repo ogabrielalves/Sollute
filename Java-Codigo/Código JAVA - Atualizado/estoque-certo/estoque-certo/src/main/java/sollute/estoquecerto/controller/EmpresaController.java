@@ -152,7 +152,7 @@ public class EmpresaController {
 
         //if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
 
-        List<Produto> lista = repositoryProduto.findProdutosById(fkEmpresa);
+        List<Produto> lista = repositoryProduto.findByEmpresaId(fkEmpresa);
 
             return status(200).body(lista);
         //}
@@ -197,7 +197,7 @@ public class EmpresaController {
     @GetMapping("/relatorio/{fkEmpresa}")
     public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
 
-        List<Produto> lista = repositoryProduto.findProdutosById(fkEmpresa);
+        List<Produto> lista = repositoryProduto.findByEmpresaId(fkEmpresa);
         String relatorio = "" +
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
                 "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
