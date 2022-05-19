@@ -16,6 +16,7 @@ public class Produto {
     private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
 
     @ManyToOne
+    @JoinColumn(name="fk_empresa")
     private Empresa empresa;
 
     @NotBlank
@@ -68,33 +69,33 @@ public class Produto {
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
-    public Produto(String codigo,
-                   String nome,
-                   String marca,
-                   String categoria,
-                   String tamanho,
-                   Double peso,
-                   Double precoCompra,
-                   Double precoVenda,
-                   Integer estoque,
-                   Integer estoqueMin,
-                   Integer estoqueMax,
-                   Integer qtdVendidos,
-                   Double valorVendidos) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.marca = marca;
-        this.categoria = categoria;
-        this.tamanho = tamanho;
-        this.peso = peso;
-        this.precoCompra = precoCompra;
-        this.precoVenda = precoVenda;
-        this.estoque = estoque;
-        this.estoqueMin = estoqueMin;
-        this.estoqueMax = estoqueMax;
-        this.qtdVendidos = qtdVendidos;
-        this.valorVendidos = valorVendidos;
-    }
+//    public Produto(String codigo,
+//                   String nome,
+//                   String marca,
+//                   String categoria,
+//                   String tamanho,
+//                   Double peso,
+//                   Double precoCompra,
+//                   Double precoVenda,
+//                   Integer estoque,
+//                   Integer estoqueMin,
+//                   Integer estoqueMax,
+//                   Integer qtdVendidos,
+//                   Double valorVendidos) {
+//        this.codigo = codigo;
+//        this.nome = nome;
+//        this.marca = marca;
+//        this.categoria = categoria;
+//        this.tamanho = tamanho;
+//        this.peso = peso;
+//        this.precoCompra = precoCompra;
+//        this.precoVenda = precoVenda;
+//        this.estoque = estoque;
+//        this.estoqueMin = estoqueMin;
+//        this.estoqueMax = estoqueMax;
+//        this.qtdVendidos = qtdVendidos;
+//        this.valorVendidos = valorVendidos;
+//    }
 
     public Empresa getEmpresa() {
         return empresa;

@@ -18,11 +18,12 @@ public class Funcionario {
     @NotNull
     // @Column(name = "fk_empresa")
     @ManyToOne
+    @JoinColumn(name="fk_empresa")
     private Empresa fkEmpresa;
 
     @NotNull
-    // @Column(name = "fk_endereco")
     @OneToOne
+    @JoinColumn(name="fk_endereco")
     private Endereco fkEndereco;
 
     @NotBlank

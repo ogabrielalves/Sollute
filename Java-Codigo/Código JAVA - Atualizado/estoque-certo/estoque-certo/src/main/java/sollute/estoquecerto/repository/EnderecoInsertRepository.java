@@ -1,7 +1,7 @@
 package sollute.estoquecerto.repository;
 
 import org.springframework.transaction.annotation.Transactional;
-import sollute.estoquecerto.response.EnderecoEmpresaResponse;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -11,7 +11,7 @@ public class EnderecoInsertRepository {
     EntityManager entityManager = null;
 
     @Transactional
-    public void insertEndereco(Long fkEmpresa,
+    public void insertEndereco(Integer fkEmpresa,
                                String logradouro,
                                String cep,
                                String uf,

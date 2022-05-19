@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
+import sollute.estoquecerto.response.CreateEnderecoEmpresaResponse;
 import sollute.estoquecerto.response.EmpresaResponse;
-import sollute.estoquecerto.response.EnderecoEmpresaResponse;
+import sollute.estoquecerto.response.CreateEmpresaResponse;
 import sollute.estoquecerto.response.ProdutoLoginResponse;
 import javax.validation.Valid;
 import java.util.List;
@@ -40,37 +41,63 @@ public class EmpresaController {
     @Autowired
     private FuncionarioRepository repositoryFuncionario;
 
-    @PostMapping
-    public ResponseEntity criaEmpresa(@RequestBody @Valid EnderecoEmpresaResponse enderecoEmpresaResponse,
-                                      @PathVariable Long fkEmpresa) {
+    @PostMapping("/cria-empresa")
+    public ResponseEntity criaEmpresa(@RequestBody @Valid CreateEmpresaResponse createEmpresaResponse,
+                                      @RequestBody @Valid CreateEnderecoEmpresaResponse createEnderecoEmpresaResponse) {
 
-        String email = enderecoEmpresaResponse.getEmail();
-        String senha = enderecoEmpresaResponse.getSenha();
-        String nomeFantasia = enderecoEmpresaResponse.getNomeFantasia();
-        String razaoSocial = enderecoEmpresaResponse.getRazaoSocial();
-        String cnpj = enderecoEmpresaResponse.getCnpj();
-        Integer qtdProdutosVendidos = enderecoEmpresaResponse.getQtdProdutosVendidos();
-        Double totalProdutosVendidos = enderecoEmpresaResponse.getTotalProdutosVendidos();
-        Boolean autenticado = enderecoEmpresaResponse.getAutenticado();
-        String logradouro = enderecoEmpresaResponse.getLogradouro();
-        String cep = enderecoEmpresaResponse.getCep();
-        String uf = enderecoEmpresaResponse.getUf();
-        String cidade = enderecoEmpresaResponse.getCidade();
-        String pontoReferencia = enderecoEmpresaResponse.getPontoReferencia();
+        String email = createEmpresaResponse.getEmail();
+        String senha = createEmpresaResponse.getSenha();
+        String nomeFantasia = createEmpresaResponse.getNomeFantasia();
+        String razaoSocial = createEmpresaResponse.getRazaoSocial();
+        String cnpj = createEmpresaResponse.getCnpj();
+        Integer qtdProdutosVendidos = createEmpresaResponse.getQtdProdutosVendidos();
+        Double totalProdutosVendidos = createEmpresaResponse.getTotalProdutosVendidos();
+        Boolean autenticado = createEmpresaResponse.getAutenticado();
 
         try {
 
             empresaInsertRepository.insertEmpresa(email, senha, nomeFantasia, razaoSocial, cnpj,
                     qtdProdutosVendidos, totalProdutosVendidos, autenticado);
-            enderecoInsertRepository.insertEndereco(fkEmpresa, logradouro, cep, uf,
-                    cidade, pontoReferencia);
 
-            return status(201).build();
 
-        } catch (Exception e) {
-            return status(400).body(e);
+            Integer fkEmpresa = repositoryEmpresa.findByCnpj(createEmpresaResponse.getCnpj()).getId();
+            String cep = createEnderecoEmpresaResponse.getCep();
+            String uf = createEnderecoEmpresaResponse.getUf();
+            String cidade = createEnderecoEmpresaResponse.getCidade();
+            String logradouro = createEnderecoEmpresaResponse.getLogradouro();
+            String pontoReferencia = createEnderecoEmpresaResponse.getPontoReferencia();
+
+            try {
+
+                enderecoInsertRepository.insertEndereco(fkEmpresa, logradouro, cep, uf,
+                        cidade, pontoReferencia);
+
+                return status(201).build();
+
+            } catch (Exception e) {
+
+                return status(400).body(e);
+
+            }
+
+        } finally {
+
+            return status(404).build();
+
         }
 
+    }
+
+    @GetMapping("/get-id-empresa/{cnpj}")
+    public ResponseEntity getIdEmpresa(String cnpj) {
+
+        Integer idEmpresa = repositoryEmpresa.findByCnpj(cnpj).getId();
+
+        if (idEmpresa ==null) {
+            return status(400).build();
+        }
+
+        return status(200).body(idEmpresa);
     }
 
     @PostMapping("/autenticacao")
@@ -147,12 +174,12 @@ public class EmpresaController {
     }
 
 
-    @GetMapping("/listar-produtos/{fkEmpresa}")
-    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer fkEmpresa) {
+    @GetMapping("/listar-produtos/{idEmpresa}")
+    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable String idEmpresa) {
 
         //if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
 
-        List<Produto> lista = repositoryProduto.findByEmpresaIdEmpresa(fkEmpresa);
+        List<Produto> lista = repositoryProduto.findByEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
 
             return status(200).body(lista);
         //}

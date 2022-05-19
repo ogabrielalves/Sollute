@@ -1,6 +1,6 @@
 package sollute.estoquecerto.response;
 
-public class EnderecoEmpresaResponse {
+public class CreateEmpresaResponse {
 
     private String email;
     private String senha;
@@ -10,12 +10,6 @@ public class EnderecoEmpresaResponse {
     private Integer qtdProdutosVendidos;
     private Double totalProdutosVendidos;
     private Boolean autenticado;
-    private Integer fkEmpresa;
-    private String logradouro;
-    private String cep;
-    private String uf;
-    private String cidade;
-    private String pontoReferencia;
 
     public String getEmail() {
         return email;
@@ -49,27 +43,4 @@ public class EnderecoEmpresaResponse {
         return autenticado;
     }
 
-    public Integer getFkEmpresa() {
-        return fkEmpresa;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public String getPontoReferencia() {
-        return pontoReferencia;
-    }
 }

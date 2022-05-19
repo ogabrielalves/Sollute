@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-// @Table(name= "empresa")
+@Table(name= "empresa")
 public class Empresa {
 
     @Id

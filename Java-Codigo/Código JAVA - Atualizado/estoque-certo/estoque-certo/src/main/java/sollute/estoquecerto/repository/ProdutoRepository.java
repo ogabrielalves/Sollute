@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     // Retorna um Produto completo, é utilizado para posteriormente apagar pelo getIdProduto() no endpoint DELETE
-    Produto findByCodigoAndEmpresaIdEmpresa(String codigo, Integer fkEmpresa);
+    Produto findByCodigoAndEmpresaIdEmpresa(String codigo, Integer idEmpresa);
 
     // Apaga do banco de dados um produto
     @Transactional
