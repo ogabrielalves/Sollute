@@ -258,16 +258,13 @@ public class EmpresaController {
         return status(404).build();
     }
 
-    @GetMapping("/funcionarios/{idEmpresa}")
-    public ResponseEntity<List<Funcionario>> listarFuncionarios(@PathVariable Integer idEmpresa) {
+    @GetMapping("/listar-funcionarios/{idEmpresa}")
+    public ResponseEntity<List<Funcionario>> listarFuncionario(@PathVariable String idEmpresa) {
 
-        List<Funcionario> listaFuncionario = funcionarioRepository.findByEmpresaIdEmpresa(idEmpresa);
+        List<Funcionario> lista = funcionarioRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
 
-        if (listaFuncionario.isEmpty()) {
-            return status(204).build();
-        }
+        return status(200).body(lista);
 
-        return status(200).body(listaFuncionario);
     }
 
     @GetMapping("/clientes")

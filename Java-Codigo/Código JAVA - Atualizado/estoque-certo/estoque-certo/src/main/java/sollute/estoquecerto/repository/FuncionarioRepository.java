@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
 
-    List<Funcionario> findByEmpresaIdEmpresa(Integer idEmpresa);
+    List<Funcionario> findByfkEmpresaIdEmpresa(Integer idEmpresa);
 }
