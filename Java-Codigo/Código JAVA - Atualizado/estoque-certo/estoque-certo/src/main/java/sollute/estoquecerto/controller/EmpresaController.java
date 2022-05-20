@@ -245,4 +245,40 @@ public class EmpresaController {
                 .header("content-disposition", "filename=\"relatorio-de-produtos.csv\"")
                 .body(relatorio);
     }
+
+    @PostMapping("/criar-funcionario/{idEmpresa}")
+    public ResponseEntity criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
+                                               @PathVariable Integer idEmpresa) {
+
+        if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
+            funcionarioRepository.save(novoFuncionario);       // Adicionado no Banco de Dados
+            return status(201).build();
+        }
+
+        return status(404).build();
+    }
+
+    @GetMapping("/funcionarios")
+    public ResponseEntity<List<Funcionario>> listarFuncionarios() {
+
+        List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
+
+        if (listaFuncionario.isEmpty()) {
+            return status(204).build();
+        }
+
+        return status(200).body(listaFuncionario);
+    }
+
+    @GetMapping("/clientes")
+    public ResponseEntity<List<Cliente>> listarCliente() {
+
+        List<Cliente> listaCliente = clienteRepository.findAll();
+
+        if (listaCliente.isEmpty()) {
+            return status(204).build();
+        }
+
+        return status(200).body(listaCliente);
+    }
 }
