@@ -267,15 +267,32 @@ public class EmpresaController {
 
     }
 
-    @GetMapping("/clientes")
-    public ResponseEntity<List<Cliente>> listarCliente() {
+    @GetMapping("/listar-clientes/{idEmpresa}")
+    public ResponseEntity<List<Cliente>> listarCliente(@PathVariable String idEmpresa) {
 
-        List<Cliente> listaCliente = clienteRepository.findAll();
+        List<Cliente> lista = clienteRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
 
-        if (listaCliente.isEmpty()) {
-            return status(204).build();
+        return status(200).body(lista);
+    }
+
+    @PostMapping("/criar-fornecedor/{idEmpresa}")
+    public ResponseEntity criarFornecedor(@RequestBody @Valid Fornecedor novoFornecedor,
+                                           @PathVariable Integer idEmpresa) {
+
+        if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
+            fornecedorRepository.save(novoFornecedor);       // Adicionado no Banco de Dados
+            return status(201).build();
         }
 
-        return status(200).body(listaCliente);
+        return status(404).build();
     }
+
+    @GetMapping("/listar-fornecedores/{idEmpresa}")
+    public ResponseEntity<List<Fornecedor>> listarFornecedor(@PathVariable String idEmpresa) {
+
+        List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
+
+        return status(200).body(lista);
+    }
+
 }

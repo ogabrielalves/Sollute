@@ -32,6 +32,7 @@ public class Fornecedor {
     private String nomeProduto;
 
     @PositiveOrZero
+    @Column(name = "qtd_fornecidas")
     private Integer qtd;
 
     public Long getIdFornecedor() {
