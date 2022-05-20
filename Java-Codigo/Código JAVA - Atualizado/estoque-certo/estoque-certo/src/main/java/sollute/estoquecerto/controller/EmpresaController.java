@@ -295,4 +295,13 @@ public class EmpresaController {
         return status(200).body(lista);
     }
 
+    @DeleteMapping("/deletar-fornecedor/{idFornecedor}/{fkEmpresa}")
+    public ResponseEntity deletarFornecedor(@PathVariable Long idFornecedor, @PathVariable Integer fkEmpresa) {
+        if (fornecedorRepository.existsByIdFornecedorAndFkEmpresaIdEmpresa(idFornecedor, fkEmpresa)) {
+            fornecedorRepository.deleteFornecedorByIdFornecedor(idFornecedor);
+            return status(200).build();
+        }
+        return status(404).build();
+    }
+
 }
