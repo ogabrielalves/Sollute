@@ -248,7 +248,7 @@ public class EmpresaController {
 
     @PostMapping("/criar-funcionario/{idEmpresa}")
     public ResponseEntity criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
-                                               @PathVariable Integer idEmpresa) {
+                                           @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
             funcionarioRepository.save(novoFuncionario);       // Adicionado no Banco de Dados
@@ -258,10 +258,10 @@ public class EmpresaController {
         return status(404).build();
     }
 
-    @GetMapping("/funcionarios")
-    public ResponseEntity<List<Funcionario>> listarFuncionarios() {
+    @GetMapping("/funcionarios/{idEmpresa}")
+    public ResponseEntity<List<Funcionario>> listarFuncionarios(@PathVariable Integer idEmpresa) {
 
-        List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
+        List<Funcionario> listaFuncionario = funcionarioRepository.findByEmpresaIdEmpresa(idEmpresa);
 
         if (listaFuncionario.isEmpty()) {
             return status(204).build();
