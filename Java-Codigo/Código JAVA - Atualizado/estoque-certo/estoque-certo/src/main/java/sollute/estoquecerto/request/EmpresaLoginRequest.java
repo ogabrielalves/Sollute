@@ -1,6 +1,6 @@
-package sollute.estoquecerto.response;
+package sollute.estoquecerto.request;
 
-public class EmpresaResponse {
+public class EmpresaLoginRequest {
 
     private String login;
     private String senha;

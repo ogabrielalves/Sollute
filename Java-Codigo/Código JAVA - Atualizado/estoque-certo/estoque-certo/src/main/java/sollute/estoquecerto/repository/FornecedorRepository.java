@@ -1,7 +1,10 @@
 package sollute.estoquecerto.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+import sollute.estoquecerto.entity.Cliente;
 import sollute.estoquecerto.entity.Fornecedor;
 import sollute.estoquecerto.entity.Funcionario;
 import sollute.estoquecerto.entity.Produto;
@@ -16,4 +19,16 @@ public interface FornecedorRepository extends JpaRepository<Fornecedor, Long> {
     void deleteFornecedorByIdFornecedor(Long idFornecedor);
 
     List<Fornecedor> findByfkEmpresaIdEmpresa(Integer idEmpresa);
+
+    @Transactional
+    @Modifying
+    @Query("update Fornecedor f " +
+            "set f.nomeFornecedor = ?1, f.telefoneFornecedor = ?2, f.nomeProduto = ?3, f.qtd = ?4 " +
+            "where f.fkEmpresa.idEmpresa = ?5 and f.idFornecedor = ?6")
+    boolean atualizarFornecedor(String nomeFornecedor,       // -> ?1
+                                String telefoneFornecedor,   // -> ?2
+                                String nomeProduto,          // -> ?3
+                                Integer qtd,                 // -> ?4
+                                Integer idEmpresa,           // -> ?5
+                                Long idCliente);             // -> ?6
 }

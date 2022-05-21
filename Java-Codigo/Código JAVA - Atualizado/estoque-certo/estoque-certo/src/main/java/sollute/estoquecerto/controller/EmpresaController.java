@@ -5,8 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
-import sollute.estoquecerto.response.EmpresaResponse;
-import sollute.estoquecerto.response.ProdutoLoginResponse;
+import sollute.estoquecerto.request.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,13 +16,8 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping("/empresas")
 public class EmpresaController {
 
-    private String cnpj = null;
-
     @Autowired
     private EmpresaRepository empresaRepository;
-
-    @Autowired
-    private EmpresaEnderecoRepository empresaEnderecoRepository;
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -35,69 +29,22 @@ public class EmpresaController {
     private ClienteRepository clienteRepository;
 
     @Autowired
-    private ClienteEnderecoRepository clienteEnderecoRepository;
-
-    @Autowired
     private FornecedorRepository fornecedorRepository;
-
-    @Autowired
-    private FornecedorEnderecoRepository fornecedorEnderecoRepository;
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
-    @Autowired
-    private FuncionarioEnderecoRepository funcionarioEnderecoRepository;
-
+    // precisa alterar
     @PostMapping("/cria-empresa")
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa createEmpresaResponse) {
 
-        try {
+        empresaRepository.save(createEmpresaResponse);
+        return status(201).build();
 
-            cnpj = createEmpresaResponse.getCnpj();
-            empresaRepository.save(createEmpresaResponse);
-            return status(201).build();
-
-        } catch (Exception e) {
-            return status(400).body(e);
-        }
-    }
-
-    @PostMapping("/cria-endereco")
-    public ResponseEntity criaEndereco(@RequestBody @Valid EmpresaEndereco empresaEndereco) {
-
-
-        try {
-
-            Empresa emp = empresaRepository.findByCnpj(cnpj);
-            empresaEndereco.setFkEmpresa(emp);
-
-            // Tente criar uma query manual setando o fkEmpresa com o idEmpresa do objeto 'emp'
-            // Talvez isso funcione, visto que voce atualizará manualmente.
-
-            empresaEnderecoRepository.save(empresaEndereco);
-            return status(201).build();
-
-
-        } catch (Exception e) {
-            return status(400).body(e);
-        }
-    }
-
-    @GetMapping("/get-id-empresa/{cnpj}")
-    public ResponseEntity getIdEmpresa(@PathVariable String cnpj) {
-
-        Integer idEmpresa = empresaRepository.findByCnpj(cnpj).getId();
-
-        if (idEmpresa == null) {
-            return status(400).build();
-        }
-
-        return status(200).body(idEmpresa);
     }
 
     @PostMapping("/autenticacao")
-    public ResponseEntity postAutenticado(@RequestBody @Valid EmpresaResponse requisicao) {
+    public ResponseEntity postAutenticado(@RequestBody @Valid EmpresaLoginRequest requisicao) {
 
         List<Empresa> empresa = empresaRepository.findAll();
 
@@ -115,8 +62,8 @@ public class EmpresaController {
     public ResponseEntity adicionaProduto(@RequestBody @Valid Produto novoProduto,
                                           @PathVariable Integer idEmpresa) {
 
-        if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
-            produtoRepository.save(novoProduto);       // Adicionado no Banco de Dados
+        if (empresaRepository.existsById(idEmpresa)) {
+            produtoRepository.save(novoProduto);
             return status(201).build();
         }
 
@@ -127,9 +74,46 @@ public class EmpresaController {
     public ResponseEntity adicionaCliente(@RequestBody @Valid Cliente novoCliente,
                                           @PathVariable Integer idEmpresa) {
 
-        if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
-            clienteRepository.save(novoCliente);       // Adicionado no Banco de Dados
+        if (empresaRepository.existsById(idEmpresa)) {
+            clienteRepository.save(novoCliente);
             return status(201).build();
+        }
+
+        return status(404).build();
+    }
+
+    @PutMapping("/editar-cliente/{idEmpresa}")
+    public ResponseEntity editarCliente(@RequestBody @Valid NovoClienteRequest novoClienteRequest,
+                                        @PathVariable Integer idEmpresa) {
+
+        List<Cliente> lista = clienteRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+
+        for (Cliente cliente : lista) {
+            if (clienteRepository.existsById(cliente.getIdCliente())) {
+
+                Long idCliente = cliente.getIdCliente();
+                String nome = novoClienteRequest.getNomeCliente();
+                String tele = novoClienteRequest.getTelefoneCliente();
+
+                if (clienteRepository.atualizarCliente(nome, tele, idEmpresa, idCliente)) {
+                    return status(200).build();
+                }
+
+                return status(400).build();
+
+            }
+        }
+
+        return status(404).build();
+    }
+
+    @DeleteMapping("/deletar-cliente/{idCliente}/{idEmpresa}")
+    public ResponseEntity deletaCliente(@PathVariable Integer idCliente,
+                                        @PathVariable Integer idEmpresa) {
+
+        if (empresaRepository.existsById(idEmpresa)) {
+            clienteRepository.deleteById(idCliente.longValue());
+            return status(200).build();
         }
 
         return status(404).build();
@@ -149,17 +133,17 @@ public class EmpresaController {
     }
 
     @PostMapping("/vender-produtos")
-    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoLoginResponse produtoLoginResponse) {
+    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoVenderRequest produtoVenderRequest) {
 
-        if (empresaRepository.existsById(produtoLoginResponse.getIdEmpresa().intValue())) {
-            if (produtoRepository.existsByCodigo(produtoLoginResponse.getCodigo())) {
+        if (empresaRepository.existsById(produtoVenderRequest.getIdEmpresa().intValue())) {
+            if (produtoRepository.existsByCodigo(produtoVenderRequest.getCodigo())) {
                 //if (repositoryProduto.findByEstoqueInicialLessThanEqual(produtoLoginResponse.getEstoqueInicial())) {
                 //  repositoryProduto.atualizarAlerta(
                 //        produtoLoginResponse.getCodigo(),
                 //      true);
                 produtoRepository.atualizarQtdVendida(
-                        produtoLoginResponse.getCodigo(),
-                        produtoLoginResponse.getQtdVendida());
+                        produtoVenderRequest.getCodigo(),
+                        produtoVenderRequest.getQtdVendida());
                 return status(200).build();
             } else {
                 return status(400).build(); // Não há estoque suficiente.
@@ -224,6 +208,7 @@ public class EmpresaController {
         String relatorio = "" +
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
                 "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
+
         for (Produto prod : lista) {
             relatorio += "" +
                     "" + prod.getCodigo() +
@@ -250,9 +235,48 @@ public class EmpresaController {
     public ResponseEntity criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
                                            @PathVariable Integer idEmpresa) {
 
-        if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
-            funcionarioRepository.save(novoFuncionario);       // Adicionado no Banco de Dados
+        if (empresaRepository.existsById(idEmpresa)) {
+            funcionarioRepository.save(novoFuncionario);
             return status(201).build();
+        }
+
+        return status(404).build();
+    }
+
+    @PutMapping("/editar-funcionario/{idEmpresa}")
+    public ResponseEntity editarFuncionario(@RequestBody @Valid NovoFuncionarioRequest novoFuncionarioRequest,
+                                            @PathVariable Integer idEmpresa) {
+
+        List<Funcionario> lista = funcionarioRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+
+        for (Funcionario funcionario : lista) {
+            if (fornecedorRepository.existsById(funcionario.getIdFuncionario())) {
+
+                Long idFornecedor = funcionario.getIdFuncionario();
+                String nome = novoFuncionarioRequest.getNomeFuncionario();
+                String tele = novoFuncionarioRequest.getTelefoneFuncionario();
+                String cpf = novoFuncionarioRequest.getCpfFuncionario();
+                Double salario = novoFuncionarioRequest.getSalario();
+
+                if (funcionarioRepository.atualizarFuncionario(nome, tele, cpf, salario, idEmpresa, idFornecedor)) {
+                    return status(200).build();
+                }
+
+                return status(400).build();
+
+            }
+        }
+
+        return status(404).build();
+    }
+
+    @DeleteMapping("/deletar-funcionario/{idFuncionario}/{idEmpresa}")
+    public ResponseEntity deletaFuncionario(@PathVariable Integer idFuncionario,
+                                            @PathVariable Integer idEmpresa) {
+
+        if (empresaRepository.existsById(idEmpresa)) {
+            clienteRepository.deleteById(idFuncionario.longValue());
+            return status(200).build();
         }
 
         return status(404).build();
@@ -277,10 +301,49 @@ public class EmpresaController {
 
     @PostMapping("/criar-fornecedor/{idEmpresa}")
     public ResponseEntity criarFornecedor(@RequestBody @Valid Fornecedor novoFornecedor,
+                                          @PathVariable Integer idEmpresa) {
+
+        if (empresaRepository.existsById(idEmpresa)) {
+            fornecedorRepository.save(novoFornecedor);
+            return status(201).build();
+        }
+
+        return status(404).build();
+    }
+
+    @PutMapping("/editar-fornecedor/{idEmpresa}")
+    public ResponseEntity editarFornecedor(@RequestBody @Valid NovoFornecedorRequest novoFornecedorRequest,
                                            @PathVariable Integer idEmpresa) {
 
-        if (empresaRepository.existsById(idEmpresa)) { // Verificando se a empresa existe
-            fornecedorRepository.save(novoFornecedor);       // Adicionado no Banco de Dados
+        List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+
+        for (Fornecedor fornecedor : lista) {
+            if (fornecedorRepository.existsById(fornecedor.getIdFornecedor())) {
+
+                Long idFornecedor = fornecedor.getIdFornecedor();
+                String nome = novoFornecedorRequest.getNomeFornecedor();
+                String tele = novoFornecedorRequest.getTelefoneFornecedor();
+                String prod = novoFornecedorRequest.getNomeProduto();
+                Integer qtd = novoFornecedorRequest.getQtdFornecida();
+
+                if (fornecedorRepository.atualizarFornecedor(nome, tele, prod, qtd, idEmpresa, idFornecedor)) {
+                    return status(200).build();
+                }
+
+                return status(400).build();
+
+            }
+        }
+
+        return status(404).build();
+    }
+
+    @DeleteMapping("/deletar-fornecedor/{idFornecedor}/{idEmpresa}")
+    public ResponseEntity deletaFornecedor(@PathVariable Integer idFornecedor,
+                                           @PathVariable Integer idEmpresa) {
+
+        if (empresaRepository.existsById(idEmpresa)) {
+            fornecedorRepository.deleteById(idFornecedor.longValue());
             return status(201).build();
         }
 
@@ -293,15 +356,6 @@ public class EmpresaController {
         List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
 
         return status(200).body(lista);
-    }
-
-    @DeleteMapping("/deletar-fornecedor/{idFornecedor}/{fkEmpresa}")
-    public ResponseEntity deletarFornecedor(@PathVariable Long idFornecedor, @PathVariable Integer fkEmpresa) {
-        if (fornecedorRepository.existsByIdFornecedorAndFkEmpresaIdEmpresa(idFornecedor, fkEmpresa)) {
-            fornecedorRepository.deleteFornecedorByIdFornecedor(idFornecedor);
-            return status(200).build();
-        }
-        return status(404).build();
     }
 
 }

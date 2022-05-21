@@ -1,6 +1,7 @@
-package sollute.estoquecerto.response;
+package sollute.estoquecerto.request;
 
-public class ProdutoLoginResponse {
+public class ProdutoVenderRequest {
+
     private Long idEmpresa;
     private Integer codigo;
     private Integer qtdVendida;
