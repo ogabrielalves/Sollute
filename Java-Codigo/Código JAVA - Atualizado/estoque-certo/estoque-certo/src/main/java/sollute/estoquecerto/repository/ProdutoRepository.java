@@ -21,7 +21,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     boolean findByEstoqueLessThanEqual(int estoqueMin);
 
     @Transactional
-    void deleteProdutoByIdProduto(Integer idProduto);
+    void deleteProdutoByCodigo(String codigo);
 
     @Transactional
     @Modifying

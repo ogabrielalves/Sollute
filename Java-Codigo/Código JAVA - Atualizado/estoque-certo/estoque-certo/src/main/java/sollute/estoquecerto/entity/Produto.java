@@ -59,51 +59,13 @@ public class Produto {
     @Column(name = "estoque_max")
     private Integer estoqueMax;
 
-    // Deverá vir como 0 pelo front-end
     @PositiveOrZero
     @Column(name = "qtd_vendidos")
     private Integer qtdVendidos;
 
-    // Deverá vir como 0 pelo front-end
     @PositiveOrZero
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
-
-//    public Produto(String codigo,
-//                   String nome,
-//                   String marca,
-//                   String categoria,
-//                   String tamanho,
-//                   Double peso,
-//                   Double precoCompra,
-//                   Double precoVenda,
-//                   Integer estoque,
-//                   Integer estoqueMin,
-//                   Integer estoqueMax,
-//                   Integer qtdVendidos,
-//                   Double valorVendidos) {
-//        this.codigo = codigo;
-//        this.nome = nome;
-//        this.marca = marca;
-//        this.categoria = categoria;
-//        this.tamanho = tamanho;
-//        this.peso = peso;
-//        this.precoCompra = precoCompra;
-//        this.precoVenda = precoVenda;
-//        this.estoque = estoque;
-//        this.estoqueMin = estoqueMin;
-//        this.estoqueMax = estoqueMax;
-//        this.qtdVendidos = qtdVendidos;
-//        this.valorVendidos = valorVendidos;
-//    }
-
-    public Empresa getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
-    }
 
     public Integer getIdProduto() {
         return idProduto;
@@ -113,12 +75,12 @@ public class Produto {
         this.idProduto = idProduto;
     }
 
-    public String getNome() {
-        return nome;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     public String getCodigo() {
@@ -127,6 +89,14 @@ public class Produto {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getMarca() {
@@ -181,8 +151,8 @@ public class Produto {
         return estoque;
     }
 
-    public void setEstoque(Integer estoqueInicial) {
-        this.estoque = estoqueInicial;
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
 
     public Integer getEstoqueMin() {
@@ -205,7 +175,7 @@ public class Produto {
         return qtdVendidos;
     }
 
-    public void setQtdVendidos(int qtdVendidos) {
+    public void setQtdVendidos(Integer qtdVendidos) {
         this.qtdVendidos = qtdVendidos;
     }
 
@@ -215,9 +185,5 @@ public class Produto {
 
     public void setValorVendidos(Double valorVendidos) {
         this.valorVendidos = valorVendidos;
-    }
-
-    public void setQtdVendidos(Integer qtdVendidos) {
-        this.qtdVendidos = qtdVendidos;
     }
 }

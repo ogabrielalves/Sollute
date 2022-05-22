@@ -44,64 +44,30 @@ public class Empresa {
     @NotNull
     private boolean autenticado;
 
-//    public void venderProduto(ListaObj<Empreendedor> listaE,
-//                              String cnpj,
-//                              ListaObj<Produto> lista,
-//                              Produto p,
-//                              Integer qtd) {
-//        boolean vendido = p.vender(qtd);
-//        if (vendido) {
-//            ListaObj<Produto> produtosVerificados = verificaStatus(listaE, cnpj, lista);
-//            if (produtosVerificados.getTamanho() > 0) {
-//                //notificarTodos(listaE, cnpj, produtosVerificados);
-//                notificarTodos(listaE, produtosVerificados);
-//            }
-//        }
-//    }
 
-//    public ListaObj<Produto> verificaStatus(ListaObj<Empreendedor> listaE,
-//                                            String cnpj,
-//                                            ListaObj<Produto> lista) {
-
-//        LocalDate data = LocalDate.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("-7{dd/MM/yyyy}");
-//        String dataFormatada = data.format(formatter);
+    // first
+//    @NotBlank
+//    private String cep;
 //
-//        if (lista.getTamanho() == 0) {
-//            return null;
-//        }
+//    @NotBlank
+//    private String uf;
+//
+//    @NotBlank
+//    private String cidade;
+//
+//    @NotBlank
+//    private String logradouro;
+//
+//    @NotBlank
+//    @Column(name = "ponto_referencia")
+//    private String pontoReferencia;
+    // end
 
-//        ListaObj<Produto> produtosEmAlerta = new ListaObj<>(lista.getTamanho());
-
-//        for (int i = 0; i < lista.getTamanho(); i++) {
-//            // Verificando se está com baixa quantidade em estoque
-//            // No caso, menor ou igual a 3
-//            if (lista.getElemento(i).getEstoqueInicial() <= 3) {
-//                produtosEmAlerta.adiciona(lista.getElemento(i));
-//            }
-//            // veficando se o alimento está vencendo...
-//            if (lista.getElemento(i) instanceof Produto) {
-//                if (lista.getElemento(i).equals(dataFormatada)) {
-//                    produtosEmAlerta.adiciona(lista.getElemento(i));
-//                }
-//            }
-//        }
-//        return produtosEmAlerta;
-//    }
-
-//    public void notificarTodos(ListaObj<Empreendedor> listaE,
-//                               // String cnpj,
-//                               ListaObj<Produto> lista) {
-//        for (int i = 0; i < lista.getTamanho(); i++) {
-//            System.out.printf("\nO produto %s necessita de atenção", lista.getElemento(i).getNome());
-//        }
-//    }
-
-    public Integer getId() {
+    public Integer getIdEmpresa() {
         return idEmpresa;
     }
 
-    public void setId(Integer idEmpresa) {
+    public void setIdEmpresa(Integer idEmpresa) {
         this.idEmpresa = idEmpresa;
     }
 
@@ -168,4 +134,5 @@ public class Empresa {
     public void setAutenticado(boolean autenticado) {
         this.autenticado = autenticado;
     }
+
 }

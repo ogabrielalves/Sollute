@@ -34,7 +34,6 @@ public class EmpresaController {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
-    // precisa alterar
     @PostMapping("/cria-empresa")
     public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa createEmpresaResponse) {
 
@@ -58,6 +57,21 @@ public class EmpresaController {
         return status(401).build();
     }
 
+    @GetMapping
+    public ResponseEntity<List<Empresa>> listarEmpresas() {
+
+        List<Empresa> listaEmpresas = empresaRepository.findAll();
+
+        if (listaEmpresas.isEmpty()) {
+            return status(204).build();
+        }
+
+        return status(200).body(listaEmpresas);
+
+    }
+
+    // ------------------------------------------------------------------------------------------ //
+
     @PostMapping("/criar-produto/{idEmpresa}")
     public ResponseEntity adicionaProduto(@RequestBody @Valid Produto novoProduto,
                                           @PathVariable Integer idEmpresa) {
@@ -69,6 +83,80 @@ public class EmpresaController {
 
         return status(404).build();
     }
+
+    @PostMapping("/vender-produtos")
+    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoVenderRequest produtoVenderRequest) {
+
+        if (empresaRepository.existsById(produtoVenderRequest.getIdEmpresa().intValue())) {
+            if (produtoRepository.existsByCodigo(produtoVenderRequest.getCodigo())) {
+                //if (repositoryProduto.findByEstoqueInicialLessThanEqual(produtoLoginResponse.getEstoqueInicial())) {
+                produtoRepository.atualizarQtdVendida(
+                        produtoVenderRequest.getCodigo(),
+                        produtoVenderRequest.getQtdVendida());
+                return status(200).build();
+            } else {
+                return status(400).build();
+            }
+        } else {
+            return status(404).build();
+        }
+    }
+
+    @GetMapping("/listar-produtos/{idEmpresa}")
+    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable String idEmpresa) {
+
+        if (empresaRepository.existsById(Integer.parseInt(idEmpresa))) {
+
+            List<Produto> lista = produtoRepository.findByEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
+
+            if (lista.isEmpty()) {
+                return status(200).body(lista);
+            }
+
+            return status(204).build();
+
+        }
+
+        return status(404).build();
+    }
+
+    @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
+    public ResponseEntity deletarProduto(@PathVariable String codigo,
+                                         @PathVariable Integer fkEmpresa) {
+
+        if (empresaRepository.existsById(fkEmpresa)) {
+            produtoRepository.deleteProdutoByCodigo(codigo);
+            return status(200).build();
+        }
+
+        return status(404).build();
+    }
+
+    @GetMapping("/calcular-produtos-vendidos/{fkEmpresa}")
+    public ResponseEntity calcularProdutosVendidos(@PathVariable Integer fkEmpresa) {
+        int aux = 0;
+        if (empresaRepository.existsById(fkEmpresa)) {
+            for (Produto prod : produtoRepository.findAll()) {
+                aux += prod.getQtdVendidos();
+            }
+            return status(200).body(aux);
+        }
+        return status(404).build();
+    }
+
+    @GetMapping("/calcular-valor-vendidos/{fkEmpresa}")
+    public ResponseEntity calcularValorVendidos(@PathVariable Integer fkEmpresa) {
+        int aux = 0;
+        if (empresaRepository.existsById(fkEmpresa)) {
+            for (Produto prod : produtoRepository.findAll()) {
+                aux += prod.getValorVendidos();
+            }
+            return status(200).body(aux);
+        }
+        return status(404).build();
+    }
+
+    // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/adicionar-cliente/{idEmpresa}")
     public ResponseEntity adicionaCliente(@RequestBody @Valid Cliente novoCliente,
@@ -107,6 +195,14 @@ public class EmpresaController {
         return status(404).build();
     }
 
+    @GetMapping("/listar-clientes/{idEmpresa}")
+    public ResponseEntity<List<Cliente>> listarCliente(@PathVariable String idEmpresa) {
+
+        List<Cliente> lista = clienteRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
+
+        return status(200).body(lista);
+    }
+
     @DeleteMapping("/deletar-cliente/{idCliente}/{idEmpresa}")
     public ResponseEntity deletaCliente(@PathVariable Integer idCliente,
                                         @PathVariable Integer idEmpresa) {
@@ -119,117 +215,7 @@ public class EmpresaController {
         return status(404).build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Empresa>> listarEmpresas() {
-
-        List<Empresa> listaEmpresas = empresaRepository.findAll();
-
-        if (listaEmpresas.isEmpty()) {
-            return status(204).build();
-        }
-
-        return status(200).body(listaEmpresas);
-
-    }
-
-    @PostMapping("/vender-produtos")
-    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoVenderRequest produtoVenderRequest) {
-
-        if (empresaRepository.existsById(produtoVenderRequest.getIdEmpresa().intValue())) {
-            if (produtoRepository.existsByCodigo(produtoVenderRequest.getCodigo())) {
-                //if (repositoryProduto.findByEstoqueInicialLessThanEqual(produtoLoginResponse.getEstoqueInicial())) {
-                //  repositoryProduto.atualizarAlerta(
-                //        produtoLoginResponse.getCodigo(),
-                //      true);
-                produtoRepository.atualizarQtdVendida(
-                        produtoVenderRequest.getCodigo(),
-                        produtoVenderRequest.getQtdVendida());
-                return status(200).build();
-            } else {
-                return status(400).build(); // Não há estoque suficiente.
-            }
-        } else {
-            return status(404).build(); // Não existe produto com o codigo informado
-        }
-    }
-
-
-    @GetMapping("/listar-produtos/{idEmpresa}")
-    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable String idEmpresa) {
-
-        //if (repositoryEmpresa.existsById(fkEmpresa.longValue())) {
-
-        List<Produto> lista = produtoRepository.findByEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
-
-        return status(200).body(lista);
-        //}
-        // return status(404).build();
-    }
-
-    @GetMapping("/calcular-produtos-vendidos/{fkEmpresa}")
-    public ResponseEntity calcularProdutosVendidos(@PathVariable Integer fkEmpresa) {
-        int aux = 0;
-        if (empresaRepository.existsById(fkEmpresa)) {
-            for (Produto prod : produtoRepository.findAll()) {
-                aux += prod.getQtdVendidos();
-            }
-            return status(200).body(aux);
-        }
-        return status(404).build();
-    }
-
-    @GetMapping("/calcular-valor-vendidos/{fkEmpresa}")
-    public ResponseEntity calcularValorVendidos(@PathVariable Integer fkEmpresa) {
-        int aux = 0;
-        if (empresaRepository.existsById(fkEmpresa)) {
-            for (Produto prod : produtoRepository.findAll()) {
-                aux += prod.getValorVendidos();
-            }
-            return status(200).body(aux);
-        }
-        return status(404).build();
-    }
-
-
-    @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
-    public ResponseEntity deletarProduto(@PathVariable String codigo, @PathVariable Integer fkEmpresa) {
-        if (produtoRepository.existsByCodigo(codigo)) {
-            produtoRepository.deleteProdutoByIdProduto(produtoRepository.findByCodigoAndEmpresaIdEmpresa(codigo, fkEmpresa).getIdProduto());
-            return status(200).build();
-        }
-        return status(404).build();
-    }
-
-
-    @GetMapping("/relatorio/{fkEmpresa}")
-    public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
-
-        List<Produto> lista = produtoRepository.findByEmpresaIdEmpresa(fkEmpresa);
-        String relatorio = "" +
-                "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
-                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
-
-        for (Produto prod : lista) {
-            relatorio += "" +
-                    "" + prod.getCodigo() +
-                    ";" + prod.getNome() +
-                    ";" + prod.getMarca() +
-                    ";" + prod.getCategoria() +
-                    ";" + prod.getTamanho() +
-                    ";" + prod.getPeso() +
-                    ";" + prod.getPrecoCompra() +
-                    ";" + prod.getPrecoVenda() +
-                    ";" + prod.getEstoque() +
-                    ";" + prod.getEstoqueMin() +
-                    ";" + prod.getEstoqueMax() +
-                    ";" + (prod.getQtdVendidos() == null ? 0 : prod.getQtdVendidos()) + "\r\n";
-        }
-
-        return status(200)
-                .header("content-type", "text/csv")
-                .header("content-disposition", "filename=\"relatorio-de-produtos.csv\"")
-                .body(relatorio);
-    }
+    // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/criar-funcionario/{idEmpresa}")
     public ResponseEntity criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
@@ -270,6 +256,15 @@ public class EmpresaController {
         return status(404).build();
     }
 
+    @GetMapping("/listar-funcionarios/{idEmpresa}")
+    public ResponseEntity<List<Funcionario>> listarFuncionario(@PathVariable String idEmpresa) {
+
+        List<Funcionario> lista = funcionarioRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
+
+        return status(200).body(lista);
+
+    }
+
     @DeleteMapping("/deletar-funcionario/{idFuncionario}/{idEmpresa}")
     public ResponseEntity deletaFuncionario(@PathVariable Integer idFuncionario,
                                             @PathVariable Integer idEmpresa) {
@@ -282,22 +277,7 @@ public class EmpresaController {
         return status(404).build();
     }
 
-    @GetMapping("/listar-funcionarios/{idEmpresa}")
-    public ResponseEntity<List<Funcionario>> listarFuncionario(@PathVariable String idEmpresa) {
-
-        List<Funcionario> lista = funcionarioRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
-
-        return status(200).body(lista);
-
-    }
-
-    @GetMapping("/listar-clientes/{idEmpresa}")
-    public ResponseEntity<List<Cliente>> listarCliente(@PathVariable String idEmpresa) {
-
-        List<Cliente> lista = clienteRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
-
-        return status(200).body(lista);
-    }
+    // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/criar-fornecedor/{idEmpresa}")
     public ResponseEntity criarFornecedor(@RequestBody @Valid Fornecedor novoFornecedor,
@@ -338,6 +318,14 @@ public class EmpresaController {
         return status(404).build();
     }
 
+    @GetMapping("/listar-fornecedores/{idEmpresa}")
+    public ResponseEntity<List<Fornecedor>> listarFornecedor(@PathVariable String idEmpresa) {
+
+        List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
+
+        return status(200).body(lista);
+    }
+
     @DeleteMapping("/deletar-fornecedor/{idFornecedor}/{idEmpresa}")
     public ResponseEntity deletaFornecedor(@PathVariable Integer idFornecedor,
                                            @PathVariable Integer idEmpresa) {
@@ -350,12 +338,36 @@ public class EmpresaController {
         return status(404).build();
     }
 
-    @GetMapping("/listar-fornecedores/{idEmpresa}")
-    public ResponseEntity<List<Fornecedor>> listarFornecedor(@PathVariable String idEmpresa) {
+    // ------------------------------------------------------------------------------------------ //
 
-        List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(Integer.valueOf(idEmpresa));
+    @GetMapping("/relatorio/{fkEmpresa}")
+    public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
 
-        return status(200).body(lista);
+        List<Produto> lista = produtoRepository.findByEmpresaIdEmpresa(fkEmpresa);
+        String relatorio = "" +
+                "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
+                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
+
+        for (Produto prod : lista) {
+            relatorio += "" +
+                    "" + prod.getCodigo() +
+                    ";" + prod.getNome() +
+                    ";" + prod.getMarca() +
+                    ";" + prod.getCategoria() +
+                    ";" + prod.getTamanho() +
+                    ";" + prod.getPeso() +
+                    ";" + prod.getPrecoCompra() +
+                    ";" + prod.getPrecoVenda() +
+                    ";" + prod.getEstoque() +
+                    ";" + prod.getEstoqueMin() +
+                    ";" + prod.getEstoqueMax() +
+                    ";" + (prod.getQtdVendidos() == null ? 0 : prod.getQtdVendidos()) + "\r\n";
+        }
+
+        return status(200)
+                .header("content-type", "text/csv")
+                .header("content-disposition", "filename=\"relatorio-de-produtos.csv\"")
+                .body(relatorio);
     }
 
 }
