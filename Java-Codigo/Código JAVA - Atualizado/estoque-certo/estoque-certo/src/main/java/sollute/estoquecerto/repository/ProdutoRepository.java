@@ -10,15 +10,9 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
-    Produto findByCodigoAndEmpresaIdEmpresa(String codigo, Integer idEmpresa);
-
-    List<Produto> findByEmpresaIdEmpresa(Integer idEmpresa);
-
-    boolean existsByCodigo(String codigo);
-
     boolean existsByCodigo(Integer codigo);
 
-    boolean findByEstoqueLessThanEqual(int estoqueMin);
+    List<Produto> findByEmpresaIdEmpresa(Integer idEmpresa);
 
     @Transactional
     void deleteProdutoByCodigo(String codigo);
