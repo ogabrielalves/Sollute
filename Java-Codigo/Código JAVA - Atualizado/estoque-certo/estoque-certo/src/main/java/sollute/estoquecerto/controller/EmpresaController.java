@@ -79,19 +79,6 @@ public class EmpresaController {
         return status(HttpStatus.OK).body(listaEmpresas);
     }
 
-    @GetMapping("/get-id-empresa/{cnpj}")
-    public ResponseEntity getIdEmpresa(@PathVariable String cnpj) {
-
-        Empresa empresa = empresaRepository.findByCnpj(cnpj);
-
-        if (empresa != null) {
-            return status(HttpStatus.OK).body(empresa.getIdEmpresa());
-        }
-
-        return status(HttpStatus.NOT_FOUND).build();
-
-    }
-
     // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/criar-produto/{idEmpresa}")
@@ -107,8 +94,9 @@ public class EmpresaController {
     }
 
     // this snippet needs refactoring
-    @PostMapping("/vender-produtos")
-    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoVenderRequest produtoVenderRequest) {
+    @PostMapping("/vender-produtos/{idEmpresa}")
+    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoVenderRequest produtoVenderRequest,
+                                         @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(produtoVenderRequest.getIdEmpresa().intValue())) {
             if (produtoRepository.existsByCodigo(produtoVenderRequest.getCodigo())) {
@@ -130,6 +118,18 @@ public class EmpresaController {
     public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer idEmpresa) {
 
         List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresa(idEmpresa);
+
+        if (lista.isEmpty()) {
+            return status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return status(HttpStatus.OK).body(lista);
+    }
+
+    @GetMapping("/listar-produtos-ordem-maior/{idEmpresa}")
+    public ResponseEntity<List<Produto>> listarProdutosOrdemMaior(@PathVariable Integer idEmpresa) {
+
+        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresaOrderByQtdVendidos(idEmpresa);
 
         if (lista.isEmpty()) {
             return status(HttpStatus.NO_CONTENT).build();
@@ -165,12 +165,26 @@ public class EmpresaController {
 
     // this snippet needs refactoring
     @GetMapping("/calcular-valor-vendidos/{fkEmpresa}")
-    public ResponseEntity calcularValorVendidos(@PathVariable Integer fkEmpresa) {
-        int aux = 0;
+    public ResponseEntity<Double> calcularValorVendidos(@PathVariable Integer fkEmpresa) {
+        double aux = 0;
         if (empresaRepository.existsById(fkEmpresa)) {
             for (Produto prod : produtoRepository.findAll()) {
                 aux += prod.getValorVendidos();
             }
+            return status(200).body(aux);
+        }
+        return status(404).build();
+    }
+
+    @GetMapping("/calcular-liquido/{fkEmpresa}")
+    public ResponseEntity<Double> lucroLiquido(@PathVariable Integer fkEmpresa) {
+        Double bruto = calcularValorVendidos(fkEmpresa).getBody();
+        double aux = 0;
+        if (empresaRepository.existsById(fkEmpresa)) {
+            for (Produto prod : produtoRepository.findAll()) {
+                aux += prod.getPrecoCompra();
+            }
+            aux = bruto - aux;
             return status(200).body(aux);
         }
         return status(404).build();

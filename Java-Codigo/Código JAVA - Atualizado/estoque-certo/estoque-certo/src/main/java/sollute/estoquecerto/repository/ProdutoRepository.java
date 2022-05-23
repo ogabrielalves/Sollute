@@ -14,6 +14,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     List<Produto> findByFkEmpresaIdEmpresa(Integer idEmpresa);
 
+    List<Produto> findByFkEmpresaIdEmpresaOrderByQtdVendidos(Integer idEmpresa);
+
     @Transactional
     void deleteProdutoByCodigo(String codigo);
 
