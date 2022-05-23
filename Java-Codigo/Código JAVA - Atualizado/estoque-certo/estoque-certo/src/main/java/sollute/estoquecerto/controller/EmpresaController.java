@@ -182,16 +182,9 @@ public class EmpresaController {
     public ResponseEntity adicionaCliente(@RequestBody @Valid Cliente novoCliente,
                                           @PathVariable Integer idEmpresa) {
 
-        Long idCliente = novoCliente.getIdCliente();
-
         if (empresaRepository.existsById(idEmpresa)) {
-
-            if (!clienteRepository.existsById(idCliente)) {
-                clienteRepository.save(novoCliente);
-                return status(HttpStatus.CREATED).build();
-            }
-
-            return status(HttpStatus.BAD_REQUEST).build();
+            clienteRepository.save(novoCliente);
+            return status(HttpStatus.CREATED).build();
         }
 
         return status(HttpStatus.NOT_FOUND).build();
@@ -212,7 +205,7 @@ public class EmpresaController {
                 String nome = novoClienteRequest.getNomeCliente();
                 String tele = novoClienteRequest.getTelefoneCliente();
 
-                if (clienteRepository.atualizarCliente(nome, tele, idEmpresa, idCliente)) {
+                if (clienteRepository.atualizarCliente(nome, tele, idEmpresa, idCliente) == 1) {
                     return status(HttpStatus.OK).build();
                 }
 
@@ -259,16 +252,9 @@ public class EmpresaController {
     public ResponseEntity criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
                                            @PathVariable Integer idEmpresa) {
 
-        Long idFuncionario = novoFuncionario.getIdFuncionario();
-
         if (empresaRepository.existsById(idEmpresa)) {
-
-            if (!clienteRepository.existsById(idFuncionario)) {
-                funcionarioRepository.save(novoFuncionario);
-                return status(HttpStatus.CREATED).build();
-            }
-
-            return status(HttpStatus.BAD_REQUEST).build();
+            funcionarioRepository.save(novoFuncionario);
+            return status(HttpStatus.CREATED).build();
         }
 
         return status(HttpStatus.NOT_FOUND).build();
@@ -291,7 +277,7 @@ public class EmpresaController {
                 String cpf = novoFuncionarioRequest.getCpfFuncionario();
                 Double salario = novoFuncionarioRequest.getSalario();
 
-                if (funcionarioRepository.atualizarFuncionario(nome, tele, cpf, salario, idEmpresa, idFunc)) {
+                if (funcionarioRepository.atualizarFuncionario(nome, tele, cpf, salario, idEmpresa, idFunc) == 1) {
                     return status(HttpStatus.OK).build();
                 }
 
@@ -338,16 +324,9 @@ public class EmpresaController {
     public ResponseEntity criarFornecedor(@RequestBody @Valid Fornecedor novoFornecedor,
                                           @PathVariable Integer idEmpresa) {
 
-        Long idFornecedor = novoFornecedor.getIdFornecedor();
-
         if (empresaRepository.existsById(idEmpresa)) {
-
-            if (!fornecedorRepository.existsById(idFornecedor)) {
-                fornecedorRepository.save(novoFornecedor);
-                return status(HttpStatus.CREATED).build();
-            }
-
-            return status(HttpStatus.BAD_REQUEST).build();
+            fornecedorRepository.save(novoFornecedor);
+            return status(HttpStatus.CREATED).build();
         }
 
         return status(HttpStatus.NOT_FOUND).build();
@@ -370,7 +349,7 @@ public class EmpresaController {
                 String prod = novoFornecedorRequest.getNomeProduto();
                 Integer qtd = novoFornecedorRequest.getQtdFornecida();
 
-                if (fornecedorRepository.atualizarFornecedor(nome, tele, prod, qtd, idEmpresa, idFornecedor)) {
+                if (fornecedorRepository.atualizarFornecedor(nome, tele, prod, qtd, idEmpresa, idFornecedor) == 1) {
                     return status(HttpStatus.OK).build();
                 }
 

@@ -33,7 +33,7 @@ public class Funcionario {
 
     @Positive
     @Column(name = "salario_funcionario")
-    private String salarioFuncionario;
+    private Double salarioFuncionario;
 
     public Long getIdFuncionario() {
         return idFuncionario;
@@ -75,11 +75,11 @@ public class Funcionario {
         this.telefoneFuncionario = telefoneFuncionario;
     }
 
-    public String getSalarioFuncionario() {
+    public Double getSalarioFuncionario() {
         return salarioFuncionario;
     }
 
-    public void setSalarioFuncionario(String salarioFuncionario) {
+    public void setSalarioFuncionario(Double salarioFuncionario) {
         this.salarioFuncionario = salarioFuncionario;
     }
 }

@@ -18,7 +18,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("update Cliente c " +
             "set c.nomeCliente = ?1, c.telefoneCliente = ?2 " +
             "where c.fkEmpresa.idEmpresa = ?3 and c.idCliente = ?4")
-    boolean atualizarCliente(String nomeCliente,
+    int atualizarCliente(String nomeCliente,
                              String telefoneCliente,
                              Integer idEmpresa,
                              Long idCliente);

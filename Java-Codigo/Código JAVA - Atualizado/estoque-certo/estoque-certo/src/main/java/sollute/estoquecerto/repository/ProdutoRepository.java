@@ -20,6 +20,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     @Transactional
     @Modifying
     @Query("update Produto p set p.qtdVendidos = ?2 where p.codigo = ?1")
-    void atualizarQtdVendida(String codigo, Integer qtdVendidos);
+    int atualizarQtdVendida(String codigo, Integer qtdVendidos);
 
 }
