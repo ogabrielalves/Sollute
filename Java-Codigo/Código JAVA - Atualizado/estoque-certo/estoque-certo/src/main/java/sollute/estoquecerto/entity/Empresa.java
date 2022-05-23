@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name= "empresa")
+@Table(name = "empresa")
 public class Empresa {
 
     @Id
@@ -44,24 +44,21 @@ public class Empresa {
     @NotNull
     private boolean autenticado;
 
+    @NotBlank
+    private String cep;
 
-    // first
-//    @NotBlank
-//    private String cep;
-//
-//    @NotBlank
-//    private String uf;
-//
-//    @NotBlank
-//    private String cidade;
-//
-//    @NotBlank
-//    private String logradouro;
-//
-//    @NotBlank
-//    @Column(name = "ponto_referencia")
-//    private String pontoReferencia;
-    // end
+    @NotBlank
+    private String uf;
+
+    @NotBlank
+    private String cidade;
+
+    @NotBlank
+    private String logradouro;
+
+    @NotBlank
+    @Column(name = "ponto_referencia")
+    private String pontoReferencia;
 
     public Integer getIdEmpresa() {
         return idEmpresa;
@@ -135,4 +132,43 @@ public class Empresa {
         this.autenticado = autenticado;
     }
 
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getPontoReferencia() {
+        return pontoReferencia;
+    }
+
+    public void setPontoReferencia(String pontoReferencia) {
+        this.pontoReferencia = pontoReferencia;
+    }
 }

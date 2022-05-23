@@ -129,7 +129,7 @@ public class EmpresaController {
     @GetMapping("/listar-produtos/{idEmpresa}")
     public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer idEmpresa) {
 
-        List<Produto> lista = produtoRepository.findByEmpresaIdEmpresa(idEmpresa);
+        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) {
             return status(HttpStatus.NO_CONTENT).build();
@@ -201,7 +201,7 @@ public class EmpresaController {
     public ResponseEntity editarCliente(@RequestBody @Valid NovoClienteRequest novoClienteRequest,
                                         @PathVariable Integer idEmpresa) {
 
-        List<Cliente> lista = clienteRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+        List<Cliente> lista = clienteRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) return status(HttpStatus.BAD_REQUEST).build();
 
@@ -227,7 +227,7 @@ public class EmpresaController {
     @GetMapping("/listar-clientes/{idEmpresa}")
     public ResponseEntity<List<Cliente>> listarCliente(@PathVariable Integer idEmpresa) {
 
-        List<Cliente> lista = clienteRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+        List<Cliente> lista = clienteRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) {
             return status(204).build();
@@ -278,7 +278,7 @@ public class EmpresaController {
     public ResponseEntity editarFuncionario(@RequestBody @Valid NovoFuncionarioRequest novoFuncionarioRequest,
                                             @PathVariable Integer idEmpresa) {
 
-        List<Funcionario> lista = funcionarioRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+        List<Funcionario> lista = funcionarioRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) return status(HttpStatus.BAD_REQUEST).build();
 
@@ -306,7 +306,7 @@ public class EmpresaController {
     @GetMapping("/listar-funcionarios/{idEmpresa}")
     public ResponseEntity<List<Funcionario>> listarFuncionario(@PathVariable Integer idEmpresa) {
 
-        List<Funcionario> lista = funcionarioRepository.findByfkEmpresaIdEmpresa(idEmpresa);
+        List<Funcionario> lista = funcionarioRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) {
             return status(HttpStatus.NO_CONTENT).build();
@@ -342,7 +342,7 @@ public class EmpresaController {
 
         if (empresaRepository.existsById(idEmpresa)) {
 
-            if (!clienteRepository.existsById(idFornecedor)) {
+            if (!fornecedorRepository.existsById(idFornecedor)) {
                 fornecedorRepository.save(novoFornecedor);
                 return status(HttpStatus.CREATED).build();
             }
@@ -417,7 +417,7 @@ public class EmpresaController {
     @GetMapping("/relatorio/{fkEmpresa}")
     public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
 
-        List<Produto> lista = produtoRepository.findByEmpresaIdEmpresa(fkEmpresa);
+        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresa(fkEmpresa);
         String relatorio = "" +
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
                 "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";

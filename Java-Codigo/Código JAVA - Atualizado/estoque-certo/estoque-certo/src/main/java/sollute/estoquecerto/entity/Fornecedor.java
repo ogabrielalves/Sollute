@@ -16,7 +16,7 @@ public class Fornecedor {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name="fk_empresa")
+    @JoinColumn(name = "fk_empresa")
     private Empresa fkEmpresa;
 
     @NotBlank

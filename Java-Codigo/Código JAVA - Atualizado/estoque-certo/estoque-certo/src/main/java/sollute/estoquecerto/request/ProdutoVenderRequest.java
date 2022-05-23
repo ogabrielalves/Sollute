@@ -3,7 +3,7 @@ package sollute.estoquecerto.request;
 public class ProdutoVenderRequest {
 
     private Long idEmpresa;
-    private Integer codigo;
+    private String codigo;
     private Integer qtdVendida;
     private Integer estoqueInicial;
 
@@ -11,7 +11,7 @@ public class ProdutoVenderRequest {
         return idEmpresa;
     }
 
-    public Integer getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 

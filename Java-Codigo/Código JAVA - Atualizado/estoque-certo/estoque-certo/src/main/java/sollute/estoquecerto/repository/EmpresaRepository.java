@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
 
-    Empresa findByIdEmpresa(Integer idEmpresa);
-
     Empresa findByCnpj(String cnpj);
 
     boolean existsByCnpj(String cnpj);

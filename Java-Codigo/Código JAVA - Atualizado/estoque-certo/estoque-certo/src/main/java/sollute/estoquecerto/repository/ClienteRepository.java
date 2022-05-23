@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    List<Cliente> findByfkEmpresaIdEmpresa(Integer idEmpresa);
+    List<Cliente> findByFkEmpresaIdEmpresa(Integer idEmpresa);
 
     @Transactional
     @Modifying
     @Query("update Cliente c " +
             "set c.nomeCliente = ?1, c.telefoneCliente = ?2 " +
             "where c.fkEmpresa.idEmpresa = ?3 and c.idCliente = ?4")
-    boolean atualizarCliente(String nomeCliente,       // -> ?1
-                             String telefoneCliente,   // -> ?2
+    boolean atualizarCliente(String nomeCliente,
+                             String telefoneCliente,
                              Integer idEmpresa,
-                             Long idCliente);       // -> ?3
+                             Long idCliente);
 }

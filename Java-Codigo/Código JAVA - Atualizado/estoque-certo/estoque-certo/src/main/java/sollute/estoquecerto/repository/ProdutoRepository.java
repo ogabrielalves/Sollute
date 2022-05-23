@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
-    boolean existsByCodigo(Integer codigo);
+    boolean existsByCodigo(String codigo);
 
-    List<Produto> findByEmpresaIdEmpresa(Integer idEmpresa);
+    List<Produto> findByFkEmpresaIdEmpresa(Integer idEmpresa);
 
     @Transactional
     void deleteProdutoByCodigo(String codigo);
@@ -20,6 +20,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     @Transactional
     @Modifying
     @Query("update Produto p set p.qtdVendidos = ?2 where p.codigo = ?1")
-    void atualizarQtdVendida(Integer codigo, Integer qtdVendidos);
+    void atualizarQtdVendida(String codigo, Integer qtdVendidos);
 
 }

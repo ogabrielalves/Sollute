@@ -9,18 +9,18 @@ import javax.validation.constraints.*;
 @Table(name = "produto")
 public class Produto {
 
-    // Atributos
     @Id
     @Column(name = "id_produto")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProduto; // Usado como index no banco de dados, o ID do BANCO!!!
+    private Integer idProduto;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name="fk_empresa")
-    private Empresa empresa;
+    @JoinColumn(name = "fk_empresa")
+    private Empresa fkEmpresa;
 
     @NotBlank
-    private String codigo;     // Usado para identificar com produto pelo codigo que a empresa quer
+    private String codigo;
 
     @NotBlank
     @Length(min = 2, max = 45)
@@ -75,12 +75,12 @@ public class Produto {
         this.idProduto = idProduto;
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public Empresa getFkEmpresa() {
+        return fkEmpresa;
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    public void setFkEmpresa(Empresa fkEmpresa) {
+        this.fkEmpresa = fkEmpresa;
     }
 
     public String getCodigo() {
