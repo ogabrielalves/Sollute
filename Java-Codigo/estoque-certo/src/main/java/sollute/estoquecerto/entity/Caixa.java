@@ -14,28 +14,12 @@ public class Caixa {
     private Long idCaixa;
 
     @NotNull
-    // @Column(name = "fk_empresa")
     @ManyToOne
+    @JoinColumn(name = "fk_empresa")
     private Empresa fkEmpresa;
 
     @PositiveOrZero
     private Double valor;
-
-    @PositiveOrZero
-    @Column(name = "qtd_entradas")
-    private Integer qtdEntradas;
-
-    @PositiveOrZero
-    @Column(name = "qtd_saidas")
-    private Integer qtdsaidas;
-
-    @PositiveOrZero
-    @Column(name = "valor_entradas")
-    private Integer valorEntradas;
-
-    @PositiveOrZero
-    @Column(name = "valor_saidas")
-    private Integer valorSaidas;
 
     public Long getIdCaixa() {
         return idCaixa;
@@ -59,37 +43,5 @@ public class Caixa {
 
     public void setValor(Double valor) {
         this.valor = valor;
-    }
-
-    public Integer getQtdEntradas() {
-        return qtdEntradas;
-    }
-
-    public void setQtdEntradas(Integer qtdEntradas) {
-        this.qtdEntradas = qtdEntradas;
-    }
-
-    public Integer getQtdsaidas() {
-        return qtdsaidas;
-    }
-
-    public void setQtdsaidas(Integer qtdsaidas) {
-        this.qtdsaidas = qtdsaidas;
-    }
-
-    public Integer getValorEntradas() {
-        return valorEntradas;
-    }
-
-    public void setValorEntradas(Integer valorEntradas) {
-        this.valorEntradas = valorEntradas;
-    }
-
-    public Integer getValorSaidas() {
-        return valorSaidas;
-    }
-
-    public void setValorSaidas(Integer valorSaidas) {
-        this.valorSaidas = valorSaidas;
     }
 }

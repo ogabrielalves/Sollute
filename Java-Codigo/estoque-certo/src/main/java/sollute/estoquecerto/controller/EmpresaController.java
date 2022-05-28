@@ -3,6 +3,7 @@ package sollute.estoquecerto.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
@@ -10,6 +11,7 @@ import sollute.estoquecerto.request.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.*;
 
@@ -27,6 +29,9 @@ public class EmpresaController {
     private CaixaRepository repositoryCaixa;
 
     @Autowired
+    private CarrinhoRepository carrinhoRepository;
+
+    @Autowired
     private ClienteRepository clienteRepository;
 
     @Autowired
@@ -38,7 +43,7 @@ public class EmpresaController {
     // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/cria-empresa")
-    public ResponseEntity criaEmpresa(@RequestBody @Valid Empresa createEmpresaResponse) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> criaEmpresa(@RequestBody @Valid Empresa createEmpresaResponse) {
 
         String cnpj = createEmpresaResponse.getCnpj();
 
@@ -81,9 +86,163 @@ public class EmpresaController {
 
     // ------------------------------------------------------------------------------------------ //
 
+    @GetMapping("/pegar-saldo/{idEmpresa}")
+    public ResponseEntity<Double> getValor(@PathVariable Integer idEmpresa) {
+
+        boolean empresa = empresaRepository.existsById(idEmpresa);
+
+        if (empresa) {
+            Double saldo = repositoryCaixa.findCaixaByFkEmpresaIdEmpresa(idEmpresa).getValor();
+
+            return status(HttpStatus.OK).body(saldo);
+        }
+
+        return status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/adicionar-valor-caixa/{idEmpresa}/{valor}")
+    public ResponseEntity<Double> creditarValor(@PathVariable Integer idEmpresa,
+                                                @PathVariable Double valor) {
+
+        boolean empresa = empresaRepository.existsById(idEmpresa);
+
+        if (empresa) {
+
+            if (valor < 0) return status(HttpStatus.BAD_REQUEST).build();
+
+            double saldo = repositoryCaixa.findCaixaByFkEmpresaIdEmpresa(idEmpresa).getValor();
+            double saldoAtual = saldo + valor;
+
+            repositoryCaixa.atualizarValor(saldoAtual, 1L, idEmpresa);
+
+            return status(HttpStatus.OK).body(saldoAtual);
+        }
+
+        return status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PutMapping("/remover-valor-caixa/{idEmpresa}/{valor}")
+    public ResponseEntity<Double> debitarValor(@PathVariable Integer idEmpresa,
+                                               @PathVariable Double valor) {
+
+        boolean empresa = empresaRepository.existsById(idEmpresa);
+
+        if (empresa) {
+
+            if (valor < 0) return status(HttpStatus.BAD_REQUEST).build();
+
+            double saldo = repositoryCaixa.findCaixaByFkEmpresaIdEmpresa(idEmpresa).getValor();
+            double saldoAtual = saldo - valor;
+
+            if ((saldo - valor) >= 0) {
+                repositoryCaixa.atualizarValor(saldoAtual, 1L, idEmpresa);
+
+                return status(HttpStatus.OK).body(saldoAtual);
+            }
+
+            return status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        return status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    // ------------------------------------------------------------------------------------------ //
+
+    @PostMapping("/adicionar-carrinho/{codigo}/{cnpj}/{qtdProduto}")
+    public ResponseEntity<ResponseEntity.BodyBuilder> addCarrinho(@PathVariable String codigo,
+                                                                  @PathVariable String cnpj,
+                                                                  @PathVariable Integer qtdProduto) {
+
+        boolean existsEmpresa = empresaRepository.existsByCnpj(cnpj);
+        int qtdEstoque = produtoRepository.findProdutoByCodigo(codigo).getEstoque();
+
+        if (existsEmpresa) {
+
+            Carrinho carrinho = new Carrinho();
+
+            if ((qtdEstoque - qtdProduto) >= 0) {
+
+                Produto p = produtoRepository.findProdutoByCodigo(codigo);
+                Empresa e = empresaRepository.findByCnpj(cnpj);
+
+                carrinho.setFkEmpresa(e);
+                carrinho.setFkProduto(p);
+                carrinho.setCodigo(p.getCodigo());
+                carrinho.setNome(p.getNome());
+                carrinho.setMarca(p.getMarca());
+                carrinho.setQtdVenda(qtdProduto);
+                carrinho.setValorVenda(qtdProduto * p.getPrecoVenda());
+
+                carrinhoRepository.save(carrinho);
+
+                return status(HttpStatus.OK).build();
+
+            } else {
+                return status(HttpStatus.BAD_REQUEST).build();
+            }
+
+        }
+
+        return status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/listar-produtos-carrinho/{fkEmpresa}")
+    public ResponseEntity listCarrinho(@PathVariable Integer fkEmpresa) {
+
+        List<Carrinho> lista = carrinhoRepository.findByFkEmpresaIdEmpresa(fkEmpresa);
+
+        if (lista.isEmpty()) {
+            return status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return status(HttpStatus.OK).body(lista);
+    }
+
+    @PutMapping("/vender-produtos-carrinho/{fkEmpresa}")
+    @Transactional
+    public ResponseEntity<ResponseEntity.BodyBuilder> venderCarrinho(@PathVariable Integer fkEmpresa) {
+
+        if (empresaRepository.existsById(fkEmpresa)) {
+
+            List<Carrinho> listaCarrinho = carrinhoRepository.findByFkEmpresaIdEmpresa(fkEmpresa);
+
+            if (!listaCarrinho.isEmpty()) {
+                double saldoCaixa = 0.0;
+
+                for (Carrinho c : listaCarrinho) {
+
+                    Produto p = c.getFkProduto();
+                    Empresa e = c.getFkEmpresa();
+                    Integer qtdVenda = c.getQtdVenda();
+                    Integer estoqueAtual = p.getEstoque() - qtdVenda;
+                    Integer qtdVendida = c.getQtdVenda() + p.getQtdVendidos();
+                    double valor = c.getValorVenda() + p.getValorVendidos();
+
+                    produtoRepository.venderProduto(
+                            qtdVendida,
+                            valor,
+                            estoqueAtual,
+                            p.getIdProduto(),
+                            e.getIdEmpresa());
+                    saldoCaixa += valor;
+
+                    carrinhoRepository.delete(c);
+                }
+
+                saldoCaixa += repositoryCaixa.findCaixaByFkEmpresaIdEmpresa(fkEmpresa).getValor();
+                repositoryCaixa.atualizarValor(saldoCaixa, 1L, fkEmpresa);
+
+                return status(HttpStatus.OK).build();
+            }
+        }
+
+        return status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // ------------------------------------------------------------------------------------------ //
     @PostMapping("/criar-produto/{idEmpresa}")
-    public ResponseEntity adicionaProduto(@RequestBody @Valid Produto novoProduto,
-                                          @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> adicionaProduto(@RequestBody @Valid Produto novoProduto,
+                                                                      @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
             produtoRepository.save(novoProduto);
@@ -93,31 +252,10 @@ public class EmpresaController {
         return status(HttpStatus.NOT_FOUND).build();
     }
 
-    // this snippet needs refactoring
-    @PostMapping("/vender-produtos/{idEmpresa}")
-    public ResponseEntity venderProdutos(@RequestBody @Valid ProdutoVenderRequest produtoVenderRequest,
-                                         @PathVariable Integer idEmpresa) {
-
-        if (empresaRepository.existsById(produtoVenderRequest.getIdEmpresa().intValue())) {
-            if (produtoRepository.existsByCodigo(produtoVenderRequest.getCodigo())) {
-                //if (repositoryProduto.findByEstoqueInicialLessThanEqual(produtoLoginResponse.getEstoqueInicial())) {
-                produtoRepository.atualizarQtdVendida(
-                        produtoVenderRequest.getCodigo(),
-                        produtoVenderRequest.getQtdVendida());
-                return status(200).build();
-            } else {
-                return status(400).build();
-            }
-        } else {
-            return status(404).build();
-        }
-
-    }
-
     @GetMapping("/listar-produtos/{idEmpresa}")
     public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Integer idEmpresa) {
 
-        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresa(idEmpresa);
+        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresaOrderByEstoqueDesc(idEmpresa);
 
         if (lista.isEmpty()) {
             return status(HttpStatus.NO_CONTENT).build();
@@ -129,7 +267,7 @@ public class EmpresaController {
     @GetMapping("/listar-produtos-ordem-maior/{idEmpresa}")
     public ResponseEntity<List<Produto>> listarProdutosOrdemMaior(@PathVariable Integer idEmpresa) {
 
-        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresaOrderByQtdVendidos(idEmpresa);
+        List<Produto> lista = produtoRepository.findFirst5ByFkEmpresaIdEmpresaOrderByQtdVendidosDesc(idEmpresa);
 
         if (lista.isEmpty()) {
             return status(HttpStatus.NO_CONTENT).build();
@@ -139,8 +277,8 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
-    public ResponseEntity deletarProduto(@PathVariable String codigo,
-                                         @PathVariable Integer fkEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> deletarProduto(@PathVariable String codigo,
+                                                                     @PathVariable Integer fkEmpresa) {
 
         if (empresaRepository.existsById(fkEmpresa)) {
             produtoRepository.deleteProdutoByCodigo(codigo);
@@ -150,51 +288,65 @@ public class EmpresaController {
         return status(HttpStatus.NOT_FOUND).build();
     }
 
-    // this snippet needs refactoring
     @GetMapping("/calcular-produtos-vendidos/{fkEmpresa}")
-    public ResponseEntity calcularProdutosVendidos(@PathVariable Integer fkEmpresa) {
+    public ResponseEntity<Integer> calcularProdutosVendidos(@PathVariable Integer fkEmpresa) {
+
         int aux = 0;
+
         if (empresaRepository.existsById(fkEmpresa)) {
+
             for (Produto prod : produtoRepository.findAll()) {
                 aux += prod.getQtdVendidos();
             }
-            return status(200).body(aux);
+            return status(HttpStatus.OK).body(aux);
+
         }
-        return status(404).build();
+
+        return status(HttpStatus.NOT_FOUND).build();
     }
 
-    // this snippet needs refactoring
     @GetMapping("/calcular-valor-vendidos/{fkEmpresa}")
     public ResponseEntity<Double> calcularValorVendidos(@PathVariable Integer fkEmpresa) {
+
         double aux = 0;
+
         if (empresaRepository.existsById(fkEmpresa)) {
+
             for (Produto prod : produtoRepository.findAll()) {
                 aux += prod.getValorVendidos();
             }
-            return status(200).body(aux);
+
+            return status(HttpStatus.OK).body(aux);
         }
-        return status(404).build();
+
+        return status(HttpStatus.NOT_FOUND).build();
     }
 
     @GetMapping("/calcular-liquido/{fkEmpresa}")
     public ResponseEntity<Double> lucroLiquido(@PathVariable Integer fkEmpresa) {
+
         Double bruto = calcularValorVendidos(fkEmpresa).getBody();
         double aux = 0;
+
         if (empresaRepository.existsById(fkEmpresa)) {
+
             for (Produto prod : produtoRepository.findAll()) {
-                aux += prod.getPrecoCompra();
+                aux += prod.getPrecoCompra() * prod.getQtdVendidos();
             }
+
             aux = bruto - aux;
+
             return status(200).body(aux);
         }
+
         return status(404).build();
     }
 
     // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/adicionar-cliente/{idEmpresa}")
-    public ResponseEntity adicionaCliente(@RequestBody @Valid Cliente novoCliente,
-                                          @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> adicionaCliente(@RequestBody @Valid Cliente novoCliente,
+                                                                      @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
             clienteRepository.save(novoCliente);
@@ -205,8 +357,8 @@ public class EmpresaController {
     }
 
     @PutMapping("/editar-cliente/{idEmpresa}")
-    public ResponseEntity editarCliente(@RequestBody @Valid NovoClienteRequest novoClienteRequest,
-                                        @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> editarCliente(@RequestBody @Valid NovoClienteRequest novoClienteRequest,
+                                                                    @PathVariable Integer idEmpresa) {
 
         List<Cliente> lista = clienteRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
@@ -244,8 +396,8 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/deletar-cliente/{idCliente}/{idEmpresa}")
-    public ResponseEntity deletaCliente(@PathVariable Integer idCliente,
-                                        @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> deletaCliente(@PathVariable Integer idCliente,
+                                                                    @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
 
@@ -263,8 +415,8 @@ public class EmpresaController {
     // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/criar-funcionario/{idEmpresa}")
-    public ResponseEntity criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
-                                           @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> criarFuncionario(@RequestBody @Valid Funcionario novoFuncionario,
+                                                                       @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
             funcionarioRepository.save(novoFuncionario);
@@ -275,8 +427,8 @@ public class EmpresaController {
     }
 
     @PutMapping("/editar-funcionario/{idEmpresa}")
-    public ResponseEntity editarFuncionario(@RequestBody @Valid NovoFuncionarioRequest novoFuncionarioRequest,
-                                            @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> editarFuncionario(@RequestBody @Valid NovoFuncionarioRequest novoFuncionarioRequest,
+                                                                        @PathVariable Integer idEmpresa) {
 
         List<Funcionario> lista = funcionarioRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
@@ -316,8 +468,8 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/deletar-funcionario/{idFuncionario}/{idEmpresa}")
-    public ResponseEntity deletaFuncionario(@PathVariable Integer idFuncionario,
-                                            @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> deletaFuncionario(@PathVariable Integer idFuncionario,
+                                                                        @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
 
@@ -335,8 +487,8 @@ public class EmpresaController {
     // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/criar-fornecedor/{idEmpresa}")
-    public ResponseEntity criarFornecedor(@RequestBody @Valid Fornecedor novoFornecedor,
-                                          @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> criarFornecedor(@RequestBody @Valid Fornecedor novoFornecedor,
+                                                                      @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
             fornecedorRepository.save(novoFornecedor);
@@ -347,8 +499,8 @@ public class EmpresaController {
     }
 
     @PutMapping("/editar-fornecedor/{idEmpresa}")
-    public ResponseEntity editarFornecedor(@RequestBody @Valid NovoFornecedorRequest novoFornecedorRequest,
-                                           @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> editarFornecedor(@RequestBody @Valid NovoFornecedorRequest novoFornecedorRequest,
+                                                                       @PathVariable Integer idEmpresa) {
 
         List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(idEmpresa);
 
@@ -388,8 +540,8 @@ public class EmpresaController {
     }
 
     @DeleteMapping("/deletar-fornecedor/{idFornecedor}/{idEmpresa}")
-    public ResponseEntity deletaFornecedor(@PathVariable Integer idFornecedor,
-                                           @PathVariable Integer idEmpresa) {
+    public ResponseEntity<ResponseEntity.BodyBuilder> deletaFornecedor(@PathVariable Integer idFornecedor,
+                                                                       @PathVariable Integer idEmpresa) {
 
         if (empresaRepository.existsById(idEmpresa)) {
 

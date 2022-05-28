@@ -10,18 +10,26 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
-    boolean existsByCodigo(String codigo);
+    Produto findProdutoByCodigo(String codigo);
 
     List<Produto> findByFkEmpresaIdEmpresa(Integer idEmpresa);
 
-    List<Produto> findByFkEmpresaIdEmpresaOrderByQtdVendidos(Integer idEmpresa);
+    List<Produto> findByFkEmpresaIdEmpresaOrderByEstoqueDesc(Integer idEmpresa);
+
+    List<Produto> findFirst5ByFkEmpresaIdEmpresaOrderByQtdVendidosDesc(Integer idEmpresa);
 
     @Transactional
     void deleteProdutoByCodigo(String codigo);
 
     @Transactional
     @Modifying
-    @Query("update Produto p set p.qtdVendidos = ?2 where p.codigo = ?1")
-    int atualizarQtdVendida(String codigo, Integer qtdVendidos);
+    @Query("update Produto p " +
+            "set p.qtdVendidos = ?1, p.valorVendidos = ?2, p.estoque = ?3 " +
+            "where p.idProduto = ?4 and p.fkEmpresa.idEmpresa = ?5 ")
+    void venderProduto(Integer qtdVendidos,
+                       Double valorVendidos,
+                       Integer estoque,
+                       Integer idProduto,
+                       Integer idEmpresa);
 
 }

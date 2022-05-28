@@ -55,6 +55,15 @@ CREATE TABLE Caixa (
   PRIMARY KEY (id_caixa)
 );
 
+CREATE TABLE Carrinho (
+  id_carrinho INT IDENTITY,
+  fk_empresa INT NOT NULL,
+  fk_produto INT NOT NULL,
+  qtd_venda INT NOT NULL,
+  valor_venda DOUBLE PRECISION NOT NULL
+  PRIMARY KEY (id_carrinho)
+);
+
 CREATE TABLE Cliente (
   id_cliente INT NOT NULL,
   fk_empresa INT NOT NULL,
@@ -101,6 +110,8 @@ CREATE TABLE Fornecedor (
 -- referencing all foreign keys
 Alter Table Produto Add Foreign Key (fk_empresa) References Empresa (id_empresa);
 Alter table Caixa add Foreign Key (fk_empresa) References Empresa (id_empresa);
+ALTER TABLE Carrinho ADD FOREIGN KEY (fk_produto) REFERENCES Produto (id_produto);
+ALTER TABLE Carrinho ADD FOREIGN KEY (fk_empresa) REFERENCES Empresa (id_empresa);
 ALTER TABLE Fornecedor ADD FOREIGN KEY (fk_empresa) REFERENCES Empresa (id_empresa);
 ALTER TABLE Cliente ADD FOREIGN KEY (fk_empresa) REFERENCES Empresa (id_empresa);
 ALTER TABLE Funcionario ADD FOREIGN KEY (fk_empresa) REFERENCES Empresa (id_empresa);

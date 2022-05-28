@@ -22,4 +22,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
                              String telefoneCliente,
                              Integer idEmpresa,
                              Long idCliente);
+
 }
