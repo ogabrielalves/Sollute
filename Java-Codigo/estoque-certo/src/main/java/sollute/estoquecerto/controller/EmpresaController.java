@@ -240,6 +240,7 @@ public class EmpresaController {
     }
 
     // ------------------------------------------------------------------------------------------ //
+
     @PostMapping("/criar-produto/{idEmpresa}")
     public ResponseEntity<ResponseEntity.BodyBuilder> adicionaProduto(@RequestBody @Valid Produto novoProduto,
                                                                       @PathVariable Integer idEmpresa) {

@@ -29,7 +29,10 @@ class EmpresaControllerTest {
     private ProdutoRepository produtoRepository;
 
     @MockBean
-    private CaixaRepository caixaRepository;
+    private CaixaRepository repositoryCaixa;
+
+    @MockBean
+    private CarrinhoRepository carrinhoRepository;
 
     @MockBean
     private ClienteRepository clienteRepository;
@@ -40,17 +43,18 @@ class EmpresaControllerTest {
     @MockBean
     private FornecedorRepository fornecedorRepository;
 
-
+    // ------------------------------------------------------------------------------------------ //
     // Testes da empresa
+
     @Test
     @DisplayName("Sem empresas deveria retornar 204 SEM corpo")
     void getListaEmpresaVazia() {
+
         when(empresaRepository.findAll()).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<Empresa>> resposta = empresaController.listarEmpresas();
 
         assertEquals(204, resposta.getStatusCodeValue());
-
         assertNull(resposta.getBody());
     }
 
@@ -71,18 +75,18 @@ class EmpresaControllerTest {
         assertEquals(listaMock, resposta.getBody());
     }
 
-
-
+    // ------------------------------------------------------------------------------------------ //
     // Testes do Produto
+
     @Test
     @DisplayName("Sem produtos deveria retornar 204 SEM corpo")
     void getListaProdutosVazia() {
+
         when(produtoRepository.findAll()).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<Produto>> resposta = empresaController.listarProdutos(1);
 
         assertEquals(204, resposta.getStatusCodeValue());
-
         assertNull(resposta.getBody());
     }
 
@@ -95,7 +99,7 @@ class EmpresaControllerTest {
         List<Produto> listaMock = List.of(produto1, produto2);
 
         Integer idEmpresa = 1;
-        when(produtoRepository.findByFkEmpresaIdEmpresa(idEmpresa)).thenReturn(listaMock);
+        when(produtoRepository.findByFkEmpresaIdEmpresaOrderByEstoqueDesc(idEmpresa)).thenReturn(listaMock);
 
         ResponseEntity<List<Produto>> resposta = empresaController.listarProdutos(idEmpresa);
 
@@ -107,6 +111,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Criar produtos deve retornar 200 SEM corpo")
     void postAdicionaProduto() {
+
         Produto produto = mock(Produto.class);
 
         Integer idEmpresa = 1;
@@ -119,18 +124,18 @@ class EmpresaControllerTest {
         assertNull(resposta.getBody());
     }
 
-
-
+    // ------------------------------------------------------------------------------------------ //
     // Testes do Funcionario
+
     @Test
     @DisplayName("Sem funcionarios deveria retornar 204 SEM corpo")
     void getListaFuncionariosVazia() {
+
         when(funcionarioRepository.findAll()).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<Funcionario>> resposta = empresaController.listarFuncionario(1);
 
         assertEquals(204, resposta.getStatusCodeValue());
-
         assertNull(resposta.getBody());
     }
 
@@ -140,6 +145,7 @@ class EmpresaControllerTest {
 
         Funcionario funcionario1  = mock(Funcionario.class);
         Funcionario funcionario2 = mock(Funcionario.class);
+
         List<Funcionario> listaMock = List.of(funcionario1, funcionario2);
 
         Integer idEmpresa = 1;
@@ -155,6 +161,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Criar funcionario deve retornar 200 SEM corpo")
     void postCriaFuncionario() {
+
         Funcionario funcionario = mock(Funcionario.class);
 
         Integer idEmpresa = 1;
@@ -167,18 +174,18 @@ class EmpresaControllerTest {
         assertNull(resposta.getBody());
     }
 
-
-
+    // ------------------------------------------------------------------------------------------ //
     // Testes do Fornecedor
+
     @Test
     @DisplayName("Sem fornecedores deveria retornar 204 SEM corpo")
     void getListaFornecedoresVazia() {
+
         when(fornecedorRepository.findAll()).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<Fornecedor>> resposta = empresaController.listarFornecedor(1);
 
         assertEquals(204, resposta.getStatusCodeValue());
-
         assertNull(resposta.getBody());
     }
 
@@ -203,6 +210,7 @@ class EmpresaControllerTest {
     @Test
     @DisplayName("Criar fornecedor deve retornar 200 SEM corpo")
     void postCriaFornecedor() {
+
         Fornecedor fornecedor = mock(Fornecedor.class);
 
         Integer idEmpresa = 1;
@@ -215,18 +223,18 @@ class EmpresaControllerTest {
         assertNull(resposta.getBody());
     }
 
-
-
+    // ------------------------------------------------------------------------------------------ //
     // Testes do Cliente
+
     @Test
     @DisplayName("Sem clientes deveria retornar 204 SEM corpo")
     void getListaClientesVazia() {
+
         when(clienteRepository.findAll()).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<Cliente>> resposta = empresaController.listarCliente(1);
 
         assertEquals(204, resposta.getStatusCodeValue());
-
         assertNull(resposta.getBody());
     }
 
