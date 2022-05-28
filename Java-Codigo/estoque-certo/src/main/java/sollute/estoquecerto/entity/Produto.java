@@ -67,6 +67,39 @@ public class Produto {
     @Column(name = "valor_vendidos")
     private Double valorVendidos;
 
+    public Produto(Integer idProduto,
+                   String codigo,
+                   String nome,
+                   String marca,
+                   String categoria,
+                   String tamanho,
+                   Double peso,
+                   Double precoCompra,
+                   Double precoVenda,
+                   Integer estoque,
+                   Integer estoqueMin,
+                   Integer estoqueMax,
+                   Integer qtdVendidos,
+                   Double valorVendidos) {
+        this.idProduto = idProduto;
+        this.codigo = codigo;
+        this.nome = nome;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.tamanho = tamanho;
+        this.peso = peso;
+        this.precoCompra = precoCompra;
+        this.precoVenda = precoVenda;
+        this.estoque = estoque;
+        this.estoqueMin = estoqueMin;
+        this.estoqueMax = estoqueMax;
+        this.qtdVendidos = qtdVendidos;
+        this.valorVendidos = valorVendidos;
+    }
+
+    public Produto() {
+    }
+
     public Integer getIdProduto() {
         return idProduto;
     }
