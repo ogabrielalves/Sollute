@@ -96,6 +96,7 @@ class EmpresaControllerTest {
 
         Produto produto1 = mock(Produto.class);
         Produto produto2 = mock(Produto.class);
+
         List<Produto> listaMock = List.of(produto1, produto2);
 
         Integer idEmpresa = 1;
