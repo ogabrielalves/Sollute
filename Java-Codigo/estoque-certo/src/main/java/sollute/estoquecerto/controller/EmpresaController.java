@@ -239,6 +239,63 @@ public class EmpresaController {
         return status(HttpStatus.NOT_FOUND).build();
     }
 
+    @DeleteMapping("/carrinho-apagar-produto/{codigo}/{fkEmpresa}")
+    public ResponseEntity<ResponseEntity.BodyBuilder> apagarProdutoCarrinho(@PathVariable String codigo,
+                                                                            @PathVariable Integer fkEmpresa) {
+
+        List<Carrinho> lista = carrinhoRepository.findByFkEmpresaIdEmpresa(fkEmpresa);
+
+        if (!lista.isEmpty()) {
+
+            for (Carrinho c : lista) {
+                if (c.getFkProduto().getCodigo().equals(codigo)) {
+                    carrinhoRepository.deleteById(c.getIdCarrinho());
+                    return status(HttpStatus.OK).build();
+                }
+            }
+
+            return status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/atualizar-carrinho/{codigo}/{idEmpresa}/{qtdVenda}")
+    public ResponseEntity<ResponseEntity.BodyBuilder> atualizaCarrinho(@PathVariable String codigo,
+                                                                       @PathVariable Integer idEmpresa,
+                                                                       @PathVariable Integer qtdVenda) {
+
+        List<Carrinho> lista = carrinhoRepository.findByFkEmpresaIdEmpresa(idEmpresa);
+
+        if (!lista.isEmpty()) {
+
+            for (Carrinho c : lista) {
+                if (c.getFkProduto().getCodigo().equals(codigo)) {
+
+                    Produto p = c.getFkProduto();
+
+                    if ((p.getEstoque() - qtdVenda) >= 0) {
+                        double novoValor = p.getPrecoVenda() * qtdVenda;
+
+                        carrinhoRepository.atualizaCarrinho(
+                                qtdVenda,
+                                novoValor,
+                                idEmpresa,
+                                codigo
+                        );
+
+                        return status(HttpStatus.OK).build();
+                    }
+                }
+
+            }
+
+            return status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        return status(HttpStatus.NOT_FOUND).build();
+    }
+
     // ------------------------------------------------------------------------------------------ //
 
     @PostMapping("/criar-produto/{idEmpresa}")
