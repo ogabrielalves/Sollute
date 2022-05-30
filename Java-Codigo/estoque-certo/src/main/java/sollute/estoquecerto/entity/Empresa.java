@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+@SuppressWarnings("ALL")
 @Entity
 @Table(name = "empresa")
 public class Empresa {

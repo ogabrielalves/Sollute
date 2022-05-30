@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+@SuppressWarnings("ALL")
 @Entity
 @Table(name = "produto")
 public class Produto {

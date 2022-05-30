@@ -11,9 +11,14 @@ import sollute.estoquecerto.entity.Produto;
 import java.nio.file.Files;
 import java.util.List;
 
+<<<<<<<< HEAD:Java-Codigo/estoque-certo/src/main/java/sollute/estoquecerto/repository/EmpresaRepository.java
 public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
 
     Empresa findByCnpj(String cnpj);
+========
+@SuppressWarnings("ALL")
+public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
+>>>>>>>> 6ebf1b9a13b7ffd207d44c5b28af6909a5be54bf:Java-Codigo/estoque-certo/estoque-certo/src/main/java/sollute/estoquecerto/repository/EmpresaRepository.java
 
     boolean existsByCnpj(String cnpj);
 
