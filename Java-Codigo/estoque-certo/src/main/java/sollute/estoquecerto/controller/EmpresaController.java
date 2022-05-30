@@ -1,15 +1,27 @@
 package sollute.estoquecerto.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sollute.estoquecerto.entity.*;
 import sollute.estoquecerto.repository.*;
 import sollute.estoquecerto.request.*;
 
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -334,6 +346,40 @@ public class EmpresaController {
         return status(HttpStatus.OK).body(lista);
     }
 
+    @PutMapping("/editar-produto/{idEmpresa}/{codigo}")
+    public ResponseEntity<ResponseEntity.BodyBuilder> editarProduto(@RequestBody @Valid NovoProdutoRequest novoProdutoRequest,
+                                                                    @PathVariable Integer idEmpresa,
+                                                                    @PathVariable String codigo) {
+
+        List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresa(idEmpresa);
+
+        if (lista.isEmpty()) return status(HttpStatus.BAD_REQUEST).build();
+
+        for (Produto p : lista) {
+            if (produtoRepository.existsByCodigo(codigo)) {
+
+                Integer estoque = novoProdutoRequest.getEstoque();
+                Integer estoqueMin = novoProdutoRequest.getEstoqueMin();
+                Integer estoqueMax = novoProdutoRequest.getEstoqueMax();
+                Double precoCompra = novoProdutoRequest.getPrecoCompra();
+                Double precoVenda = novoProdutoRequest.getPrecoVenda();
+
+                produtoRepository.atualizarProduto(
+                        estoque,
+                        estoqueMin,
+                        estoqueMax,
+                        precoCompra,
+                        precoVenda,
+                        codigo,
+                        idEmpresa);
+
+                return status(HttpStatus.OK).build();
+            }
+        }
+
+        return status(HttpStatus.NOT_FOUND).build();
+    }
+
     @DeleteMapping("/deletar-produto/{codigo}/{fkEmpresa}")
     public ResponseEntity<ResponseEntity.BodyBuilder> deletarProduto(@PathVariable String codigo,
                                                                      @PathVariable Integer fkEmpresa) {
@@ -414,18 +460,18 @@ public class EmpresaController {
         return status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PutMapping("/editar-cliente/{idEmpresa}")
+    @PutMapping("/editar-cliente/{idEmpresa}/{idCliente}")
     public ResponseEntity<ResponseEntity.BodyBuilder> editarCliente(@RequestBody @Valid NovoClienteRequest novoClienteRequest,
-                                                                    @PathVariable Integer idEmpresa) {
+                                                                    @PathVariable Integer idEmpresa,
+                                                                    @PathVariable Long idCliente) {
 
         List<Cliente> lista = clienteRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) return status(HttpStatus.BAD_REQUEST).build();
 
         for (Cliente cliente : lista) {
-            if (clienteRepository.existsById(cliente.getIdCliente())) {
+            if (clienteRepository.existsById(idCliente)) {
 
-                Long idCliente = cliente.getIdCliente();
                 String nome = novoClienteRequest.getNomeCliente();
                 String tele = novoClienteRequest.getTelefoneCliente();
 
@@ -484,24 +530,24 @@ public class EmpresaController {
         return status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PutMapping("/editar-funcionario/{idEmpresa}")
+    @PutMapping("/editar-funcionario/{idEmpresa}/{idFuncionario}")
     public ResponseEntity<ResponseEntity.BodyBuilder> editarFuncionario(@RequestBody @Valid NovoFuncionarioRequest novoFuncionarioRequest,
-                                                                        @PathVariable Integer idEmpresa) {
+                                                                        @PathVariable Integer idEmpresa,
+                                                                        @PathVariable Long idFuncionario) {
 
         List<Funcionario> lista = funcionarioRepository.findByFkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) return status(HttpStatus.BAD_REQUEST).build();
 
         for (Funcionario funcionario : lista) {
-            if (funcionarioRepository.existsById(funcionario.getIdFuncionario())) {
+            if (funcionarioRepository.existsById(idFuncionario)) {
 
-                Long idFunc = funcionario.getIdFuncionario();
                 String nome = novoFuncionarioRequest.getNomeFuncionario();
                 String tele = novoFuncionarioRequest.getTelefoneFuncionario();
                 String cpf = novoFuncionarioRequest.getCpfFuncionario();
                 Double salario = novoFuncionarioRequest.getSalario();
 
-                if (funcionarioRepository.atualizarFuncionario(nome, tele, cpf, salario, idEmpresa, idFunc) == 1) {
+                if (funcionarioRepository.atualizarFuncionario(nome, tele, cpf, salario, idEmpresa, idFuncionario) == 1) {
                     return status(HttpStatus.OK).build();
                 }
 
@@ -556,18 +602,18 @@ public class EmpresaController {
         return status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PutMapping("/editar-fornecedor/{idEmpresa}")
+    @PutMapping("/editar-fornecedor/{idEmpresa}/{idFornecedor}")
     public ResponseEntity<ResponseEntity.BodyBuilder> editarFornecedor(@RequestBody @Valid NovoFornecedorRequest novoFornecedorRequest,
-                                                                       @PathVariable Integer idEmpresa) {
+                                                                       @PathVariable Integer idEmpresa,
+                                                                       @PathVariable Long idFornecedor) {
 
         List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(idEmpresa);
 
         if (lista.isEmpty()) return status(HttpStatus.BAD_REQUEST).build();
 
         for (Fornecedor fornecedor : lista) {
-            if (fornecedorRepository.existsById(fornecedor.getIdFornecedor())) {
+            if (fornecedorRepository.existsById(idFornecedor)) {
 
-                Long idFornecedor = fornecedor.getIdFornecedor();
                 String nome = novoFornecedorRequest.getNomeFornecedor();
                 String tele = novoFornecedorRequest.getTelefoneFornecedor();
                 String prod = novoFornecedorRequest.getNomeProduto();
@@ -586,7 +632,7 @@ public class EmpresaController {
     }
 
     @GetMapping("/listar-fornecedores/{idEmpresa}")
-    public ResponseEntity<List<Fornecedor>> listarFornecedor(@PathVariable Integer idEmpresa) {
+    public ResponseEntity<List <Fornecedor>> listarFornecedor(@PathVariable Integer idEmpresa) {
 
         List<Fornecedor> lista = fornecedorRepository.findByfkEmpresaIdEmpresa(idEmpresa);
 
@@ -616,14 +662,18 @@ public class EmpresaController {
 
     // ------------------------------------------------------------------------------------------ //
 
-    // this snippet needs refactoring
-    @GetMapping("/relatorio/{fkEmpresa}")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    content = @Content(mediaType = "text/csv"))
+    })
+    @GetMapping("/relatorio-csv/{fkEmpresa}")
     public ResponseEntity relatorio(@PathVariable Integer fkEmpresa) {
 
         List<Produto> lista = produtoRepository.findByFkEmpresaIdEmpresa(fkEmpresa);
-        String relatorio = "" +
+
+        String relatorio =
                 "CODIGO;NOME;MARCA;CATEGORIA;TAMANHO;PESO;PRECO COMPRA;PRECO VENDA;" +
-                "ESTOQUE INICIAL;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
+                        "ESTOQUE;ESTOQUE MINIMO;ESTOQUE MAXIMO;QTD VENDIDOS;\r\n";
 
         for (Produto prod : lista) {
             relatorio += "" +
@@ -646,5 +696,20 @@ public class EmpresaController {
                 .header("content-disposition", "filename=\"relatorio-de-produtos.csv\"")
                 .body(relatorio);
     }
+
+    @PatchMapping(value = "/arquivo-txt/{cnpj}", consumes = {MediaType.ALL_VALUE})
+    public ResponseEntity patchFoto(@PathVariable String cnpj,
+                                    @RequestBody byte[] novoArquivo,
+                                    Model model, @RequestParam("files") MultipartFile[] files) {
+
+        int atualizado = empresaRepository.patchArquivo(novoArquivo, cnpj);
+
+        if (atualizado > 0) {
+            return status(200).build();
+        }
+
+        return status(404).build();
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package sollute.estoquecerto.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
 
@@ -59,6 +60,10 @@ public class Empresa {
     @NotBlank
     @Column(name = "ponto_referencia")
     private String pontoReferencia;
+
+    @JsonIgnore
+    @Column(name = "file_name")
+    private byte[] fileName;
 
     public Integer getIdEmpresa() {
         return idEmpresa;
@@ -170,5 +175,13 @@ public class Empresa {
 
     public void setPontoReferencia(String pontoReferencia) {
         this.pontoReferencia = pontoReferencia;
+    }
+
+    public byte[] getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(byte[] fileName) {
+        this.fileName = fileName;
     }
 }
