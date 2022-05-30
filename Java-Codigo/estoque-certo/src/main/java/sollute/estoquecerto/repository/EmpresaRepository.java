@@ -26,4 +26,7 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
     @Modifying
     @Query("update Empresa e set e.fileName = ?1 where e.cnpj = ?2")
     int patchArquivo(byte[] fileName, String cnpj);
+
+    @Query("select e.fileName from Empresa e where e.cnpj = ?1")
+    byte[] getFoto(String cnpj);
 }

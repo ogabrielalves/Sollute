@@ -697,18 +697,27 @@ public class EmpresaController {
                 .body(relatorio);
     }
 
-    @PatchMapping(value = "/arquivo-txt/{cnpj}", consumes = {MediaType.ALL_VALUE})
-    public ResponseEntity patchFoto(@PathVariable String cnpj,
-                                    @RequestBody byte[] novoArquivo,
-                                    Model model, @RequestParam("files") MultipartFile[] files) {
+    @PatchMapping(value = "/upload-txt/{cnpj}")
+    public ResponseEntity patchFoto2(@PathVariable String cnpj,
+                                    @RequestParam("file") MultipartFile novaFoto) throws IOException {
 
-        int atualizado = empresaRepository.patchArquivo(novoArquivo, cnpj);
-
-        if (atualizado > 0) {
-            return status(200).build();
+        int atualizado = empresaRepository.patchArquivo(novaFoto.getBytes(), cnpj);
+        if (atualizado == 0) {
+            return status(404).build();
         }
+        return status(200).build();
 
-        return status(404).build();
+    }
+
+    @GetMapping(value = "/txt/{cnpj}", produces = "file/txt")
+    public ResponseEntity<byte[]> getFoto(@PathVariable String cnpj) {
+
+        byte[] foto = empresaRepository.getFoto(cnpj);
+        if (foto == null) {
+            return status(404).build();
+        }
+        return status(200).body(foto);
+
     }
 
 
